@@ -3,12 +3,12 @@ import FirebaseFirestore
 
 struct Chat: View {
   //  let user: User
-    var chatId: String
+    let chats: Chats
     @StateObject var viewmodel = ChatViewModel()
     @State private var messageText = ""
     @State private var messages: [Message] = []  // Assuming Message is your message model
     @State private var listenerRegistration: ListenerRegistration?  // State variable for the listener registration
-
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -20,15 +20,15 @@ struct Chat: View {
             }
 
             CustomChatInput(text: $messageText, action: {
-                viewmodel.sendMessage(chatId: chatId, messageContent: messageText)
+                viewmodel.sendMessage(chatId: chats.id!, messageContent: messageText)
                 messageText = ""  // Clear the input field after sending
             })
         }
         //.navigationBarTitle(user.username)
         .padding(.vertical)
         .onAppear {
-            print(self.chatId)
-            listenerRegistration = viewmodel.listenForMessages(forChat: chatId) { messages in
+            
+            listenerRegistration = viewmodel.listenForMessages(forChat: chats.id!) { messages in
                        self.messages = messages
                    }
                }
@@ -39,8 +39,8 @@ struct Chat: View {
 }
 
 // Update your PreviewProvider accordingly
-struct Chat_Previews: PreviewProvider {
-    static var previews: some View {
-        Chat(chatId: "chat")
-    }
-}
+//struct Chat_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Chat(chatId: "chat")
+//    }
+//}

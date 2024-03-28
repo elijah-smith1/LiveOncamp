@@ -11,10 +11,13 @@ import FirebaseFirestore
 
 struct ProfileHeaderCell: View {
     let user: User?
-    @StateObject var viewModel = ProfileViewModel()
+    @StateObject var viewModel: ProfileViewModel
     @StateObject var followFunc = UserData()
     @State private var followingStatus: String = "NotFollowing"
-    
+    init(user: User?) {
+           self.user = user
+           _viewModel = StateObject(wrappedValue: ProfileViewModel(userId: user?.id ?? ""))
+       }
     var body: some View {
         
         VStack(spacing: 20) {
@@ -74,7 +77,39 @@ struct ProfileHeaderCell: View {
                     }
                     .buttonStyle(CustomButtonStyle())
                 }
-            } else if followingStatus == "OwnSelf" {
+            } 
+            else if followingStatus == "NotFollowing" {
+                Button("Follow") {
+                    Task {
+                        try await followFunc.followOrUnfollowUser(selectedUid: user?.id ?? "")
+                        followingStatus = "Following"
+                    }
+                }
+                .buttonStyle(CustomButtonStyle())
+                
+
+            }
+            else if followingStatus == "FollowingAndFavorite" {
+                HStack{
+                    Button("Unfollow") {
+                        Task {
+                            try await followFunc.followOrUnfollowUser(selectedUid: user?.id ?? "")
+                            followingStatus = "NotFollowing"
+                        }
+                    }
+                    .buttonStyle(CustomButtonStyle())
+                    
+                    Button("UnFavorite") {
+                        // Implement favorite logic here
+                        Task {
+                            try await followFunc.favoriteOrUnfavoriteUser(selectedUid: user?.id ?? "")
+                            followingStatus = "Following"
+                        }
+                    }
+                    .buttonStyle(CustomButtonStyle())
+                }
+            }
+            else if followingStatus == "OwnSelf" {
                 HStack {
                     Spacer()
                     
@@ -98,10 +133,19 @@ struct ProfileHeaderCell: View {
             }
 
 
-        }.onAppear {
-            Task {
-                followingStatus = try await followFunc.checkFollowingAndFavoriteStatus(selectedUid: user?.id ?? "")
-            }
+        }
+                .onAppear {
+                    Task {
+                        do {
+                            followingStatus = try await followFunc.checkFollowingAndFavoriteStatus(selectedUid: user?.id ?? "")
+                            print("Following status updated to: \(followingStatus)")
+                        } catch {
+                            print("Failed to check following status: \(error)")
+                            // Optionally, set a default or error state for followingStatus here
+                        }
+                    }
+                
+            
             viewModel.setupListeners(forUserID: user?.id ?? "")
         }
         .onDisappear {

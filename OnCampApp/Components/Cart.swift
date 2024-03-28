@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Cart: View {
     @Environment(\.presentationMode) var mode
-    
+    @State var cartProducts: [Product] = []
     var body: some View {
         NavigationView{
             ScrollView {
@@ -51,7 +51,7 @@ struct Cart: View {
                     
                     //cart products
                     VStack (spacing: 20) {
-                        ForEach(productList) { item in
+                        ForEach(cartProducts) { item in
                             CartProductCard(product: item)
                         }
                     }

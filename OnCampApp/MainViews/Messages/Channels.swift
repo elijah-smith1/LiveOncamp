@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct Channels: View {
+    @StateObject var viewmodel = inboxViewModel()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            VStack(alignment: .leading) {
+                ForEach(viewmodel.channels, id: \.id) { channel in
+                    
+                    ChannelCell(channel: channel)// Corrected variable name
+                }
+            }
+        }
     }
 }
 

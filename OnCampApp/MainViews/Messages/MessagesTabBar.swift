@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MessagesTabBar: View {
     @State private var selectedIndex = 0
-    
+     
     var body: some View {
         NavigationView {
             TabView(selection: $selectedIndex) {
@@ -35,7 +35,7 @@ struct MessagesTabBar: View {
         switch selectedIndex{
         case 0: return "Chats"
         case 1: return "Channels"
-        default:return ""
+        default:return "Chats"
         }
     }
 }

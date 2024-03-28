@@ -9,21 +9,6 @@ import FirebaseFirestore
 import Firebase
 import FirebaseFirestoreSwift
 
-struct Chats: Identifiable, Codable {
-    @DocumentID var id: String?
-    var timestamp: Timestamp
-    var participants: [String]
-}
-
-struct Message: Identifiable, Codable {
-    @DocumentID var id: String?
-    var senderId: String
-    var content: String
-    var timestamp: Date
-    var read: Bool
-    var chatId: String?  // Add this to store the chat ID
-    var otherParticipantId: String?  // Add this to store the other
-}
 
 @MainActor
 class MessageData: ObservableObject {
@@ -62,7 +47,7 @@ class MessageData: ObservableObject {
     // Assume you have a Firestore reference to your chats collection
     let chatsCollection = Firestore.firestore().collection("chats")
 
- 
+    
 
     
     

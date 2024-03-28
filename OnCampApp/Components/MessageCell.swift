@@ -9,13 +9,24 @@ import SwiftUI
 
 
 class MessageCellViewModel: ObservableObject {
-    @ObservedObject var message = MessageData()
+    @ObservedObject var messageData = MessageData()
     @Published var username: String = ""
-    
+    @StateObject var inboxviewModel = inboxViewModel()
+    @Published var message: Message?
+    @Published var content: String = ""
+    func fetchRecentMessage(chatId: String){
+        Task {
+            do {
+                let message = try await inboxviewModel.fetchMostRecentMessage(forChatId: chatId)
+                self.message = message
+                self.content = message!.content
+            }
+        }
+    }
     func loadUsername(otherParticipantId: String) {
         Task {
             do {
-                let fetchedUsername = try await message.fetchUsername(for: otherParticipantId)
+                let fetchedUsername = try await messageData.fetchUsername(for: otherParticipantId)
                 DispatchQueue.main.async {
                     self.username = fetchedUsername
                 }
@@ -27,13 +38,10 @@ class MessageCellViewModel: ObservableObject {
 }
 
 struct MessageCell: View {
-    @StateObject private var viewModel = MessageCellViewModel()
-    let message: Message
-
-    
+    @ObservedObject var viewModel = MessageCellViewModel()
+    let chats: Chats
     var body: some View {
-        let chatId = message.chatId!
-        NavigationLink(destination: Chat(chatId: chatId)){
+        NavigationLink(destination: Chat(chats:chats)){
             VStack {
                 HStack {
                     CircularProfilePictureView()
@@ -41,11 +49,11 @@ struct MessageCell: View {
                     
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
-                            Text(viewModel.username.isEmpty ? "Loading..." : viewModel.username)
+                            Text("username/chatname here" )
                                 .font(.system(size: 14, weight: .semibold))
                             Spacer()
                         }
-                        Text(message.content)
+                        Text(viewModel.content.isEmpty ?? true ? "didn't work" : viewModel.content ?? "didn't work")
                             .font(.system(size: 15))
                     }
                     .foregroundColor(Color("LTBL"))
@@ -54,7 +62,7 @@ struct MessageCell: View {
                 }
                 .padding(.horizontal)
                 .onAppear {
-                    viewModel.loadUsername(otherParticipantId: message.otherParticipantId ?? "")
+                    viewModel.fetchRecentMessage(chatId: chats.id!) 
                 }
                 
                 Divider()

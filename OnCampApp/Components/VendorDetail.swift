@@ -2,9 +2,12 @@ import SwiftUI
 import Kingfisher
 
 struct VendorDetail: View {
+    @State var products: [Product] = []
     let vendor: Vendor
+    @StateObject var viewmodel = VendorViewModel()
     @State private var showAlert = false
-    
+    /* create the fetch products and the product screen*/
+    /* snazz up  the screen a little*/
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
@@ -23,7 +26,7 @@ struct VendorDetail: View {
                         
                         
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
-                            ForEach(productList, id: \.id) { item in
+                            ForEach(products, id: \.id) { item in
                                 SmallProductCard(product: item)
                             }
                         }
@@ -96,7 +99,18 @@ struct VendorDetail: View {
                     }
                     .frame(height: 180) // Fixed height to match the header image
                 }
+            }.onAppear {
+                Task {
+                    do {
+                        // Fetch products and assign them to the state variable
+                        products = try await viewmodel.fetchAllProducts(forVendor: vendor.id!)
+                    } catch {
+                        // Handle errors, perhaps by showing an error message to the user
+                        print("Error fetching products: \(error)")
+                    }
+                }
             }
+
             .navigationBarHidden(true)
         }
     }

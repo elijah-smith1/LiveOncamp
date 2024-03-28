@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import SwiftUI
 
-struct Notification: Identifiable, Hashable, Codable {
+struct notification: Identifiable, Hashable, Codable {
     @DocumentID var id: String?
     var senderName: String
     var notiType: String
@@ -20,7 +20,7 @@ struct Notification: Identifiable, Hashable, Codable {
 }
 
 class NotificationViewModel: ObservableObject {
-    @Published var notifications = [Notification]()
+    @Published var notifications = [notification]()
 
     private var db = Firestore.firestore()
 
@@ -34,7 +34,7 @@ class NotificationViewModel: ObservableObject {
                 }
 
                 self.notifications = documents.compactMap { queryDocumentSnapshot in
-                    try? queryDocumentSnapshot.data(as: Notification.self)
+                    try? queryDocumentSnapshot.data(as: notification.self)
                 }
                 print("DEBUG:: Notis \(self.notifications)")
             }
@@ -46,8 +46,8 @@ struct NotificationsView: View {
 
     var body: some View {
         ScrollView {
-            ForEach(viewModel.notifications, id: \.id) { notification in
-                NotificationView(notification: notification)
+            ForEach(viewModel.notifications, id: \.id) { Notification in
+                NotificationView(notification: Notification)
             }
         }
         .onAppear {
@@ -57,7 +57,7 @@ struct NotificationsView: View {
 }
 
 struct NotificationView: View {
-    var notification: Notification
+    var notification: notification
 
     var body: some View {
         HStack {

@@ -10,8 +10,11 @@ import SwiftUI
 struct SideMenuHeader: View {
     @Environment(\.dismiss) var dismiss
     let user: User?
-    @StateObject var viewModel = ProfileViewModel()
-
+    @StateObject var viewModel: ProfileViewModel
+    init(user: User) {
+           self.user = user
+           _viewModel = StateObject(wrappedValue: ProfileViewModel(userId: user.id ?? ""))
+       }
 
     var body: some View {
         VStack(alignment: .leading) {

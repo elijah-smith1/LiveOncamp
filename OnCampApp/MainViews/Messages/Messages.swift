@@ -12,9 +12,17 @@ struct Messages: View {
 
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(inboxviewModel.recentMessages, id: \.id) { message in
+                    ForEach(inboxviewModel.chats, id: \.id) { chat in
                         
-                        MessageCell(message: message) // Corrected variable name
+                        MessageCell( chats: chat) // Corrected variable name
+//                Text("Fetched a chat")
+                    }
+                }
+                VStack(alignment: .leading) {
+                    ForEach(inboxviewModel.channels, id: \.id) { channel in
+                        
+                        ChannelCell(channel: channel) // Corrected variable name
+//                Text("Fetched a chat")
                     }
                 }
             }
@@ -32,7 +40,7 @@ struct Messages: View {
             .clipShape(Circle())
             .padding()
             .sheet(isPresented: $showNewMessageView, content: {
-                CreateMessage(showChatView: $showChatView) // Ensure CreateMessage is correctly defined
+                CreateGroupChat() // Ensure CreateMessage is correctly defined
             })
         }
     }

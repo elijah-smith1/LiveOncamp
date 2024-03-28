@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
-
+/* make this look like a real spotlight feed would look. the article type presentations with links to the users profile
+would also need to make viewmodel collection in backend and the new article presentations
+*/
 struct Spotlight: View {
     var body: some View {
         NavigationStack {

@@ -6,12 +6,13 @@ struct Profile: View {
     @EnvironmentObject var userData: UserData
     @State private var selectedFilter: ProfileTabFilter = .posts
     @Namespace var animation
-    @State var viewModel = ProfileViewModel()
+    @StateObject var viewModel: ProfileViewModel
     private let user: User
     
     init(user: User) {
-        self.user = user
-    }
+           self.user = user
+           _viewModel = StateObject(wrappedValue: ProfileViewModel(userId: user.id ?? ""))
+       }
     
     private var filterBarWidth: CGFloat {
         let count = CGFloat(ProfileTabFilter.allCases.count)
@@ -81,11 +82,7 @@ struct FilterBarButton: View {
 
 // Replace these with your actual views for posts, reposts, and likes
 
-struct UserRepostsView: View {
-    let viewModel: ProfileViewModel
-    
-    var body: some View { Text("User's Reposts for ") }
-}
+
 
 
 //struct Profile_Previews: PreviewProvider {

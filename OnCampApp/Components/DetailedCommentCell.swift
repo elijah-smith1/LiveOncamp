@@ -9,43 +9,27 @@ import SwiftUI
 import Firebase
 import FirebaseFirestore
 
-class CommentCellViewModel: ObservableObject {
-    @StateObject var postData = PostData()
-    @Published var username: String = ""
-    
-    func loadUsername(userId: String) {
-        Task {
-            do {
-                let fetchedUsername = try await postData.fetchUsername(for: userId)
-                DispatchQueue.main.async {
-                    self.username = fetchedUsername
-                }
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-    }
-}
+
 
 struct DetailedCommentCell: View {
-    @StateObject var viewModel = CommentCellViewModel()
+    
     @StateObject var postData = PostData()
     let comment: Comment
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                CircularProfilePictureView(/*profilePictureURL: comment.pfpUrl*/)
-                    .frame(width: 64, height: 64)
+                CircularProfilePictureView(profilePictureURL: comment.pfpUrl!)
+                    .frame(width: 32, height: 32)
                     .padding(.leading, 16.0)
 
-                Text(viewModel.username.isEmpty ? "Loading..." : viewModel.username)
+                Text((comment.username!.isEmpty ? "Loading..." : comment.username!))
                     .font(.footnote)
                     .fontWeight(.semibold)
 
                 Spacer()
 
-                Text("timestamp here")
+                Text(PostData.shared.relativeTimeString(from: comment.timeSent))
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.trailing, 16.0)
@@ -57,6 +41,12 @@ struct DetailedCommentCell: View {
                 .padding(.leading, 16.0)
 
             HStack {
+                
+                Text("View Replies here")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .padding(.leading, 16.0)
+                
                 Spacer()
 
                 Text("like count here")
@@ -71,16 +61,9 @@ struct DetailedCommentCell: View {
                     .imageScale(.small)
                     .padding(.trailing, 16.0)
             }
-            .padding(.top, 5.0)
+       
 
-            HStack {
-                Text("View Replies here")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .padding(.leading, 16.0)
-                    .padding(.top, 3.0)
-                Spacer()
-            }
+
 
             Divider()
         }

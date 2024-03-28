@@ -13,21 +13,22 @@ class ProfileViewModel: ObservableObject {
     @Published var userPosts: [Post] = []
     @Published var userReposts: [Post] = []
     @Published var userLikes: [Post] = []
-    var uid = Auth.auth().currentUser!.uid
     
-        private var followerListener: ListenerRegistration?
+    
+       private var followerListener: ListenerRegistration?
        private var followingListener: ListenerRegistration?
 
        @Published var followerCount: Int = 0
        @Published var followingCount: Int = 0
-
-    init() {
+       var userId: String
+       init(userId: String) {
+        self.userId = userId
         loadUserPosts()
     }
     // Removed the Task from init and created a separate method to load posts
     func loadUserPosts() {
         Task {
-            await fetchUserPostData()
+            await fetchUserPostData(userId: userId)
         }
     }
   
@@ -38,7 +39,7 @@ class ProfileViewModel: ObservableObject {
         let db = Firestore.firestore()
 
            // Reference to the subcollection
-           let subcollectionRef = db.collection("Users").document(uid).collection("Followers")
+           let subcollectionRef = db.collection("Users").document(userId).collection("Followers")
 
            // Set up a listener to monitor changes in the subcollection
            let listener = subcollectionRef.addSnapshotListener { (querySnapshot, error) in
@@ -73,7 +74,7 @@ class ProfileViewModel: ObservableObject {
         let db = Firestore.firestore()
 
            // Reference to the subcollection
-           let subcollectionRef = db.collection("Users").document(uid).collection("Following")
+           let subcollectionRef = db.collection("Users").document(userId).collection("Following")
 
            // Set up a listener to monitor changes in the subcollection
            let listener = subcollectionRef.addSnapshotListener { (querySnapshot, error) in
@@ -149,9 +150,9 @@ class ProfileViewModel: ObservableObject {
 
     
     
-    func fetchUserPostData() async {
+    func fetchUserPostData(userId: String) async {
         do {
-            let userPostIDs = try await PostData.fetchPostsByUser(userId: uid)
+            let userPostIDs = try await PostData.fetchPostsByUser(userId: userId)
             self.userPosts = try await PostData.fetchPostData(for: userPostIDs)
             print("Debug:: POSTS \(self.userPosts)")
         } catch {
@@ -159,7 +160,7 @@ class ProfileViewModel: ObservableObject {
         }
         
         do {
-            let userRepostIDs = try await PostData.fetchRepostsforUID(Uid: uid)
+            let userRepostIDs = try await PostData.fetchRepostsforUID(Uid: userId)
             self.userReposts = try await PostData.fetchPostData(for: userRepostIDs)
             print("Debug:: REPOSTS \(self.userReposts)")
         } catch {
@@ -167,7 +168,7 @@ class ProfileViewModel: ObservableObject {
         }
         
         do {
-            let userLikesIDs = try await PostData.fetchLikesforUID(Uid: uid)
+            let userLikesIDs = try await PostData.fetchLikesforUID(Uid: userId)
             self.userLikes = try await PostData.fetchPostData(for: userLikesIDs)
             print("Debug:: Likes \(self.userLikes)")
         } catch {
