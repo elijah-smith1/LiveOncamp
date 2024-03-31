@@ -38,7 +38,7 @@ struct PostCell: View {
                             HStack {
                                 if let user = user {
                                     NavigationLink(destination: Profile(user: user)) {
-                                        Text(user.username ?? "usernamenowork" )/* make this a link to profiles*/
+                                        Text(user.username )/* make this a link to profiles*/
                                             .font(.footnote)
                                             .fontWeight(.semibold)
                                         Spacer()
@@ -112,10 +112,11 @@ struct PostCell: View {
                                     // Handle button action here
                                 } label: {
                                     Image(systemName: isReposted ? "arrow.rectanglepath": "arrow.rectanglepath")
-                                        .foregroundColor(isReposted ? .green : .white)
+                                        .foregroundColor(isReposted ? .green : .gray)
                                 }
                                 Button {
-                                    // Handle button action here
+                                //MARK: DM CAPABILITIES
+                                // Handle button action here
                                 } label: {
                                     Image(systemName: "paperplane")
                                 }

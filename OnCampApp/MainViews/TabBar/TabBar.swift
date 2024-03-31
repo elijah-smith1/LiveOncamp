@@ -58,17 +58,11 @@ struct tabBar: View {
                     .tag(4)
             }
             .onAppear {
-                saveFCMToken()
+                
                 if Tabviewmodel.userData.currentUser == nil {
                     Tabviewmodel.fetchCurrentUserIfNeeded()
                 }
-                Messaging.messaging().subscribe(toTopic: "onCamp") { error in
-                  if let error = error {
-                    print("Error subscribing to topic: \(error.localizedDescription)")
-                  } else {
-                    print("Subscribed to news topic")
-                  }
-                }
+
             }
             .navigationBarBackButtonHidden()
         } else {
@@ -77,24 +71,7 @@ struct tabBar: View {
     }
 }
 
-func saveFCMToken() {
-    // Retrieve the FCM token from UserDefaults
-    let fcmToken = UserDefaults.standard.string(forKey: "fcmToken") ?? ""
-    
-    // Reference to the user's document in Firestore
-    let userRef = Firestore.firestore().collection("Users").document(loggedInUid!)
 
-    // Add the token to the document using updateData for a specific field update
-    userRef.updateData(["FcmToken": fcmToken]) { error in
-        if let error = error {
-            // Handle any errors that occur during update
-            print("Error updating document: \(error.localizedDescription)")
-        } else {
-            // Print a confirmation that the update was successful
-            print("FCM token successfully updated for user")
-        }
-    }
-}
 
 //struct tabBar_Previews: PreviewProvider {
 //

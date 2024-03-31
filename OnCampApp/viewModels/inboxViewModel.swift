@@ -86,6 +86,17 @@ class inboxViewModel: ObservableObject{
             throw error
         }
     }
+    func otherParticipants(forParticipants participants: [String]) -> String {
+        // Filter the participants array to exclude the loggedinUid
+        let otherParticipants = participants.filter { $0 != loggedInUid }
+        
+        // Join the remaining elements into a single string, if that's what's needed.
+        // Adjust this part based on how you want to use the result.
+        // For example, you could just return the array or handle the elements individually.
+        let resultString = otherParticipants.joined(separator: ", ")
+        
+        return resultString
+    }
 
 
 }
