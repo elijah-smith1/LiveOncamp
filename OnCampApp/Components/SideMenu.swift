@@ -16,7 +16,7 @@ struct SideMenu: View {
                 .ignoresSafeArea()
             
             VStack {
-                SideMenuHeader(user: user) // Updated to remove the binding
+                SideMenuHeader(user: user!) // Updated to remove the binding
                     .frame(height: 240)
                 
                 SideMenuOptions()

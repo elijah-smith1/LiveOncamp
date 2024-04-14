@@ -12,7 +12,11 @@ import Kingfisher
 
 struct DetailedPostCell: View {
     var post: Post
-
+    
+    @State var likeCount: Int
+    @State var repostCount: Int
+    @State var isLiked: Bool
+    @State var isReposted: Bool
     var body: some View {
         let postId = post.id
 
@@ -49,21 +53,42 @@ struct DetailedPostCell: View {
                                   }
 
             HStack(spacing: 20) {
-                PostInteractionButton(imageName: "heart", action: {
-                    PostData.shared.likePost(postID: postId!)
-                })
+                Button {
+                    isLiked.toggle() // Toggle the liked status
+                    if isLiked{
+                        likeCount+=1
+                    }else {
+                        likeCount-=1
+                    }
+                        PostData.shared.likePost(postID: post.id!)
+                        // For example, call a function to update the like status in the database or send a network request.
+                } label: {
+                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                        .foregroundColor(isLiked ? .red : Color("LTBL")) // Change heart color based on like status.
+                }
 
-                PostInteractionButton(imageName: "arrow.rectanglepath", action: {
-                    PostData.shared.repostPost(postID: postId!)
-                })
-
-                PostInteractionButton(imageName: "paperplane", action: {
+                Button {
+                    isReposted.toggle()
+                    PostData.shared.repostPost(postID: post.id!)
+                    if isReposted{
+                        repostCount+=1
+                    }else {
+                        repostCount-=1
+                    }
                     // Handle button action here
-                })
+                } label: {
+                    Image(systemName: isReposted ? "arrow.rectanglepath": "arrow.rectanglepath")
+                        .foregroundColor(isReposted ? .green : .white)
+                }
+                Button {
+                    // Handle button action here
+                } label: {
+                    Image(systemName: "paperplane")
+                }
 
                 Spacer()
 
-                Text("\(post.likeCount) likes • \(post.repostCount) reposts • \(post.commentCount) comments")
+                Text("\(likeCount) likes • \(repostCount) reposts • \(post.commentCount) comments")
                     .font(.caption)
                     .foregroundColor(Color.gray)
             }
@@ -75,18 +100,7 @@ struct DetailedPostCell: View {
     }
 }
 
-struct PostInteractionButton: View {
-    var imageName: String
-    var action: () -> Void
 
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: imageName)
-                .foregroundColor(Color("LTBL"))
-                .font(.system(size: 22))
-        }
-    }
-}
 
 
 //struct DetailedPostCell_Previews: PreviewProvider {

@@ -148,15 +148,17 @@ struct CreateAccount: View {
     }
 
     private func saveUserData(pfpUrl: String) {
+        let fcmToken = UserDefaults.standard.string(forKey: "fcmToken") ?? ""
         let userRef = Firestore.firestore().collection("Users").document(uid)
         let userData = [
-            "bio": userData.bio,
-            "username": userData.username,
-            "school": userData.school,
-            "status": userData.status,
-            "isVendor": userData.isVendor,
-            "pfpUrl": pfpUrl
-        ] as [String: Any]
+               "bio": userData.bio,
+               "username": userData.username,
+               "school": userData.school,
+               "status": userData.status,
+               "isVendor": userData.isVendor,
+               "pfpUrl": pfpUrl,
+               "FcmToken": fcmToken  // Include the FCM token here
+           ] as [String: Any]
 
         userRef.setData(userData) { error in
             if let error = error {

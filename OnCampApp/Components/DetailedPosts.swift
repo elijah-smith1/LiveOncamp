@@ -12,25 +12,26 @@ import FirebaseFirestore
 
  struct DetailedPosts: View {
     var post: Post
-     
+     @State var likeCount: Int
+     @State var repostCount: Int
+     @State var isLiked: Bool
+     @State var isReposted: Bool
     @State private var commentText: String = ""
     @State private var comments: [Comment] = []
     @State private var listener: ListenerRegistration?
-
+     
     var body: some View {
         let postId = post.id!
         VStack(alignment: .leading, spacing: 12) {
             ScrollView {
-                DetailedPostCell(post: post)
-
+                DetailedPostCell(post: post, likeCount: likeCount, repostCount: repostCount, isLiked: isLiked, isReposted: isReposted)
                 ForEach(comments, id: \.self) { comment in
                     DetailedCommentCell(comment: comment)
                 }
-
-                Divider()
             }
 
             HStack {
+                
                 Image(systemName: "quote.bubble")
                     .foregroundColor(Color("LTBL"))
                     .font(.system(size: 22))

@@ -20,5 +20,4 @@ struct User: Identifiable, Hashable, Codable {
         var favorites: Int?
         var followingCount: Int?
         var isVendor: Bool
-    
 }

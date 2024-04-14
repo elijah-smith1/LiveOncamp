@@ -17,9 +17,10 @@ import Kingfisher
 
 struct VendorPreview: View {
     let vendor: Vendor
+//@StateObject var viewmodel = VendorViewModel()
 
     var body: some View {
-        NavigationLink(destination: VendorDetail(vendor: vendor)) {
+        NavigationLink(destination: VendorDetail( vendor: vendor)) {
             VStack(spacing: 8) {
                 KFImage(URL(string: vendor.headerImage ))
                     .resizable()
@@ -59,6 +60,9 @@ struct VendorPreview: View {
                     }
                 }
             }
+
+            
+            
             .padding()
             .background(Color.white)
             .cornerRadius(10)

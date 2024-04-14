@@ -5,7 +5,9 @@ struct Marketplace: View {
     @State private var searchText = ""
     @StateObject var viewModel = MarketplaceViewModel()
     let user: User?
-
+/* make search functional*/
+/* make featured functional*/
+/* make everything functional*/
     var body: some View {
         NavigationStack {
             ScrollView {

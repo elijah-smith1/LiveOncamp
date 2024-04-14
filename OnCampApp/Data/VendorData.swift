@@ -11,17 +11,6 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 
-struct Vendor: Identifiable {
-    @DocumentID var id: String?
-    var description: String
-    var schools: [String]
-    var name: String
-    var headerImage: String
-    var category: String
-    var rating: Double
-    var featured: Bool 
-    var pfpUrl: String// New field
-}
 @MainActor
 class VendorData: ObservableObject{
     
@@ -67,22 +56,13 @@ class VendorData: ObservableObject{
 
         let querySnapshot = try await vendorProductsRef.getDocuments()
         let products = querySnapshot.documents.compactMap { document -> Product? in
-            let data = document.data()
-            guard let idString = data["id"] as? String,
-                  let id = UUID(uuidString: idString),
-                  let name = data["name"] as? String,
-                  let category = data["category"] as? String,
-                  let description = data["description"] as? String,
-                  let image = data["image"] as? String,
-                  let price = data["price"] as? Int else {
-                return nil
-            }
-            return Product(id: id, name: name, category: category, description: description, image: image, price: price)
+            // Attempt to decode the document into a Product
+            try? document.data(as: Product.self)
         }
         print(products)
         return products
     }
-    
+
     func deleteProduct(fromVendor vendorId: String, productId: String) async throws {
         let db = Firestore.firestore()
         let productRef = db.collection("Vendors").document(vendorId).collection("Products").document(productId)
@@ -101,7 +81,6 @@ class VendorData: ObservableObject{
         let vendorProductsRef = db.collection("Vendors").document(vendorId).collection("Products")
 
         let newProductData: [String: Any] = [
-            "id": product.id.uuidString,  // Storing UUID as String
             "name": product.name,
             "category": product.category,
             "description": product.description,

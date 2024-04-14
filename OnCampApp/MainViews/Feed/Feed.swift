@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct Feed: View {
-    @ObservedObject var viewmodel = feedViewModel()
+    @StateObject var viewmodel = feedViewModel()
     @State var selectedFeed = "School"
     let feedOptions = ["Following", "Favorites", "School"]
 
@@ -22,18 +22,16 @@ struct Feed: View {
                         PostCell(post: post)
                     }
                 }
-            }
-            .onAppear {
-                            if selectedFeed == "School" {
-                                Task {
-                                    do {
-                                        try await viewmodel.fetchPublicPosts()
-                                    } catch {
-                                        print("Error fetching public posts: \(error.localizedDescription)")
-                                    }
-                                }
-                            }
+            }.onAppear {
+                Task {
+                    do {
+                        
+                        if viewmodel.Posts.isEmpty {
+                            try await viewmodel.fetchPublicPosts()
                         }
+                    }
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu(selectedFeed) {
@@ -82,11 +80,11 @@ struct Feed: View {
 }
 
 
-struct Feed__Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack{
-            Feed()
-         
-        }
-    }
-}
+//struct Feed__Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack{
+//            Feed()
+//         
+//        }
+//    }
+//}

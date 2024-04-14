@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "93A84597-7AA1-444C-838B-0F3FE78FC44E"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "CreateGroupChat"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 43132c0922c8f298"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of OnCampApp.CreateGroupChat.channelId : Swift.String"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 8bcec28dff3c9e8f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateGroupChat.init(viewmodel: @autoclosure () -&gt; OnCampApp.NewMessageViewModel) -&gt; OnCampApp.CreateGroupChat"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "136">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 9cc9961414d445cd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of OnCampApp.CreateGroupChat.newChannelId : Swift.String"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - b0b26a0e1752bae3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateGroupChat.newChannelId.getter : Swift.String"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 6f9ce478debba8a5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateGroupChat.newChannelId.setter : Swift.String"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - d9175f534143ccb6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateGroupChat.newChannelId.modify : Swift.String"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 839b6a438044dd0b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateGroupChat.newChannelId.modify : Swift.String with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 1ffd2e6e8cd6ee6d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateGroupChat.$newChannelId.getter : SwiftUI.Binding&lt;Swift.String&gt;"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 731808b559912f6b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of OnCampApp.CreateGroupChat.init(viewmodel: @autoclosure () -&gt; OnCampApp.NewMessageViewModel, newChannelId: Swift.String) -&gt; OnCampApp.CreateGroupChat"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 7c28f919e432a762"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of OnCampApp.CreateGroupChat.navigateToChannel : Swift.Bool"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "F0D00209-27C9-4F1C-93D0-CD161DFC6270 - 8bcec28dff3c9eee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateGroupChat.init(viewmodel: @autoclosure () -&gt; OnCampApp.NewMessageViewModel) -&gt; OnCampApp.CreateGroupChat"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "116">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E00CC3E5-557A-4674-AF30-99B38772D462"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OnCampApp/MainViews/Messages/CreateGroupChat.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "CreateGroupChat"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1841E0A-9B16-45B0-91DB-97387FC30EEB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OnCampApp/MainViews/Messages/CreateMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "CreateMessage"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "E1841E0A-9B16-45B0-91DB-97387FC30EEB - caa117c2d8729895"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateMessage.body.getter : some"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateMessage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1132">
+               </Location>
+               <Location
+                  uuid = "E1841E0A-9B16-45B0-91DB-97387FC30EEB - caa117c2d8729895"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateMessage.body.getter : some"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/MainViews/Messages/CreateMessage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "792">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2B443E5B-6DFD-4476-8C0F-778FE0D7045E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OnCampApp/viewModels/ChatViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "sendMessage(chatId:messageContent:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2B443E5B-6DFD-4476-8C0F-778FE0D7045E - 7f409a6c243c282b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in OnCampApp.ChatViewModel.sendMessage(chatId: Swift.String, messageContent: Swift.String) -&gt; ()"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/viewModels/ChatViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "476">
+               </Location>
+               <Location
+                  uuid = "2B443E5B-6DFD-4476-8C0F-778FE0D7045E - 46a9ecada9741228"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in OnCampApp.ChatViewModel.sendMessage(chatId: Swift.String, messageContent: Swift.String) -&gt; ()"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/viewModels/ChatViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "868">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

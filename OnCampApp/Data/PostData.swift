@@ -10,35 +10,12 @@ import Firebase
 import Combine
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+/* remove Favorite*/
 
 
-struct Post: Codable, Hashable, Identifiable {  // Conform to Codable and Identifiable
-    @DocumentID var id: String?  // Use DocumentID to automatically map the Firestore document ID
-    var postText: String
-    var postedBy: String
-   var postedAt: Timestamp
-    var likeCount: Int
-    var repostCount: Int
-    var commentCount: Int
-    var username: String
-    var mediaUrl: String?
-    var pfpUrl: String?
-    
-    enum CodingKeys: String, CodingKey {  // Define coding keys if they differ from your property names
-        case postText = "content"
-        case postedBy = "postedBy"
-       case postedAt
-        case likeCount
-        case repostCount
-        case commentCount
-        case username
-        case mediaUrl
-        case pfpUrl
-    }
-    
    
     
-}
+
 @MainActor
 class PostData: ObservableObject {
     @Published var isLiked: Bool = false
@@ -247,7 +224,56 @@ class PostData: ObservableObject {
             }
         }
     }
-    
+    func unLikePost(postID: String){
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+
+        let db = Firestore.firestore()
+        let postRef = db.collection("Posts").document(postID)
+        let userRef = db.collection("Users").document(userID)
+
+        // Check if the post is already liked by the user
+        postRef.collection("likes").document(userID).getDocument { (document, error) in
+            if let error = error {
+                print("Error checking like status: \(error.localizedDescription)")
+                return
+            }
+
+            if let document = document, document.exists {
+                // Post is already liked by the user, so unlike it
+                postRef.collection("likes").document(userID).delete() { error in
+                    if let error = error {
+                        print("Error unliking post: \(error.localizedDescription)")
+                    } else {
+                        userRef.collection("likes").document(postID).delete() { error in
+                            if let error = error {
+                                print("Error removing liked post from user's collection: \(error.localizedDescription)")
+                            } else {
+                                print("Post unliked successfully!")
+                            }
+                        }
+                    }
+                }
+            } else {
+
+                postRef.collection("likes").document(userID).setData([:]) { error in
+                    if let error = error {
+                        print("Error liking post: \(error.localizedDescription)")
+                    } else {
+                        userRef.collection("likes").document(postID).setData([:]) { error in
+                            if let error = error {
+                                print("Error adding liked post to user's collection: \(error.localizedDescription)")
+                            } else {
+                                print("Post liked successfully!")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     func repostPost(postID: String) {
         let userID = Auth.auth().currentUser!.uid
         let db = Firestore.firestore()
@@ -290,12 +316,15 @@ class PostData: ObservableObject {
     }
 
     // Call the function to fetch a specific user's posts
-    func createComment(postID: String, commentText: String) {
+    func createComment(postID: String, commentText: String)  {
+        
         let db = Firestore.firestore()
         let commenterUid = Auth.auth().currentUser!.uid
+       
         
         // Define a dictionary to represent the comment data
         let commentData: [String: Any] = [
+          
             "commenterUid": commenterUid, // Use the current user's UID
             "text": commentText, // Use the commentText parameter
             "timeSent": Timestamp(date: Date()), // Use the current date and time
@@ -318,6 +347,7 @@ class PostData: ObservableObject {
 
     // Add more @Published properties as needed for other post data
 
+
     func listenToComments(forPost postId: String, completion: @escaping ([Comment]) -> Void) -> ListenerRegistration {
         let db = Firestore.firestore()
         let commentsRef = db.collection("Posts").document(postId).collection("comments")
@@ -330,19 +360,31 @@ class PostData: ObservableObject {
                     return
                 }
 
-                let comments = snapshot.documents.compactMap { document -> Comment? in
-                    do {
-                        return try document.data(as: Comment.self)
-                    } catch {
-                        print("Error decoding comment: \(error)")
-                        return nil
+                // Create a task to handle asynchronous fetching
+                Task {
+                    var comments: [Comment] = []
+                    for document in snapshot.documents {
+                        do {
+                            var comment = try document.data(as: Comment.self)
+                            // Assuming `commenterUid` is a property of `Comment`
+                            // and `fetchUsername` returns an optional string
+                            comment.username = try await self.fetchUsername(for: comment.commenterUid)
+                            comment.pfpUrl = try await self.fetchPfpUrl(for: comment.commenterUid)
+                            comments.append(comment)
+                        } catch {
+                            print("Error decoding comment or fetching username: \(error)")
+                        }
+                    }
+                    // Call the completion handler on the main thread with the updated comments
+                    DispatchQueue.main.async {
+                        completion(comments)
                     }
                 }
-                completion(comments)
             }
 
         return listener
     }
+
 
     
     func relativeTimeString(from timestamp: Timestamp) -> String {
@@ -377,26 +419,20 @@ class PostData: ObservableObject {
            
            return username
        }
+    func fetchPfpUrl(for userId: String) async throws -> String {
+        
+           let userDocument = Userdb.document(userId)
+           
+           let documentSnapshot = try await userDocument.getDocument()
+           
+           guard let pfpUrl = documentSnapshot.data()?["pfpUrl"] as? String else {
+               throw NSError(domain: "UserDataService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Username not found"])
+           }
+           
+           return pfpUrl
+       }
 
 }
 
 
-struct Comment: Codable, Identifiable, Hashable {
-    @DocumentID var id: String?  // Firestore document ID
-    var commenterUid: String
-    var text: String
-    var timeSent: Timestamp
-    var commentReposts: Int
-    var commentLikes: Int
-
-    // Custom initializer is optional if you're decoding from Firestore directly
-    init(id: String, commenterUid: String, text: String, timeSent: Timestamp, commentReposts: Int, commentLikes: Int) {
-        self.id = id
-        self.commenterUid = commenterUid
-        self.text = text
-        self.timeSent = timeSent
-        self.commentReposts = commentReposts
-        self.commentLikes = commentLikes
-    }
-}
 
