@@ -10,9 +10,10 @@ import SwiftUI
 
 
 struct ChannelCell: View {
-    @StateObject var viewmodel = inboxViewModel()
+    
+    @StateObject var viewModel = MessageCellViewModel()
     var channel: Channel
-
+    
     var body: some View {
            NavigationStack {
                NavigationLink(destination: ChannelFeed(channel: channel)) {
@@ -28,7 +29,7 @@ struct ChannelCell: View {
                        VStack(alignment: .leading, spacing: 4) {
                            Text("channel.title")
                                .font(.headline)
-                           
+                           Text(viewModel.content.isEmpty ?? true ? "didn't work" : viewModel.content ?? "didn't work")
                            // Display recent message text and timestamp
                            
 //                               Text(recentMessage.content)
@@ -44,7 +45,7 @@ struct ChannelCell: View {
                    }
                    .padding()
                }.onAppear{
-                   
+                   viewModel.fetchRecentGroupMessage(channelId: channel.id!) 
                }
     }
    }

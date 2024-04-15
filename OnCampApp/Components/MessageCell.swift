@@ -9,11 +9,12 @@ import SwiftUI
 
 
 class MessageCellViewModel: ObservableObject {
-    @ObservedObject var messageData = MessageData()
+    @StateObject var messageData = MessageData()
     @Published var username: String = ""
     @StateObject var inboxviewModel = inboxViewModel()
     @Published var message: Message?
     @Published var content: String = ""
+    @Published var Otherparticipant: String = ""
     func fetchRecentMessage(chatId: String){
         Task {
             do {
@@ -22,6 +23,20 @@ class MessageCellViewModel: ObservableObject {
                 self.content = message!.content
             }
         }
+    }
+    func fetchRecentGroupMessage(channelId: String){
+        Task {
+            do {
+                let message = try await inboxviewModel.fetchMostRecentGroupMessage(forChannelId: channelId)
+                self.message = message
+                self.content = message.content
+             
+            }
+        }
+    }
+    func fetchName(patricipants: [String]){
+        let other = inboxviewModel.otherParticipants(forParticipants: patricipants)
+        self.Otherparticipant = other
     }
     func loadUsername(otherParticipantId: String) {
         Task {
@@ -49,11 +64,11 @@ struct MessageCell: View {
                     
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
-                            Text("username/chatname here" )
+                            Text(viewModel.username.isEmpty ? "didn't work" : viewModel.username )
                                 .font(.system(size: 14, weight: .semibold))
                             Spacer()
                         }
-                        Text(viewModel.content.isEmpty ?? true ? "didn't work" : viewModel.content ?? "didn't work")
+                        Text(viewModel.content.isEmpty ? "didn't work" : viewModel.content )
                             .font(.system(size: 15))
                     }
                     .foregroundColor(Color("LTBL"))
@@ -62,8 +77,14 @@ struct MessageCell: View {
                 }
                 .padding(.horizontal)
                 .onAppear {
-                    viewModel.fetchRecentMessage(chatId: chats.id!) 
+                    viewModel.fetchRecentMessage(chatId: chats.id!)
+                    viewModel.fetchName(patricipants: chats.participants)
+                    // After fetching the recent message, check if viewModel.message is not nil before accessing its senderId
+                    if let message = viewModel.message {
+                        viewModel.loadUsername(otherParticipantId: viewModel.Otherparticipant)
+                    }
                 }
+
                 
                 Divider()
             }
