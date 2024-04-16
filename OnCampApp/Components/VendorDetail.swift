@@ -5,123 +5,194 @@ struct VendorDetail: View {
     @State var products: [Product] = []
     let vendor: Vendor
     @StateObject var viewmodel = VendorViewModel()
-    @State private var showAlert = false
-    /* create the fetch products and the product screen*/
-    /* snazz up  the screen a little*/
+    @State private var deliveryOption: DeliveryOption = .pickup
+    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
+    @State private var showVendorInfo = false // State to control the popover visibility
+    
+    enum DeliveryOption: String, CaseIterable {
+        case pickup = "Pickup"
+        case delivery = "Delivery"
+    }
+    
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .top) {
-                ScrollView {
-                    VStack(spacing: 0) {
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(height: 210) // Placeholder for the overlaid content
-                        
-                        Divider()
-                        
-                        // Your items grid and any other content goes here
-                        Text("PRODUCTS")
-                            .font(.largeTitle)
-                            .padding(.horizontal)
-                        
-                        
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
-                            ForEach(products, id: \.id) { item in
-                                SmallProductCard(product: item)
-                            }
-                        }
-                        .padding(.horizontal)
-                    }
-                }
-                
-                VStack {
+        ZStack(alignment: .topLeading) {
+            ScrollView {
+                VStack(spacing: 0) {
+                    // Header Image
                     KFImage(URL(string: vendor.headerImage))
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 300)
+                        .scaledToFill()
+                        .frame(height: 180)
                         .clipped()
-                        .edgesIgnoringSafeArea(.top)
-                        .opacity(0.8)
                     
-                    Spacer() // Ensures the header occupies the correct amount of space
-                }
-                
-                VStack {
-                    HStack{
-                        VStack(alignment: .leading, spacing: 2) {
+                    // Title, Rating, Profile Image, and Info Button
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            // Profile Image
+                            KFImage(URL(string: vendor.pfpUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                                .shadow(radius: 3)
+
+                            // Vendor Name
                             Text(vendor.name)
                                 .font(.title)
                                 .bold()
-                                .foregroundColor(.black)
-                            HStack{
-                                StarRating(vendor: vendor)
-                                
-                                Button(action: {
-                                    showAlert = true
-                                }) {
-                                    Image(systemName: "info.circle")
-                                        .foregroundColor(.blue)
-                                }
-                                .alert(isPresented: $showAlert) {
-                                    Alert(
-                                        title: Text("Vendor Info"),
-                                        message: Text("\(vendor.description)\nSchools Serviced: \(vendor.schools.joined(separator: ", "))"),
-                                        dismissButton: .default(Text("OK"))
-                                    )
-                                }
-                            }
+
                             Spacer()
                             
+                            // Info Button
                             Button(action: {
-                                // Messaging logic here
+                                showVendorInfo.toggle()
                             }) {
-                                Text("Message Vendor")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .background(Color.blue)
-                                    .cornerRadius(10)
+                                Image(systemName: "info.circle")
+                                    .font(.title)
+                                    .foregroundColor(.blue)
+                            }
+                            .popover(isPresented: $showVendorInfo, arrowEdge: .bottom) {
+                                VStack {
+                                    Text("Vendor Information")
+                                        .font(.headline)
+                                        .padding()
+                                    
+                                    Text(vendor.description)
+                                        .padding()
+                                }
+                                .frame(width: 200, height: 150)
                             }
                         }
-                        .padding([.leading, .bottom, .trailing])
-                        .cornerRadius(15)
                         .padding(.horizontal)
                         
-                        Spacer()
+                        HStack {
+                            Text(String(format: "%.1f", vendor.rating))
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.yellow)
+                            Text("(54)")
+                            Text("•")
+                                .padding(.horizontal, 5)
+                            Text("Morehouse")
+
+                            Spacer()
+                        }
+                        .font(.subheadline)
+                        .padding(.horizontal)
+
+                        // Delivery options
+                        deliveryOptionsView
                         
-                        KFImage(URL(string: vendor.pfpUrl))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 90, height: 90)
-                            .clipShape(Circle())
-                            .shadow(radius: 10)
+                        // Fee and time information
+                        feeInformationView
+                        
+                        Divider()
+                        
+                        // Products header
+                        HStack {
+                            Text("PRODUCTS")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        
+                        productGridView
                     }
-                    .frame(height: 180) // Fixed height to match the header image
-                }
-            }.onAppear {
-                Task {
-                    do {
-                        // Fetch products and assign them to the state variable
-                        products = try await viewmodel.fetchAllProducts(forVendor: vendor.id!)
-                    } catch {
-                        // Handle errors, perhaps by showing an error message to the user
-                        print("Error fetching products: \(error)")
-                    }
+                    .background(colorScheme == .dark ? Color.black : Color.white)
+                    .offset(y: -20)
                 }
             }
-
-            .navigationBarHidden(true)
+            .edgesIgnoringSafeArea(.top)
+            .onAppear(perform: fetchProducts)
+            .navigationBarBackButtonHidden()
+            
+            // Back button
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Image(systemName: "chevron.left.circle.fill")
+                    .font(.largeTitle)
+                    .foregroundColor(Color.white)
+                    .padding(20)
+            }
+            .padding(.leading, 16)
+        }
+    }
+    
+    var deliveryOptionsView: some View {
+        HStack {
+            HStack {
+                ForEach(DeliveryOption.allCases, id: \.self) { option in
+                    Button(action: {
+                        withAnimation {
+                            deliveryOption = option
+                        }
+                    }) {
+                        Text(option.rawValue)
+                            .foregroundColor(deliveryOption == option ? .white : .blue)
+                            .padding(.vertical, 8)
+                            .frame(minWidth: 30, maxWidth: 90)
+                            .background(deliveryOption == option ? Color.blue : Color.gray.opacity(0.2))
+                            .cornerRadius(20)
+                    }
+                }
+                Spacer()
+            }
+            .fixedSize(horizontal: false, vertical: true)
+            .clipShape(Capsule())
+            Spacer()
+        }
+        .padding(.horizontal, 10)
+    }
+    
+    var feeInformationView: some View {
+        HStack {
+            Spacer()
+            Text("$0.49 Delivery Fee")
+                .foregroundColor(.white)
+            Rectangle()
+                .fill(Color.white)
+                .frame(width: 1, height: 20)
+            Text("35-50 min")
+                .foregroundColor(.white)
+            Spacer()
+        }
+        .padding()
+        .background(Color.blue)
+        .cornerRadius(8)
+        .padding(.horizontal)
+    }
+    
+    var productGridView: some View {
+        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
+            ForEach(products, id: \.id) { product in
+                SmallProductCard(product: product)
+            }
+        }
+        .padding(.horizontal)
+    }
+    
+    func fetchProducts() {
+        Task {
+            do {
+                products = try await viewmodel.fetchAllProducts(forVendor: vendor.id!)
+            } catch {
+                print("Error fetching products: \(error)")
+            }
         }
     }
 }
-
-
-//struct VendorDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        VendorDetail(
-//
-//        )
-//    }
-//}
+    extension View {
+        func safeAreaInsets() -> UIEdgeInsets {
+            let keyWindow = UIApplication.shared.connectedScenes
+                .filter { $0.activationState == .foregroundActive }
+                .compactMap { $0 as? UIWindowScene }
+                .first?.windows
+                .filter { $0.isKeyWindow }.first
+            let safeArea = keyWindow?.safeAreaInsets ?? UIEdgeInsets.zero
+            return safeArea
+        }
+    }
 

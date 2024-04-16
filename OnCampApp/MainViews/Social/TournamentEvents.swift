@@ -2,14 +2,28 @@
 //  TournamentEvents.swift
 //  OnCampApp
 //
-//  Created by Michael Washington on 3/28/24.
+//  Created by Michael Washington on 3/23/24.
 //
 
 import SwiftUI
 
 struct TournamentEvents: View {
+    @ObservedObject var viewmodel = eventViewModel()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+                LazyVStack(spacing: 32) {
+                    ForEach(viewmodel.events, id: \.id) { events in
+                        NavigationStack{
+                            EventPreview()
+                                .frame(height: 400)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            Divider()
+                        }
+                    }
+                }
+            .navigationDestination(for: Int.self) { events in
+            }
+        }
     }
 }
 

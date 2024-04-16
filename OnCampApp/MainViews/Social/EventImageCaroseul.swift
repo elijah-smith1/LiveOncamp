@@ -1,34 +1,33 @@
-//
-//  EventImageCaroseul.swift
-//  OnCampApp
-//
-//  Created by Michael Washington on 10/30/23.
-//
-
 import SwiftUI
 
-struct EventImageCaroseul: View {
-    var images = [
-        "Events1",
-        "Events2",
-        "Events3",
-    ]
+struct EventImageCarousel: View {
+    var imageUrls: [String]
     
     var body: some View {
         TabView {
-            ForEach(images, id: \.self) { image in
-                Image(image)
-                    .resizable()
-                    .scaledToFill()
+            ForEach(imageUrls, id: \.self) { imageUrl in
+                AsyncImage(url: URL(string: imageUrl)) { image in
+                    image.resizable()
+                         .scaledToFill()
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(height: 200) // You can adjust the height as needed
+                .cornerRadius(10)
+                .padding(.horizontal)
             }
         }
-        
-        .tabViewStyle(.page)
+        .tabViewStyle(PageTabViewStyle())
+        .frame(height: 200) // Ensure the TabView is constrained if AsyncImage is not inherently sized
     }
 }
 
-struct EventImageCaroseul_Previews: PreviewProvider {
+struct EventImageCarousel_Previews: PreviewProvider {
     static var previews: some View {
-        EventImageCaroseul()
+        EventImageCarousel(imageUrls: [
+            "https://www.example.com/image1.jpg",
+            "https://www.example.com/image2.jpg",
+            "https://www.example.com/image3.jpg"
+        ])
     }
 }

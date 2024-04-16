@@ -8,39 +8,28 @@
 import SwiftUI
 
 struct DetailedEvent: View {
-    var EventTitle: String
-    var EventHost: String
-    var EventLocation: String
-    var EventParticipants: Int
-  
-    var images = [
-        "Events1",
-        "Events2",
-        "Events3",
-    ]
+    var event: Event
     
     var body: some View {
         ScrollView {
-            EventImageCaroseul()
+            EventImageCarousel(imageUrls: event.imageUrls ?? [""])
                 .frame(height: 320)
             
             VStack(alignment: .leading, spacing: 8) {
-                Text(EventTitle)
+                Text(event.title)
                     .font(.title)
                     .fontWeight(.semibold)
+                
                 VStack(alignment: .leading) {
                     HStack(spacing: 2) {
-                        
-                        
-                        Text("2D 6H 3M")
+                        Text("2D 6H 3M")  // Consider making this dynamic if you have event timing data
                             .padding(.trailing, 8.0)
                         Image(systemName: "person")
-                        Text(" \(EventParticipants)")
-                        
+                        Text(" \(event.participants)")
                     }
                     .foregroundColor(Color("LTBL"))
                     
-                    Text(EventLocation)
+                    Text(event.location)
                 }
                 .font(.caption)
             }
@@ -51,7 +40,7 @@ struct DetailedEvent: View {
             
             HStack{
                 VStack{
-                    Text("This Event is being hosted by \(EventHost)")
+                    Text("This Event is being hosted by \(event.host)")
                         .font(.headline)
                         .frame(width:250, alignment: .leading)
                     HStack(spacing: 2) {
@@ -146,13 +135,17 @@ struct DetailedEvent: View {
     }
 }
 
-struct DetailedEvent_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailedEvent(
-            EventTitle: "OnCamp Release Party",
-            EventHost: "Best Parties ATL",
-            EventLocation: "830 Westview Drive",
-            EventParticipants: 520
-        )
-    }
-}
+
+//struct DetailedEvent_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailedEvent(event: Event(
+//            title: "OnCamp Release Party",
+//            host: "Best Parties ATL",
+//            location: "830 Westview Drive",
+//            participants: 520,
+//            images: ["Events1", "Events2", "Events3"]
+//        ))
+//    }
+//}
+
+

@@ -5,20 +5,34 @@ struct Marketplace: View {
     @State private var searchText = ""
     @StateObject var viewModel = MarketplaceViewModel()
     let user: User?
-/* make search functional*/
-/* make featured functional*/
-/* make everything functional*/
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
                     HStack {
                         Text("Vendor")
-                            .foregroundColor(.blue)
-                            .padding(.trailing, -8.0)
+                            .foregroundColor(Color("LTBL")) // Changing the color to black
+                            .font(.title)
+                            .padding(.leading, 20)
+
                         Text("Hub")
+                            .foregroundColor(.blue) // Keeping this part blue
+                            .font(.title)
+                            .padding(.leading, -10)
+
+                        Spacer() // This will push everything to the sides
+
+                        Button(action: {
+                            // Action for receipt
+                        }) {
+                            Image(systemName: "doc.plaintext")
+                                .font(.system(size: 24))
+                                .foregroundColor(.blue)
+                        }
+                        .padding(.trailing, 20)
                     }
-                    .font(.title)
+
 
                     // Search Bar
                     HStack {
@@ -30,7 +44,7 @@ struct Marketplace: View {
 
                         NavigationLink(destination: SideMenu(user: user)) {
                             Image(systemName: "line.3.horizontal")
-                                .font(.system(size: 30))
+                                .font(.system(size: 20))
                         }
                     }
                     .padding(.horizontal)
@@ -39,6 +53,10 @@ struct Marketplace: View {
                             .stroke(Color.blue, lineWidth: 2)
                     )
                     .padding(.horizontal)
+
+                    Divider()
+                    
+                    Spacer()
 
                     // Categories Scroller
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -53,7 +71,6 @@ struct Marketplace: View {
                         }
                         .padding()
                     }
-                    .background(Color.white)
 
                     // Dynamically create VendorSection views based on categories
                     ForEach(viewModel.vendorsByCategory.keys.sorted(), id: \.self) { category in
@@ -64,18 +81,6 @@ struct Marketplace: View {
             .navigationBarHidden(true)
         }
     }
-}
-extension View {
-    func placeholder<Content: View>(
-        when shouldShow: Bool,
-        alignment: Alignment = .leading,
-        @ViewBuilder placeholder: () -> Content) -> some View {
-            
-            ZStack(alignment: alignment) {
-                placeholder().opacity(shouldShow ? 1 : 0)
-                self
-            }
-        }
 }
 
 struct VendorSection: View {
@@ -89,35 +94,47 @@ struct VendorSection: View {
                 .padding(.horizontal)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 20) {
+                LazyHStack(spacing: 20) {
                     ForEach(vendors, id: \.name) { vendor in
                         VendorPreview(vendor: vendor)
-                            .shadow(color: .gray, radius: 5, x: 0, y: 2)
                     }
                 }
+                .frame(height: 250) // Ensure this height accommodates the size of the VendorPreview cards
                 .padding(.horizontal)
             }
+            
+            Divider()
         }
     }
 }
 
+
 struct CategoryItem: View {
+    @Environment(\.colorScheme) var colorScheme // Access the color scheme from the environment
     var category: CategoryModel
     var isSelected: Bool
+    
+    var backgroundColor: Color {
+        isSelected ? .blue : (colorScheme == .dark ? .blue : .gray.opacity(0.1))
+    }
+    
+    var foregroundColor: Color {
+        isSelected ? .white : (colorScheme == .dark ? Color("LTBLALT") : .black)
+    }
     
     var body: some View {
         HStack {
             if category.title != "All" {
                 Image(systemName: category.icon)
-                    .foregroundColor(isSelected ? .white : .blue)
+                    .foregroundColor(isSelected ? .white : (colorScheme == .dark ? Color("LTBLALT") : .blue))
             }
             Text(category.title)
                 .fontWeight(isSelected ? .bold : .regular)
+                .foregroundColor(foregroundColor)
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 20)
-        .background(isSelected ? .blue : .gray.opacity(0.1))
-        .foregroundColor(isSelected ? .white : .black)
+        .background(backgroundColor)
         .clipShape(Capsule())
     }
 }

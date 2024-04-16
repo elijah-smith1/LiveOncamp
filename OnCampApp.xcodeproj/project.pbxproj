@@ -53,6 +53,10 @@
 		5DDFCC5C2B52EA5800F4630A /* FollowingFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFCC5B2B52EA5800F4630A /* FollowingFeed.swift */; };
 		5DDFCC5E2B52EA6500F4630A /* SchoolFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFCC5D2B52EA6500F4630A /* SchoolFeed.swift */; };
 		5DDFCC602B52EA8C00F4630A /* PublicFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFCC5F2B52EA8C00F4630A /* PublicFeed.swift */; };
+		A625142C2BB6054D0053EAB0 /* AllEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A625142B2BB6054D0053EAB0 /* AllEvents.swift */; };
+		A625142E2BB605620053EAB0 /* TournamentEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A625142D2BB605620053EAB0 /* TournamentEvents.swift */; };
+		A62514302BB605750053EAB0 /* PartyEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A625142F2BB605750053EAB0 /* PartyEvents.swift */; };
+		A62514322BB605850053EAB0 /* SchoolEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62514312BB605850053EAB0 /* SchoolEvents.swift */; };
 		A643F30E2AF996960063AF42 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = A643F30D2AF996960063AF42 /* Cart.swift */; };
 		A643F3102AF996B20063AF42 /* CartProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A643F30F2AF996B20063AF42 /* CartProductCard.swift */; };
 		A643F3122AF996C40063AF42 /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A643F3112AF996C40063AF42 /* CategoryList.swift */; };
@@ -64,7 +68,6 @@
 		A66B3D012AF9998A003150C9 /* Marketplace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CBE8D72AD8F65F00379839 /* Marketplace.swift */; };
 		A6807D5A2AF08FA60088E934 /* EventImageCaroseul.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D592AF08FA60088E934 /* EventImageCaroseul.swift */; };
 		A6807D5C2AF0934F0088E934 /* DetailedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D5B2AF0934F0088E934 /* DetailedEvent.swift */; };
-		A6807D5E2AF0AFEF0088E934 /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D5D2AF0AFEF0088E934 /* EventData.swift */; };
 		A6807D602AF0C81F0088E934 /* NewMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D5F2AF0C81F0088E934 /* NewMessageViewModel.swift */; };
 		A6807D622AF0C8A00088E934 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D612AF0C8A00088E934 /* Constants.swift */; };
 		A68803462B5ACF5F00E1B741 /* Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68803452B5ACF5F00E1B741 /* Trending.swift */; };
@@ -182,6 +185,10 @@
 		5DDFCC5B2B52EA5800F4630A /* FollowingFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingFeed.swift; sourceTree = "<group>"; };
 		5DDFCC5D2B52EA6500F4630A /* SchoolFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolFeed.swift; sourceTree = "<group>"; };
 		5DDFCC5F2B52EA8C00F4630A /* PublicFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicFeed.swift; sourceTree = "<group>"; };
+		A625142B2BB6054D0053EAB0 /* AllEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllEvents.swift; sourceTree = "<group>"; };
+		A625142D2BB605620053EAB0 /* TournamentEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentEvents.swift; sourceTree = "<group>"; };
+		A625142F2BB605750053EAB0 /* PartyEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyEvents.swift; sourceTree = "<group>"; };
+		A62514312BB605850053EAB0 /* SchoolEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolEvents.swift; sourceTree = "<group>"; };
 		A643F30D2AF996960063AF42 /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		A643F30F2AF996B20063AF42 /* CartProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductCard.swift; sourceTree = "<group>"; };
 		A643F3112AF996C40063AF42 /* CategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryList.swift; sourceTree = "<group>"; };
@@ -192,7 +199,6 @@
 		A643F31B2AF9974C0063AF42 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		A6807D592AF08FA60088E934 /* EventImageCaroseul.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventImageCaroseul.swift; sourceTree = "<group>"; };
 		A6807D5B2AF0934F0088E934 /* DetailedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedEvent.swift; sourceTree = "<group>"; };
-		A6807D5D2AF0AFEF0088E934 /* EventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
 		A6807D5F2AF0C81F0088E934 /* NewMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewModel.swift; sourceTree = "<group>"; };
 		A6807D612AF0C8A00088E934 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A68803452B5ACF5F00E1B741 /* Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trending.swift; sourceTree = "<group>"; };
@@ -306,6 +312,14 @@
 			children = (
 				A6CBE8DB2AD8F6DA00379839 /* Search.swift */,
 				A6FBD2FA2ADEFD3700BC0F60 /* Social.swift */,
+				A625142B2BB6054D0053EAB0 /* AllEvents.swift */,
+				A625142D2BB605620053EAB0 /* TournamentEvents.swift */,
+				A625142F2BB605750053EAB0 /* PartyEvents.swift */,
+				A62514312BB605850053EAB0 /* SchoolEvents.swift */,
+				A6807D5B2AF0934F0088E934 /* DetailedEvent.swift */,
+				A69B73D12AEEF45A008DE77E /* EventPreview.swift */,
+				A69B73CD2AED5A55008DE77E /* Events.swift */,
+				A6807D592AF08FA60088E934 /* EventImageCaroseul.swift */,
 			);
 			path = Social;
 			sourceTree = "<group>";
@@ -511,9 +525,6 @@
 				A6FBD3112ADF3D5F00BC0F60 /* CustomChatInput.swift */,
 				A6FBD3192AE758D700BC0F60 /* DetailedCommentCell.swift */,
 				A6FBD3172AE7588400BC0F60 /* DetailedPostCell.swift */,
-				A69B73CD2AED5A55008DE77E /* Events.swift */,
-				A6807D592AF08FA60088E934 /* EventImageCaroseul.swift */,
-				A69B73D12AEEF45A008DE77E /* EventPreview.swift */,
 				A6EB1C5D2AD4C3B000A7A89F /* imagePicker.swift */,
 				A6FBD3002ADF0EB100BC0F60 /* MessageCell.swift */,
 				A6CBE8CE2AD8EFCE00379839 /* PostCell.swift */,
@@ -521,7 +532,6 @@
 				A6CBE8D02AD8F09100379839 /* UserChatCell.swift */,
 				5D3AA09C2B0912A400AB8517 /* UserCell.swift */,
 				A6CBE8E72ADB6DDC00379839 /* usernameSearch.swift */,
-				A6807D5B2AF0934F0088E934 /* DetailedEvent.swift */,
 				A643F30D2AF996960063AF42 /* Cart.swift */,
 				A643F30F2AF996B20063AF42 /* CartProductCard.swift */,
 				A6FBD3152AE74B3F00BC0F60 /* DetailedPosts.swift */,
@@ -565,7 +575,6 @@
 				A6CBB1792ADE416C001437C7 /* MessageData.swift */,
 				A6CBE8DF2AD8FAE600379839 /* PostData.swift */,
 				A6EB1C5B2AD4C30100A7A89F /* UserData.swift */,
-				A6807D5D2AF0AFEF0088E934 /* EventData.swift */,
 				5D864B5F2B04047200B7BB7F /* VendorData.swift */,
 			);
 			path = Data;
@@ -750,6 +759,7 @@
 				5DDFCC5C2B52EA5800F4630A /* FollowingFeed.swift in Sources */,
 				402CA6CC2B7A77A0001DBCB2 /* ChatModel.swift in Sources */,
 				5DDFCC5E2B52EA6500F4630A /* SchoolFeed.swift in Sources */,
+				A62514302BB605750053EAB0 /* PartyEvents.swift in Sources */,
 				A6CBE8DA2AD8F67200379839 /* Feed.swift in Sources */,
 				A6807D5A2AF08FA60088E934 /* EventImageCaroseul.swift in Sources */,
 				408B6C5B2B899B56003C5473 /* chatInfo.swift in Sources */,
@@ -791,10 +801,12 @@
 				A6A2B9F02B587B19004BA4AA /* SideMenu.swift in Sources */,
 				A6FBD3162AE74B3F00BC0F60 /* DetailedPosts.swift in Sources */,
 				5DDCB72B2B07BBEB0093ED3B /* inboxViewModel.swift in Sources */,
+				A625142C2BB6054D0053EAB0 /* AllEvents.swift in Sources */,
 				A6CBE8CF2AD8EFCE00379839 /* PostCell.swift in Sources */,
 				408B6C5F2B8E1096003C5473 /* GCSetup.swift in Sources */,
 				A69B73CC2AEC0E00008DE77E /* ProfileHeaderCell.swift in Sources */,
 				A6A2B9EA2B587668004BA4AA /* Menu.swift in Sources */,
+				A625142E2BB605620053EAB0 /* TournamentEvents.swift in Sources */,
 				A688034A2B5ACF7500E1B741 /* BulletinBoard.swift in Sources */,
 				A6CBE8D42AD8F5FE00379839 /* TabBar.swift in Sources */,
 				A6EB1C592AD4C10E00A7A89F /* AuthData.swift in Sources */,
@@ -806,7 +818,6 @@
 				5D3AA09B2B09107200AB8517 /* searchViewModel.swift in Sources */,
 				A6CBE8CD2AD8EF9F00379839 /* CircularProfilePicture.swift in Sources */,
 				A643F31C2AF9974C0063AF42 /* CategoryModel.swift in Sources */,
-				A6807D5E2AF0AFEF0088E934 /* EventData.swift in Sources */,
 				402CA6CE2B7A77CC001DBCB2 /* PostModel.swift in Sources */,
 				A6CBB17C2ADEFA28001437C7 /* UserPostView.swift in Sources */,
 				A6EB1C572AD4BF1100A7A89F /* SelectInterests.swift in Sources */,
@@ -834,6 +845,7 @@
 				A6EB1C512AD4B4C200A7A89F /* ForgotPassword.swift in Sources */,
 				A6CBE8C82AD8EEEC00379839 /* EditProfile.swift in Sources */,
 				5DDCB72E2B0907370093ED3B /* chatPreviewsViewModel.swift in Sources */,
+				A62514322BB605850053EAB0 /* SchoolEvents.swift in Sources */,
 				5D415D992AFA980800D22779 /* UserModel.swift in Sources */,
 				5D864B5E2B02DF9B00B7BB7F /* ChatViewModel.swift in Sources */,
 				A643F30E2AF996960063AF42 /* Cart.swift in Sources */,
@@ -925,7 +937,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -980,7 +992,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = OnCamp;
@@ -1082,7 +1094,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X6SKK4TJK7;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Smith-And-Washington-Digital-Design-LLC.OnCampAppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1102,7 +1114,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X6SKK4TJK7;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Smith-And-Washington-Digital-Design-LLC.OnCampAppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

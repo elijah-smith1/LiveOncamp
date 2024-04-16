@@ -29,7 +29,6 @@ struct Spotlight: View {
                 }
             }
             .navigationDestination(for: Int.self) { events in
-                Text("events")
             }
         }
     }

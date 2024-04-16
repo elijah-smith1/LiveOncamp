@@ -2,16 +2,21 @@
 //  AllEvents.swift
 //  OnCampApp
 //
-//  Created by Michael Washington on 3/28/24.
+//  Created by Michael Washington on 3/23/24.
 //
 
 import SwiftUI
 
 struct AllEvents: View {
+    @ObservedObject var viewModel = eventViewModel() // Ensure this view model properly fetches and stores your events
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            EventPreview() // Assuming EventPreview handles all the grid setup and navigation internally
+        }
     }
 }
+
 
 #Preview {
     AllEvents()

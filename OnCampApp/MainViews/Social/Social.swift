@@ -1,54 +1,95 @@
 import SwiftUI
 
 struct Social: View {
-    let categories = ["Events", "Trending", "Spotlight", "Bulletin Board"]
+    let categories = ["All", "Tournament", "School", "Parties"]
     @State private var selectedCategoryIndex = 0
     @State private var showingSearchView = false
+    @State private var messageNotificationCount = 2
+    @State private var notificationCount = 5
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack {
-                    categoryPicker
-                    contentSwitcherView
+            VStack(spacing: 0) {
+                customSearchBar
+                ScrollView {
+                    VStack {
+                        featuredEventsTitle
+                        instagramStyleBoxes
+                        categoryPicker
+                        contentSwitcherView
+                    }
+                    .padding(.bottom, 20)
                 }
-                .padding(.bottom, 20)
             }
-            .navigationTitle(categories[selectedCategoryIndex])
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    NavigationLink(destination: Messages()) {
-                        Image(systemName: "message")
+                ToolbarItem(placement: .navigationBarLeading) {
+                    HStack(spacing: 0) {  // Ensures the texts are touching
+                        Text("Social")
+                            .foregroundColor(Color("LTBL")) // Custom color, ensure this exists in your assets
+                            .font(.title)
+                        
+                        Text("Hub")
+                            .foregroundColor(.blue) // Blue color for "Hub"
+                            .font(.title)
                     }
                 }
-
-                ToolbarItem(placement: .principal) {
-                    Button(action: {
-                        showingSearchView = true
-                    }) {
-                        HStack {
-                            Text("Search...")
-                                .foregroundColor(.blue)
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack(spacing: 20) {
+                        NavigationLink(destination: Messages()) {
+                            BadgeView(iconName: "message", count: messageNotificationCount)
                         }
-                        .padding(7)
-                        .frame(width: 300, height: 30)
-                        .background(RoundedRectangle(cornerRadius: 10)
-                            .stroke(lineWidth: 1)
-                            .foregroundColor(.blue))
+                        NavigationLink(destination: NotificationsView()) {
+                            BadgeView(iconName: "bell", count: notificationCount)
+                        }
                     }
                 }
-
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: NotificationsView()) {
-                        Image(systemName: "bell")
-                    }
-                }
-            }
-            .sheet(isPresented: $showingSearchView) {
-                Search() // Ensure this view exists and is correct
             }
         }
+    }
+
+    var customSearchBar: some View {
+        Button(action: {
+            showingSearchView = true
+        }) {
+            HStack {
+                Image(systemName: "magnifyingglass")
+                Text("Search...")
+                    .foregroundColor(.gray)
+                Spacer()
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.blue, lineWidth: 1)
+            )
+        }
+        .padding(.horizontal)
+        .padding(.top, 8)
+        .sheet(isPresented: $showingSearchView) {
+            Search()
+        }
+    }
+
+    var featuredEventsTitle: some View {
+        Text("Featured Events")
+            .font(.callout)
+            .fontWeight(.bold)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+    }
+
+    var instagramStyleBoxes: some View {
+        HStack {
+            ForEach(0..<3) { _ in
+                Rectangle()
+                    .frame(width: 120, height: 160)
+                    .overlay(Rectangle().stroke(Color.cyan, lineWidth: 2))
+            }
+        }
+        .padding(.horizontal)
     }
 
     var categoryPicker: some View {
@@ -60,44 +101,44 @@ struct Social: View {
         .pickerStyle(.segmented)
         .padding()
     }
-    
+
     var contentSwitcherView: some View {
         Group {
             switch selectedCategoryIndex {
             case 0:
-                Events()
+                AllEvents()
             case 1:
-                Trending() // Replace with your actual view for Trending
+                TournamentEvents()
             case 2:
-                Spotlight() // Replace with your actual view for Spotlight
+                SchoolEvents()
             case 3:
-                BulletinBoard() // Replace with your actual view for Bulletin Board
+                PartyEvents()
             default:
                 EmptyView()
             }
         }
     }
-    struct TabsView: View {
-        let tabs: [String]
-        @Binding var selectedTabIndex: Int
-        
-        var body: some View {
-            HStack(spacing: 20) {
-                ForEach(tabs.indices) { index in
-                    Text(tabs[index])
-                        .foregroundColor(index == selectedTabIndex ? .blue : .black)
-                        .underline(index == selectedTabIndex ? true : false, color: .blue)
-                        .padding(.vertical, 10)
-                        .onTapGesture {
-                            withAnimation {
-                                selectedTabIndex = index
-                            }
-                        }
-                }
+}
+struct BadgeView: View {
+    var iconName: String
+    var count: Int
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            Image(systemName: iconName)
+            if count > 0 {
+                Text("\(count)")
+                    .font(.caption2)
+                    .foregroundColor(.white)
+                    .padding(5)
+                    .background(Color.red)
+                    .clipShape(Circle())
+                    .offset(x: 10, y: -10)
             }
         }
     }
 }
+
 struct Social_Previews: PreviewProvider {
     static var previews: some View {
         Social()

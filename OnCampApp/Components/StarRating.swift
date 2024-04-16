@@ -6,7 +6,7 @@ struct StarRating: View {
     let onImage = Image(systemName: "star.fill")
     let offImage = Image(systemName: "star")
     let halfImage = Image(systemName: "star.leadinghalf.filled")
-    
+
     func image(for number: Int) -> Image {
         if Double(number) > vendor.rating {
             return offImage
@@ -18,7 +18,7 @@ struct StarRating: View {
     }
 
     var body: some View {
-        HStack {
+        HStack(spacing: -1) { // No spacing between stars
             ForEach(1...maximumRating, id: \.self) { number in
                 self.image(for: number)
                     .foregroundColor(.yellow)
@@ -26,9 +26,3 @@ struct StarRating: View {
         }
     }
 }
-
-//struct StarRating_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StarRating(vendor: Vendor(id: nil, description: "Test Description", schools: ["Test School"], name: "Test Vendor", image: "test_image", category: "Test Category", rating: 3.5, featured: false))
-//    }
-//}

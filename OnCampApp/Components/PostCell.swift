@@ -32,8 +32,7 @@ struct PostCell: View {
                 VStack {
                     HStack(alignment: .top, spacing: 12) {
                         CircularProfilePictureView(profilePictureURL: user?.pfpUrl)
-                            .frame(width: 64, height: 64)
-                        
+                            .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.12)
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
                                 if let user = user {

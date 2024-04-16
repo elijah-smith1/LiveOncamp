@@ -24,25 +24,30 @@ struct CreatePost: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                HStack {
-                    Text("Create Post")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color.blue)
+          NavigationStack {
+              VStack {
+                  HStack {
+                      Text("Create")
+                          .foregroundColor(Color("LTBL")) // Changing the color to black
+                          .font(.title)
+                          .padding(.leading, 20)
 
-                    Spacer()
 
-                    Button(action: {
-                        showingImagePicker = true
-                    }) {
-                        Image(systemName: "camera")
-                            .font(.title)
-                            .foregroundColor(Color.blue)
-                    }
-                }
-                .padding(.horizontal)
+                      Text("Post")
+                          .foregroundColor(.blue) // Keeping this part blue
+                          .font(.title)
+                          .padding(.leading, -10)
+
+                      Spacer()
+
+                      Button(action: {
+                          showingImagePicker = true
+                      }) {
+                          Image(systemName: "camera")
+                              .font(.title)
+                              .foregroundColor(.blue) // Camera icon in blue
+                      }
+                  }
 
                 HStack {
                     CircularProfilePictureView(profilePictureURL: user.pfpUrl!)
@@ -87,7 +92,7 @@ struct CreatePost: View {
                     .cornerRadius(8)
                     .overlay(
                         Text("Share what's on your mind...")
-                            .foregroundColor(.black.opacity(postText.isEmpty ? 1 : 0))
+                            .foregroundColor(postText.isEmpty ? Color("LTBL") : .clear) // Use 'Color("LTBL")' when postText is empty
                             .padding(.horizontal)
                             .padding(.top, 20),
                         alignment: .topLeading

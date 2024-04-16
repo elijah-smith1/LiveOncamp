@@ -8,27 +8,22 @@
 import SwiftUI
 
 struct Events: View {
-//    @ObservedObject var viewmodel = eventViewModel()
+   @ObservedObject var viewmodel = eventViewModel()
     var body: some View {
         NavigationStack {
             ScrollView {
-                Text("Events")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("LTBL"))
                 LazyVStack(spacing: 32) {
-//                    ForEach(viewmodel.events, id: \.id) { events in
+                    ForEach(viewmodel.events, id: \.id) { events in
                         NavigationStack{
                             EventPreview()
                                 .frame(height: 400)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             Divider()
                         }
-//                    }
+                    }
                 }
             }
             .navigationDestination(for: Int.self) { events in
-                Text("events")
             }
         }
     }
