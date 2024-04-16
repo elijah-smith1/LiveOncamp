@@ -146,15 +146,12 @@ class UserData : ObservableObject {
     
     func checkFollowingAndFavoriteStatus(selectedUid: String) async throws -> String  {
         let db = Firestore.firestore()
-
         guard let loggedInUid = loggedInUid else {
             throw NSError(domain: "AppError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Logged in user ID is nil"])
         }
-
         // Check if the selected user is the logged-in user
         if loggedInUid == selectedUid {
             let userRef = db.collection("Users").document(loggedInUid)
-
             do {
                 let userDocument = try await userRef.getDocument()
                 let isVendor = userDocument.data()?["isVendor"] as? Bool ?? false

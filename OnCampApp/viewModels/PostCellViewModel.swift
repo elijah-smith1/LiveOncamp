@@ -10,13 +10,10 @@ import Firebase
 import FirebaseFirestore
 
 class PostCellViewModel: ObservableObject {
-
     let db = Firestore.firestore()
- 
     func fetchUser(for userId: String) async throws -> User {
         let userDocument = Userdb.document(userId)
         let documentSnapshot = try await userDocument.getDocument()
-
         let user: User
         do {
             user = try documentSnapshot.data(as: User.self)
@@ -29,15 +26,11 @@ class PostCellViewModel: ObservableObject {
     }
     
     func fetchLikeStatus(postId: String, userId: String) async throws -> Bool {
-       
-        
         // Define the reference to the specific like document for the user and post
         let likeRef = Postdb.document(postId).collection("likes").document(userId)
-        
         do {
             // Attempt to fetch the document
             let document = try await likeRef.getDocument()
-            
             // Check if the document exists to determine if the user has liked the post
             if document.exists {
                 return true

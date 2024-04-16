@@ -26,7 +26,7 @@ struct PostCell: View {
     @StateObject var viewModel = PostCellViewModel()
     
     var body: some View {
-        
+    
             
             NavigationLink(destination: DetailedPosts(post: post, likeCount: likeCount, repostCount: repostCount, isLiked: isLiked, isReposted: isReposted)) {
                 VStack {

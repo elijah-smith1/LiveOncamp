@@ -61,7 +61,6 @@ struct MessageCell: View {
                 HStack {
                     CircularProfilePictureView()
                         .frame(width: 40, height: 40)
-                    
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
                             Text(viewModel.username.isEmpty ? "didn't work" : viewModel.username )
@@ -72,7 +71,6 @@ struct MessageCell: View {
                             .font(.system(size: 15))
                     }
                     .foregroundColor(Color("LTBL"))
-                    
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -80,9 +78,7 @@ struct MessageCell: View {
                     viewModel.fetchRecentMessage(chatId: chats.id!)
                     viewModel.fetchName(patricipants: chats.participants)
                     // After fetching the recent message, check if viewModel.message is not nil before accessing its senderId
-                    if let message = viewModel.message {
-                        viewModel.loadUsername(otherParticipantId: viewModel.Otherparticipant)
-                    }
+                    viewModel.loadUsername(otherParticipantId: viewModel.Otherparticipant)
                 }
 
                 

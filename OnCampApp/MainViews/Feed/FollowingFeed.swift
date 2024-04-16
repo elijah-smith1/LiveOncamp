@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FollowingFeed: View {
-    @ObservedObject var viewModel = feedViewModel()
+    @StateObject var viewModel = feedViewModel()
     
     
     var body: some View {

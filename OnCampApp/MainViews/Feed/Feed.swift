@@ -40,6 +40,7 @@ struct Feed: View {
                                             print("Error fetching following posts: \(error.localizedDescription)")
                                         }
                                     }
+                                    
                                 case "Favorites":
                                     Task {
                                         do {
@@ -49,6 +50,7 @@ struct Feed: View {
                                             print("Error fetching following posts: \(error.localizedDescription)")
                                         }
                                     }
+                                    
                                 case "School":
                                     Task {
                                         do {

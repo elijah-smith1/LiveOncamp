@@ -15,4 +15,8 @@ let Vendordb = Firestore.firestore().collection("Vendors")
 let Chatdb = Firestore.firestore().collection("Chats")
 let Eventdb = Firestore.firestore().collection("Events")
 let loggedInUid = Auth.auth().currentUser?.uid
- 
+let db = Firestore.firestore()
+let Followingdb = db.collection("Following")
+let Followerdb = db.collection("Follower")
+let Favoritedb = db.collection("Favorites")
+//let UserChats = db.collection("")

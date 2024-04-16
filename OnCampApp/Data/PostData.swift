@@ -4,7 +4,7 @@
 //
 //  Created by Michael Washington on 10/13/23.
 //
-
+import Observation
 import Foundation
 import Firebase
 import Combine
@@ -12,118 +12,100 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 /* remove Favorite*/
 
-
-   
-    
-
 @MainActor
-class PostData: ObservableObject {
-    @Published var isLiked: Bool = false
+ class PostData: ObservableObject {
+    var isLiked: Bool = false
     static let shared = PostData()
-    @Published var posts: [Post] = []  // This will hold your posts and notify observers of any changes
+    var posts: [Post] = []  // This will hold your posts and notify observers of any changes
 
     enum PostOption: String, CaseIterable, Identifiable {
         case publicPost = "Public"
         case followersPost = "Followers"
         case favoritesPost = "Favorites"
-        
         var id: String { self.rawValue }
     }
     
-    static func fetchPublicPosts() async throws -> [String] {
-        var postIds = [String]()
-
+    static func fetchPublicPosts() async throws -> [Post] {
+        var posts = [Post]()
         let snapshot = try await Postdb
             .whereField("security", isEqualTo: PostOption.publicPost.rawValue)
             .order(by: "postedAt", descending: true)
             .limit(to: 25)
             .getDocuments()
-
         for document in snapshot.documents {
-            postIds.append(document.documentID)
+            var post = try document.data(as: Post.self)
+            post.id = document.documentID
+             posts.append(post)
         }
-        
-        print(postIds)
-        return postIds
+        print(posts)
+        return posts
     }
     
-    static func fetchPostsForIds(for userIds: [String]) async throws -> [String] {
-        // Reference to the Firestore collection "Posts"
+    static func fetchPostsForIds(for userIds: [String]) async throws -> [Post] {
         let collectionReference = Firestore.firestore().collection("Posts")
-        var allPostIds: [String] = []
+        var allPosts: [Post] = []
         do {
-            // Fetch the last 25 posts for each user ID in the array
             for userId in userIds {
-                let querySnapshot = try await collectionReference
-                    .whereField("postedBy", isEqualTo: userId)
-                    .limit(to: 25)
-                    .getDocuments()
-
-                // Extract post IDs and add them to the result array
-                let postIds = querySnapshot.documents.map { $0.documentID }
-                allPostIds.append(contentsOf: postIds)
+                // executing the search on the data base and limiting the result to 25
+                // need to add in some way to determine which ones to fetch after this 25. will start to track which post is actually viewed. but in a batch write at some point during session so im not writing everytime some one scrolls. or maybe as they are fetched
+                let snapshot = try await collectionReference.whereField("postedBy", isEqualTo: userId).limit(to: 25).getDocuments()
+                // takes the documents from the query result and ads them to the posts array by making a map of them
+                for document in snapshot.documents {
+                    var post = try document.data(as: Post.self)
+                    post.id = document.documentID
+                     allPosts.append(post)
+                }
             }
-
-            return allPostIds
+            return allPosts
         } catch {
-            // Propagate the error
+            // ig add some reporting at some point but fuck it
             throw error
         }
     }
     
 
     
-   static func fetchPostsByUser(userId: String) async throws -> [String] {
-        var postIds = [String]()
 
-        // Ensure that 'Postsdb' is a reference to the Firestore collection containing posts
-        // For example, if your posts collection is named "Posts", it should be initialized as follows:
-        let Postsdb = Firestore.firestore().collection("Posts")
-
-        let snapshot = try await Postsdb.whereField("postedBy", isEqualTo: userId).getDocuments()
-
+    static func fetchPostsByUser(userId: String) async throws -> [Post] {
+        var posts = [Post]()
+        let snapshot = try await Postdb.whereField("postedBy", isEqualTo: userId).getDocuments()
         for document in snapshot.documents {
-            postIds.append(document.documentID)
+            var post = try document.data(as: Post.self)
+            post.id = document.documentID
+             posts.append(post)
         }
-
-        print(postIds)
-        return postIds
+        print(posts)
+        return posts
     }
     
-    static func fetchRepostsforUID(Uid: String) async throws -> [String] {
+    static func fetchRepostsforUID(Uid: String) async throws -> [Post] {
         var postIds = [String]()
 
         // Ensure that 'Userdb' is a reference to the Firestore collection containing user documents
         // For example, if your users collection is named "users", it should be initialized as follows:
         // let Userdb = Firestore.firestore().collection("users")
-
         let snapshot = try await Userdb.document(Uid).collection("reposts").getDocuments()
-
         for document in snapshot.documents {
             postIds.append(document.documentID)
         }
-
-        print(postIds)
-        return postIds
+       let posts = try await self.fetchPostData(for: postIds)
+        return posts
     }
-    static func fetchLikesforUID(Uid: String) async throws -> [String] {
+     
+    static func fetchLikesforUID(Uid: String) async throws -> [Post] {
         var postIds = [String]()
-
         // Ensure that 'Userdb' is a reference to the Firestore collection containing user documents
         // For example, if your users collection is named "users", it should be initialized as follows:
         // let Userdb = Firestore.firestore().collection("users")
-
         let snapshot = try await Userdb.document(Uid).collection("likes").getDocuments()
-
         for document in snapshot.documents {
             postIds.append(document.documentID)
         }
-
-        print(postIds)
-        return postIds
+        let posts = try await self.fetchPostData(for: postIds)
+         return posts
+        
     }
-
-    
+     
     static func fetchPostData(for postIds: [String]) async throws -> [Post] {
         var posts: [Post] = []
         for postId in postIds {
@@ -132,11 +114,9 @@ class PostData: ObservableObject {
             guard let data = documentSnapshot.data(), documentSnapshot.exists else {
                 throw NSError(domain: "PostError", code: 404, userInfo: [NSLocalizedDescriptionKey: "Post not found"])
             }
-            
             // Fetch the mediaUrl
             let mediaUrl = data["mediaUrl"] as? String
             let pfpUrl = data["pfpUrl"] as? String
-
             if let postText = data["content"] as? String,
                let postedBy = data["postedBy"] as? String,
                let timestamp = data["postedAt"] as? Timestamp,
@@ -144,9 +124,7 @@ class PostData: ObservableObject {
                let repostCount = data["repostCount"] as? Int,
                let commentCount = data["commentCount"] as? Int,
                let username = data["username"] as? String {
-
                 let postedAt = Timestamp(date: timestamp.dateValue())
-
                 let post = Post(
                     id: documentSnapshot.documentID,
                     postText: postText,
@@ -317,7 +295,7 @@ class PostData: ObservableObject {
 
     // Call the function to fetch a specific user's posts
     func createComment(postID: String, commentText: String)  {
-        
+
         let db = Firestore.firestore()
         let commenterUid = Auth.auth().currentUser!.uid
        

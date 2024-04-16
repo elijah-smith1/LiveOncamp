@@ -17,10 +17,10 @@ class inboxViewModel: ObservableObject{
     init(){
         Task {
             do {
-                let channels = try await fetchChannels()
-                self.channels = channels
                 let chats = try await fetchChats()
                 self.chats = chats
+                let channels = try await fetchChannels()
+                self.channels = channels
                 //For each that runs fetch messages to return a message with each chat
                 //
             } catch {

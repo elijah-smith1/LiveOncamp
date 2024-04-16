@@ -8,6 +8,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseStorage
 
+
 struct CreatePost: View {
     @ObservedObject var postData = PostData()
     @State private var selectedOption: PostData.PostOption = .publicPost

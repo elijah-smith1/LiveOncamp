@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PublicFeed: View {
-    @ObservedObject var viewModel = feedViewModel()
+    @StateObject var viewModel = feedViewModel()
     
     
     var body: some View {
@@ -21,7 +21,7 @@ struct PublicFeed: View {
         }.onAppear{
             Task{
                 do{
-                    try await viewModel.fetchPublicPosts()
+//                    try await viewModel.fetchPublicPosts()
                 }
             }
         }

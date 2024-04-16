@@ -119,7 +119,6 @@ struct SignIn: View {
                     self.showAlert = true
                 } else {
                     // Login successful, proceed to MainView
-                    
                     self.loginSuccessful = true
                     print("sign in succesful")
                 }
