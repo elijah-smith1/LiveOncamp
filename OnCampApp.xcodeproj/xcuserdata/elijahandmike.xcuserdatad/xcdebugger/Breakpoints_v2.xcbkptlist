@@ -248,6 +248,21 @@
                   endingLineNumber = "29"
                   offsetFromSymbolStart = "792">
                </Location>
+               <Location
+                  uuid = "E1841E0A-9B16-45B0-91DB-97387FC30EEB - 817ec0632879204b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateMessage.body.getter : some"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/oncamp/OnCampApp/MainViews/Messages/CreateMessage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1132">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -290,6 +305,21 @@
                   moduleName = "OnCampApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/elijahandmike/Documents/WorkingOnCampRepository%20copy/OnCampApp/viewModels/ChatViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "868">
+               </Location>
+               <Location
+                  uuid = "2B443E5B-6DFD-4476-8C0F-778FE0D7045E - 30645309cc0a8eb5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in OnCampApp.ChatViewModel.sendMessage(chatId: Swift.String, messageContent: Swift.String) -&gt; ()"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/oncamp/OnCampApp/viewModels/ChatViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "73"
