@@ -106,23 +106,22 @@ class UserData : ObservableObject {
     
    static func getFollowingDocumentIds() async throws -> [String] {
       // Replace with your actual constant
-
         // Reference to the Firestore collection
         let collectionReference = Firestore.firestore().collection("Users").document(loggedInUid!).collection("Following")
-
         // Fetch documents from the collection
         do {
             let querySnapshot = try await collectionReference.getDocuments()
-
             // Extract document IDs from the querySnapshot
             let documentIds = querySnapshot.documents.map { $0.documentID }
-            
+            print("Here are the following Ids")
+            print(documentIds)
             return documentIds
         } catch {
             // Propagate the error
             throw error
         }
     }
+    
     static func getFavoriteDocumentIds() async throws -> [String] {
        // Replace with your actual constant
 

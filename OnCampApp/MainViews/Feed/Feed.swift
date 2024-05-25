@@ -32,33 +32,33 @@ struct Feed: View {
                                 selectedFeed = option
                                 switch selectedFeed {
                                 case "Following":
-                                    Task {
-                                        do {
-                                            try await viewmodel.fetchFollowingPosts()
+//                                    Task {
+//                                        do {
+//                                            try await viewmodel.fetchFollowingPosts()
                                             print ("Fetching following")
-                                        } catch {
-                                            print("Error fetching following posts: \(error.localizedDescription)")
-                                        }
-                                    }
+//                                        } catch {
+//                                            print("Error fetching following posts: \(error.localizedDescription)")
+//                                        }
+//                                    }
                                     
                                 case "Favorites":
-                                    Task {
-                                        do {
-                                            try await viewmodel.fetchFavoritePosts()
+//                                    Task {
+//                                        do {
+//                                            try await viewmodel.fetchFavoritePosts()
                                             print("fetching favorites")
-                                        } catch {
-                                            print("Error fetching following posts: \(error.localizedDescription)")
-                                        }
-                                    }
+//                                        } catch {
+//                                            print("Error fetching following posts: \(error.localizedDescription)")
+//                                        }
+//                                    }
                                     
                                 case "School":
-                                    Task {
-                                        do {
-                                            try await viewmodel.fetchPublicPosts()
-                                        } catch {
-                                            print("Error fetching following posts: \(error.localizedDescription)")
-                                        }
-                                    }
+//                                    Task {
+//                                        do {
+//                                            try await viewmodel.fetchPublicPosts()
+//                                        } catch {
+                                            print("fetching posts")
+//                                        }
+//                                    }
                                 default:
                                     break
                                 }
@@ -69,10 +69,15 @@ struct Feed: View {
                     }
                 }
                 .padding()
-                VStack(spacing: 0) {
-                    
-                    ForEach(viewmodel.Posts, id: \.id) { post in
-                        PostCell(post: post)
+                ScrollView {
+                    VStack(spacing: 0) {
+                        if selectedFeed == "Following" {
+                            FollowingFeed()
+                        } else if selectedFeed == "Favorites" {
+                            FavoritesFeed()
+                        } else if selectedFeed == "School" {
+                            SchoolFeed()
+                        }
                     }
                 }
             }.onAppear {

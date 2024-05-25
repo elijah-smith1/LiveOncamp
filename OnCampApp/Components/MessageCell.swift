@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 class MessageCellViewModel: ObservableObject {
     @StateObject var messageData = MessageData()
     @Published var username: String = ""

@@ -24,34 +24,22 @@ struct DetailedPostCell: View {
             HStack {
                 CircularProfilePictureView(profilePictureURL: post.pfpUrl)
                     .frame(width: 64, height: 64)
-
                 VStack(alignment: .leading, spacing: 2) {
                     Text(post.username)
                         .font(.headline)
-
                     Text("15m ago")
                         .font(.caption)
                         .foregroundColor(Color.gray)
                 }
-
                 Spacer()
             }
             .padding(.top, 16)
-
             Text(post.postText)
                 .multilineTextAlignment(.leading)
                 .padding(.top, 8)
-            
             if let mediaUrl = post.mediaUrl, let url = URL(string: mediaUrl) {
-                                      KFImage(url)
-                                          .resizable()
-                                          .aspectRatio(contentMode: .fill)
-                                          .frame(width: 300, height: 200)
-                                          .clipped()
-                                          .cornerRadius(8)
-                                          .padding(.top, 5)
-                                  }
-
+                ExpandableImageView(imageUrl: url)
+            }
             HStack(spacing: 20) {
                 Button {
                     isLiked.toggle() // Toggle the liked status

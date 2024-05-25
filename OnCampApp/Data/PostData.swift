@@ -17,7 +17,7 @@ import FirebaseFirestoreSwift
     var isLiked: Bool = false
     static let shared = PostData()
     var posts: [Post] = []  // This will hold your posts and notify observers of any changes
-
+     
     enum PostOption: String, CaseIterable, Identifiable {
         case publicPost = "Public"
         case followersPost = "Followers"
@@ -62,9 +62,6 @@ import FirebaseFirestoreSwift
             throw error
         }
     }
-    
-
-    
 
     static func fetchPostsByUser(userId: String) async throws -> [Post] {
         var posts = [Post]()
@@ -80,10 +77,6 @@ import FirebaseFirestoreSwift
     
     static func fetchRepostsforUID(Uid: String) async throws -> [Post] {
         var postIds = [String]()
-
-        // Ensure that 'Userdb' is a reference to the Firestore collection containing user documents
-        // For example, if your users collection is named "users", it should be initialized as follows:
-        // let Userdb = Firestore.firestore().collection("users")
         let snapshot = try await Userdb.document(Uid).collection("reposts").getDocuments()
         for document in snapshot.documents {
             postIds.append(document.documentID)
@@ -94,9 +87,7 @@ import FirebaseFirestoreSwift
      
     static func fetchLikesforUID(Uid: String) async throws -> [Post] {
         var postIds = [String]()
-        // Ensure that 'Userdb' is a reference to the Firestore collection containing user documents
-        // For example, if your users collection is named "users", it should be initialized as follows:
-        // let Userdb = Firestore.firestore().collection("users")
+        
         let snapshot = try await Userdb.document(Uid).collection("likes").getDocuments()
         for document in snapshot.documents {
             postIds.append(document.documentID)
@@ -157,18 +148,15 @@ import FirebaseFirestoreSwift
             print("User not logged in")
             return
         }
-
         let db = Firestore.firestore()
         let postRef = db.collection("Posts").document(postID)
         let userRef = db.collection("Users").document(userID)
-
         // Check if the post is already liked by the user
         postRef.collection("likes").document(userID).getDocument { (document, error) in
             if let error = error {
                 print("Error checking like status: \(error.localizedDescription)")
                 return
             }
-
             if let document = document, document.exists {
                 // Post is already liked by the user, so unlike it
                 postRef.collection("likes").document(userID).delete() { error in
@@ -185,7 +173,6 @@ import FirebaseFirestoreSwift
                     }
                 }
             } else {
-
                 postRef.collection("likes").document(userID).setData([:]) { error in
                     if let error = error {
                         print("Error liking post: \(error.localizedDescription)")
@@ -202,23 +189,21 @@ import FirebaseFirestoreSwift
             }
         }
     }
+     
     func unLikePost(postID: String){
         guard let userID = Auth.auth().currentUser?.uid else {
             print("User not logged in")
             return
         }
-
         let db = Firestore.firestore()
         let postRef = db.collection("Posts").document(postID)
         let userRef = db.collection("Users").document(userID)
-
         // Check if the post is already liked by the user
         postRef.collection("likes").document(userID).getDocument { (document, error) in
             if let error = error {
                 print("Error checking like status: \(error.localizedDescription)")
                 return
             }
-
             if let document = document, document.exists {
                 // Post is already liked by the user, so unlike it
                 postRef.collection("likes").document(userID).delete() { error in
@@ -235,7 +220,6 @@ import FirebaseFirestoreSwift
                     }
                 }
             } else {
-
                 postRef.collection("likes").document(userID).setData([:]) { error in
                     if let error = error {
                         print("Error liking post: \(error.localizedDescription)")
@@ -252,12 +236,12 @@ import FirebaseFirestoreSwift
             }
         }
     }
+     
     func repostPost(postID: String) {
         let userID = Auth.auth().currentUser!.uid
         let db = Firestore.firestore()
         let postRef = db.collection("Posts").document(postID)
         let userRef = db.collection("Users").document(userID)
-
         // Fetch the post document
         postRef.getDocument { (document, error) in
             if let document = document, document.exists {

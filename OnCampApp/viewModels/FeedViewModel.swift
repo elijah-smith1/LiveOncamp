@@ -10,13 +10,14 @@ import Foundation
 @MainActor
 class feedViewModel: ObservableObject {
     @Published var Posts: [Post] = []
+    @Published var FollowingPosts: [Post] = []
     
     func fetchFollowingPosts() async throws {
         do {
 
             let userIds = try await UserData.getFollowingDocumentIds()
            
-            self.Posts = try await PostData.fetchPostsForIds(for: userIds)
+            self.FollowingPosts = try await PostData.fetchPostsForIds(for: userIds)
         
 //             try await PostData.fetchPostData(for: postIds)
         } catch {

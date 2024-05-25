@@ -14,7 +14,7 @@ struct FollowingFeed: View {
     var body: some View {
         ScrollView {
                         VStack(spacing: 0) {
-                            ForEach(viewModel.Posts, id: \.id) { post in
+                            ForEach(viewModel.FollowingPosts, id: \.id) { post in
                                 PostCell(post: post)
                             }
                         }
