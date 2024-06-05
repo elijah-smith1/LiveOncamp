@@ -4,13 +4,18 @@ import FirebaseFirestore
 import Kingfisher
 
 struct PostCell: View {
+    @ObservedObject var postData = PostData()
+    
     @State private var isLiked: Bool = false
     @State private var isReposted: Bool = false
     @State private var user: User?
+    
     @State var likeCount: Int = 0
     @State var repostCount: Int = 0
+    @State var deleteaction: Bool = false
+    
     var post: Post
-
+    @State private var selectedOption: PostData.UserPostEditOptions = .deletePost
     @StateObject var viewModel = PostCellViewModel()
 
     var body: some View {
@@ -40,10 +45,27 @@ struct PostCell: View {
                                 .foregroundColor(Color("LTBL"))
 
                             Button {
-                                // Handle button action here
+                                deleteaction.toggle()
                             } label: {
                                 Image(systemName: "ellipsis")
                                     .foregroundColor(Color("LTBL"))
+                            }
+                            
+                            if deleteaction {
+                                VStack(spacing: 8) {
+                                    ForEach(PostData.UserPostEditOptions.allCases, id: \.self) { option in
+                                        Button(action: {
+                                            withAnimation {
+                                                deleteaction.toggle()
+                                            }
+                                        }) {
+                                            Text(option.rawValue)
+                                                .foregroundColor(.white)
+                                        }
+                                    }
+                                }
+                                .padding()
+                                .cornerRadius(8)
                             }
 //                          .contextMenu {
 //                              if post.postedBy == loggedInUserId {

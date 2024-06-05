@@ -24,6 +24,18 @@ import FirebaseFirestoreSwift
         case favoritesPost = "Favorites"
         var id: String { self.rawValue }
     }
+     
+     enum UserPostEditOptions: String, CaseIterable, Identifiable {
+         case deletePost = "Delete"
+         case privatePost = "Change Privacy"
+         var id: String { self.rawValue }
+     }
+     
+     enum ViewerPostEditOptions: String, CaseIterable, Identifiable {
+         case reportPost = "Report"
+         case interestsPost = "Not Interested"
+         var id: String { self.rawValue }
+     }
     
     static func fetchPublicPosts() async throws -> [Post] {
         var posts = [Post]()
