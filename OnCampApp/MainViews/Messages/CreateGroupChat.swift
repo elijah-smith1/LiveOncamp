@@ -70,11 +70,11 @@ struct CreateGroupChat: View {
                     }
                 
             }
-            NavigationLink(destination: ChannelFeed( channel: newChannel ?? Channel(participants: [], senders: [], security: "", title: "String", description: "String", imageUrl: "")), isActive: $navigateToChannel) {
-                    EmptyView()
-               }
-            NavigationLink(destination: Chat(chats: newChat ?? Chats( participants: [])), isActive: $navigateToChat){
-                EmptyView()
+            .navigationDestination(isPresented: $navigateToChannel) {
+                ChannelFeed(channel: newChannel ?? Channel(participants: [], senders: [], security: "", title: "String", description: "String", imageUrl: ""))
+            }
+            .navigationDestination(isPresented: $navigateToChat) {
+                Chat(chats: newChat ?? Chats(participants: []))
             }
         .padding()
         }

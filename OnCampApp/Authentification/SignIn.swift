@@ -9,63 +9,75 @@ import SwiftUI
 import FirebaseAuth
 
 struct SignIn: View {
-    
     @ObservedObject var viewModel = AuthViewModel()
-    
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) private var dismiss
+    @Binding var path: NavigationPath // Add NavigationPath binding
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var alertMessage: String = ""
     @State private var showAlert: Bool = false
     @State private var loginSuccessful: Bool = false
 
-    var body: some View{
-        if loginSuccessful{
-            tabBar()
+    var body: some View {
+        if loginSuccessful {
+            tabBar(path: $path)
         } else {
             content
         }
     }
+    
     var content: some View {
         NavigationStack {
             VStack {
-                Image(colorScheme == .dark ? "OnCampDark" : "OnCampLight")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 320,height: 120)
-                    .padding()
-                
                 HStack {
-                    Text("Welcome")
-                    Text("On")
+                    Text("Sign")
                         .foregroundColor(Color.blue)
                         .padding(.trailing, -5.0)
-                    Text("Camp!")
-                    
+                    Text("In!")
+                    Spacer()
+                    Button(action: {
+                        dismiss() // Navigate back to the root
+                    }) {
+                        Image(systemName: "arrow.left")
+                            .foregroundColor(.blue)
+                    }
                 }
+                .padding(.leading, 4.0)
                 .font(.largeTitle)
                 .fontWeight(.black)
                 .multilineTextAlignment(.center)
+                
                 Spacer()
-                VStack {
-                    TextField("Enter Your Email", text: $email)
-                        .font(.subheadline)
-                        .padding(12)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                        .padding(.horizontal,24)
-                    SecureField("Enter Your Password", text: $password)
-                        .font(.subheadline)
-                        .padding(12)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                        .padding(.horizontal,24)
+                
+                Text("Welcome Back to OnCamp!")
+                
+                Spacer()
+                
+                VStack(spacing: 16) {
+                    GroupBox {
+                        TextField("Enter Your Email", text: $email)
+                            .padding(6)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10)
+                            .padding(.horizontal, 12)
+                    }
+                    .frame(width: 370.0)
+                    .cornerRadius(30)
+                    
+                    GroupBox {
+                        SecureField("Enter Your Password", text: $password)
+                            .padding(6)
+                            .background(Color(.systemGray6))
+                            .padding(.horizontal, 12)
+                    }
+                    .frame(width: 370.0)
+                    .cornerRadius(30)
                 }
                 
-                
-                NavigationLink{
-                    forgotPassword()
-                }   label: {
+                NavigationLink {
+                    forgotPassword(path: $path)
+                } label: {
                     Text("Forgot Password?")
                         .font(.footnote)
                         .fontWeight(.semibold)
@@ -73,32 +85,35 @@ struct SignIn: View {
                         .padding(.trailing, 28)
                         .foregroundColor(Color("LTBL"))
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                    
                 }
+                
                 Spacer()
                 
                 Button {
                     login()
-                }label: {
+                } label: {
                     Text("Login")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .frame(width: 352, height: 44)
+                        .background(Color.blue)
                         .cornerRadius(8)
-                        .background(.blue)
                 }
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("Got it!")))
+                }
+                
                 Spacer()
                 
                 Divider()
                     .foregroundColor(Color("LTBL"))
                 
-                NavigationLink{
-                    SignUp()
-                }   label: {
-                    HStack{
+                NavigationLink {
+                    SignUp(path: $path)
+                } label: {
+                    HStack {
                         Text("Don't have an account?")
-                        
                         Text("Sign Up")
                             .fontWeight(.semibold)
                     }
@@ -108,34 +123,31 @@ struct SignIn: View {
                 .padding(.vertical, 16)
             }
         }
+        .ignoresSafeArea(.keyboard)
+        .navigationBarBackButtonHidden()
     }
-        func login() {
-            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-                if let error = error {
-                    // Handle login error
-                    
-                    self.alertMessage = error.localizedDescription
-                    print(self.alertMessage)
-                    self.showAlert = true
-                } else {
-                    // Login successful, proceed to MainView
-                    self.loginSuccessful = true
-                    print("sign in succesful")
-                }
+    
+    func login() {
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                self.alertMessage = error.localizedDescription
+                print(self.alertMessage)
+                self.showAlert = true
+            } else {
+                self.loginSuccessful = true
+                print("sign in successful")
             }
         }
-        
-    
-    
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            Group
-            {
-                SignIn()
-                    .preferredColorScheme(.light)
-                SignIn()
-                    .preferredColorScheme(.dark)
-            }
+    }
+}
+
+struct SignIn_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            SignIn(path: .constant(NavigationPath()))
+                .preferredColorScheme(.light)
+            SignIn(path: .constant(NavigationPath()))
+                .preferredColorScheme(.dark)
         }
     }
 }

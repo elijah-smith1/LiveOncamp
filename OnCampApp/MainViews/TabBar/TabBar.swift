@@ -1,25 +1,11 @@
-//
-//  tabBar.swift
-//  letsgetrich
-//
-//  Created by Michael Washington on 9/13/23.
-//
-
-
 import SwiftUI
 import Firebase
 import FirebaseFirestore
 import FirebaseMessaging
 
-
-
-
 struct tabBar: View {
-    
+    @Binding var path: NavigationPath // Add NavigationPath binding
 
-
-    
-    
     @EnvironmentObject var appState: AppState
     @StateObject var Tabviewmodel = tabViewModel()
     @StateObject var messages = inboxViewModel()
@@ -58,26 +44,21 @@ struct tabBar: View {
                     .tag(4)
             }
             .onAppear {
-                
                 if Tabviewmodel.userData.currentUser == nil {
                     Tabviewmodel.fetchCurrentUserIfNeeded()
                 }
-
             }
             .navigationBarBackButtonHidden()
         } else {
-            CreateAccount(uid: Auth.auth().currentUser!.uid)
+            CreateAccount(uid: Auth.auth().currentUser!.uid, path: $path)
         }
     }
 }
 
-
-
-//struct tabBar_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        tabBar()
-//            .environmentObject(UserData())
-//
-//    }
-//}
+struct tabBar_Previews: PreviewProvider {
+    static var previews: some View {
+        tabBar(path: .constant(NavigationPath()))
+            .environmentObject(UserData())
+            .environmentObject(AppState())
+    }
+}

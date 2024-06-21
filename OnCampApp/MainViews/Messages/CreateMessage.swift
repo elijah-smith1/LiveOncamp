@@ -17,7 +17,7 @@ struct CreateMessage: View {
     @State private var selectedUsers: [User] = []
     @Environment(\.presentationMode) var mode
     @State private var searchText = ""
-/* add in groupchat functionality to this code*/
+    
     var filteredUsers: [User] {
         if searchText.isEmpty {
             return viewmodel.users
@@ -31,39 +31,34 @@ struct CreateMessage: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(filteredUsers, id: \.username) { user in
-                        UserChatCell(user: user).onTapGesture {
-                            selectUser(user: user)
-                        }
+                        UserChatCell(user: user)
+                            .onTapGesture {
+                                selectUser(user: user)
+                            }
                         Divider()
                     }
                 }
-            }.toolbar {
+            }
+            .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Create Chat") {
-                            Task{
-                                do{
-                                    await createChat(selectedUsers: selectedUsers)
-                                }
-                            }
+                    Button("Create Chat") {
+                        Task {
+                            await createChat(selectedUsers: selectedUsers)
                         }
-                        .disabled(selectedUsers.isEmpty) // Disable the button if no users are selected
                     }
+                    .disabled(selectedUsers.isEmpty) // Disable the button if no users are selected
+                }
             }
             .navigationTitle("New Message")
             .padding()
-            // Button for creating a group chat
         }
         .searchable(text: $searchText, prompt: "Search Users")
-        .onSubmit(of: .search, {
-            // Handle search submission if needed
-        })
-        NavigationLink(destination: ChannelFeed( channel: newChannel ?? Channel(participants: [], senders: [], security: "", title: "String", description: "String", imageUrl: "")), isActive: $navigateToChannel) {
-                EmptyView()
-           }
-        NavigationLink(destination: Chat(chats: newChat ?? Chats( participants: [])), isActive: $navigateToChat){
-            EmptyView()
+        .navigationDestination(isPresented: $navigateToChannel) {
+            ChannelFeed(channel: newChannel ?? Channel(participants: [], senders: [], security: "", title: "String", description: "String", imageUrl: ""))
         }
-        
+        .navigationDestination(isPresented: $navigateToChat) {
+            Chat(chats: newChat ?? Chats(participants: []))
+        }
     }
 
     private func createChat(selectedUsers: [User]) async {
@@ -97,7 +92,6 @@ struct CreateMessage: View {
             selectedUsers.append(user)
         }
     }
-
 }
 
 struct CreateMessage_Previews: PreviewProvider {

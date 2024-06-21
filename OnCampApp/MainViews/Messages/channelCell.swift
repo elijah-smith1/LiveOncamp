@@ -29,7 +29,7 @@ struct ChannelCell: View {
                        VStack(alignment: .leading, spacing: 4) {
                            Text("channel.title")
                                .font(.headline)
-                           Text(viewModel.content.isEmpty ?? true ? "didn't work" : viewModel.content ?? "didn't work")
+                           Text(viewModel.content.isEmpty ? "didn't work" : viewModel.content)
                            // Display recent message text and timestamp
                            
 //                               Text(recentMessage.content)
