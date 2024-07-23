@@ -1,14 +1,7 @@
-//
-//  TicketConfimation.swift
-//  OnCampApp
-//
-//  Created by Michael Washington on 7/21/24.
-//
-
 import SwiftUI
 import Stripe
 
-struct TicketConfirmationFlow: View {
+public struct TicketConfirmationFlow: View {
     let event: Event
     let addons: Set<String>
     let totalPrice: Double
@@ -17,7 +10,7 @@ struct TicketConfirmationFlow: View {
     @State private var paymentIntent: STPPaymentIntent?
     @State private var isLoading = false
 
-    var body: some View {
+    public var body: some View {
         NavigationView {
             VStack {
                 switch currentStep {
@@ -44,13 +37,13 @@ struct TicketConfirmationFlow: View {
     }
 }
 
-struct TicketRecapView: View {
+public struct TicketRecapView: View {
     let event: Event
     let addons: Set<String>
     let totalPrice: Double
     let onNext: () -> Void
 
-    var body: some View {
+    public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 Text("Ticket Summary")
@@ -97,14 +90,21 @@ struct TicketRecapView: View {
     }
 }
 
-struct StripePaymentView: View {
+public struct StripePaymentView: View {
     let totalPrice: Double
     let onPaymentSuccess: () -> Void
     let onPaymentFailure: (Error) -> Void
     @State private var paymentMethodParams: STPPaymentMethodParams?
     @State private var isLoading = false
+    private var authenticationContext = PaymentAuthenticationContext()
 
-    var body: some View {
+    public init(totalPrice: Double, onPaymentSuccess: @escaping () -> Void, onPaymentFailure: @escaping (Error) -> Void) {
+        self.totalPrice = totalPrice
+        self.onPaymentSuccess = onPaymentSuccess
+        self.onPaymentFailure = onPaymentFailure
+    }
+
+    public var body: some View {
         VStack(spacing: 20) {
             Text("Enter Payment Details")
                 .font(.title2)
@@ -129,7 +129,7 @@ struct StripePaymentView: View {
         .background(Color("LTBLALT"))
     }
 
-    func processPayment() {
+    private func processPayment() {
         guard let paymentMethodParams = paymentMethodParams else { return }
         isLoading = true
 
@@ -139,7 +139,7 @@ struct StripePaymentView: View {
         let paymentIntentParams = STPPaymentIntentParams(clientSecret: clientSecret)
         paymentIntentParams.paymentMethodParams = paymentMethodParams
 
-        STPPaymentHandler.shared().confirmPayment(paymentIntentParams, with: self) { status, paymentIntent, error in
+        STPPaymentHandler.shared().confirmPayment(paymentIntentParams, with: authenticationContext) { status, paymentIntent, error in
             DispatchQueue.main.async {
                 isLoading = false
                 switch status {
@@ -159,47 +159,46 @@ struct StripePaymentView: View {
     }
 }
 
-extension StripePaymentView: STPAuthenticationContext {
+class PaymentAuthenticationContext: NSObject, STPAuthenticationContext {
     func authenticationPresentingViewController() -> UIViewController {
         // Return the current view controller
         return UIApplication.shared.windows.first!.rootViewController!
     }
 }
 
-struct StripePaymentCardTextField: UIViewRepresentable {
+public struct StripePaymentCardTextField: UIViewRepresentable {
     @Binding var paymentMethodParams: STPPaymentMethodParams?
 
-    func makeUIView(context: Context) -> STPPaymentCardTextField {
+    public func makeUIView(context: Context) -> STPPaymentCardTextField {
         let paymentCardTextField = STPPaymentCardTextField()
         paymentCardTextField.delegate = context.coordinator
         return paymentCardTextField
     }
 
-    func updateUIView(_ uiView: STPPaymentCardTextField, context: Context) {}
+    public func updateUIView(_ uiView: STPPaymentCardTextField, context: Context) {}
 
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
 
-    class Coordinator: NSObject, STPPaymentCardTextFieldDelegate {
+    public class Coordinator: NSObject, STPPaymentCardTextFieldDelegate {
         var parent: StripePaymentCardTextField
 
         init(_ parent: StripePaymentCardTextField) {
             self.parent = parent
         }
 
-        func paymentCardTextFieldDidChange(_ textField: STPPaymentCardTextField) {
-            if let cardParams = textField.cardParams {
-                parent.paymentMethodParams = STPPaymentMethodParams(card: cardParams, billingDetails: nil, metadata: nil)
-            }
+        public func paymentCardTextFieldDidChange(_ textField: STPPaymentCardTextField) {
+            let cardParams = textField.cardParams
+            parent.paymentMethodParams = STPPaymentMethodParams(card: cardParams, billingDetails: nil, metadata: nil)
         }
     }
 }
 
-struct PurchaseCompletedView: View {
+public struct PurchaseCompletedView: View {
     let onDone: () -> Void
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             Color("LTBL")
                 .edgesIgnoringSafeArea(.all)
@@ -235,6 +234,3 @@ struct PurchaseCompletedView: View {
         }
     }
 }
-//#Preview {
-//    TicketConfirmation(event: event, addons: selectedAddons, totalPrice: totalPrice)
-//}

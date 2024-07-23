@@ -21,8 +21,8 @@
 		408B6C5B2B899B56003C5473 /* chatInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B6C5A2B899B56003C5473 /* chatInfo.swift */; };
 		408B6C5D2B89A409003C5473 /* channelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B6C5C2B89A409003C5473 /* channelCell.swift */; };
 		408B6C5F2B8E1096003C5473 /* GCSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B6C5E2B8E1096003C5473 /* GCSetup.swift */; };
+		4097013C2C4F460400111B30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4097013B2C4F460400111B30 /* GoogleService-Info.plist */; };
 		40B5BF042C021FD4006FF27B /* expandedPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B5BF032C021FD4006FF27B /* expandedPhotoView.swift */; };
-		40BEC6462C26FA51003042C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40BEC6452C26FA51003042C9 /* GoogleService-Info.plist */; };
 		40BEC6482C2706D2003042C9 /* messagecellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BEC6472C2706D2003042C9 /* messagecellVM.swift */; };
 		40FD3A4B2B830FC400A18167 /* AddProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FD3A4A2B830FC400A18167 /* AddProduct.swift */; };
 		5D3AA09B2B09107200AB8517 /* searchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3AA09A2B09107200AB8517 /* searchViewModel.swift */; };
@@ -186,8 +186,8 @@
 		408B6C5E2B8E1096003C5473 /* GCSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCSetup.swift; sourceTree = "<group>"; };
 		40930FA52BABC6EE006DFFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		40930FA62BAC84E8006DFFBA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		4097013B2C4F460400111B30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40B5BF032C021FD4006FF27B /* expandedPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = expandedPhotoView.swift; sourceTree = "<group>"; };
-		40BEC6452C26FA51003042C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40BEC6472C2706D2003042C9 /* messagecellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messagecellVM.swift; sourceTree = "<group>"; };
 		40FD3A4A2B830FC400A18167 /* AddProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProduct.swift; sourceTree = "<group>"; };
 		5D3AA09A2B09107200AB8517 /* searchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchViewModel.swift; sourceTree = "<group>"; };
@@ -476,6 +476,7 @@
 		A6EB1BFC2AD3310600A7A89F = {
 			isa = PBXGroup;
 			children = (
+				4097013B2C4F460400111B30 /* GoogleService-Info.plist */,
 				A6EB1C072AD3310600A7A89F /* OnCampApp */,
 				A6EB1C182AD3310800A7A89F /* OnCampAppTests */,
 				A6EB1C222AD3310800A7A89F /* OnCampAppUITests */,
@@ -509,7 +510,6 @@
 				A6EB1C0C2AD3310800A7A89F /* Assets.xcassets */,
 				A6EB1C0E2AD3310800A7A89F /* Preview Content */,
 				402CA6DC2B7B2423001DBCB2 /* AppState.swift */,
-				40BEC6452C26FA51003042C9 /* GoogleService-Info.plist */,
 			);
 			path = OnCampApp;
 			sourceTree = "<group>";
@@ -733,7 +733,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					A6EB1C042AD3310600A7A89F = {
 						CreatedOnToolsVersion = 14.3;
@@ -779,8 +779,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6EB1C102AD3310800A7A89F /* Preview Assets.xcassets in Resources */,
-				40BEC6462C26FA51003042C9 /* GoogleService-Info.plist in Resources */,
 				A6EB1C0D2AD3310800A7A89F /* Assets.xcassets in Resources */,
+				4097013C2C4F460400111B30 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +993,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1054,6 +1055,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
