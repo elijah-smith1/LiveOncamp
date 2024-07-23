@@ -1,7 +1,7 @@
 import SwiftUI
 import Stripe
 
-public struct TicketConfirmationFlow: View {
+struct TicketConfirmationFlow: View {
     let event: Event
     let addons: Set<String>
     let totalPrice: Double
@@ -10,7 +10,7 @@ public struct TicketConfirmationFlow: View {
     @State private var paymentIntent: STPPaymentIntent?
     @State private var isLoading = false
 
-    public var body: some View {
+    var body: some View {
         NavigationView {
             VStack {
                 switch currentStep {
@@ -234,3 +234,6 @@ public struct PurchaseCompletedView: View {
         }
     }
 }
+//#Preview {
+//    TicketConfirmation(event: event, addons: selectedAddons, totalPrice: totalPrice)
+//}

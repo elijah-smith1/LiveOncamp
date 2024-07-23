@@ -58,7 +58,7 @@ struct DetailedEvent: View {
         }
         .navigationBarHidden(true)
         .sheet(isPresented: $showTicketConfirmation) {
-            TicketConfirmationFlow(event: event, addons: selectedAddons, totalPrice: totalPrice)
+            TicketConfirmation(event: event, addons: selectedAddons, totalPrice: totalPrice)
         }
     }
     
