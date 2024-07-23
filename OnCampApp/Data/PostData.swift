@@ -71,6 +71,7 @@ import FirebaseFirestoreSwift
             return allPosts
         } catch {
             // ig add some reporting at some point but fuck it
+            // still fuck it fr
             throw error
         }
     }
@@ -83,7 +84,9 @@ import FirebaseFirestoreSwift
             post.id = document.documentID
              posts.append(post)
         }
-        print(posts)
+//        print(" fetchPostsforUID ran :::::::::: DEBUG:::" , posts)
+        
+        
         return posts
     }
     
@@ -94,19 +97,24 @@ import FirebaseFirestoreSwift
             postIds.append(document.documentID)
         }
        let posts = try await self.fetchPostData(for: postIds)
+        print(" fetchRepostsforUID ran :::::::::: DEBUG::: ", posts)
+        
         return posts
     }
      
     static func fetchLikesforUID(Uid: String) async throws -> [Post] {
         var postIds = [String]()
-        
         let snapshot = try await Userdb.document(Uid).collection("likes").getDocuments()
         for document in snapshot.documents {
             postIds.append(document.documentID)
         }
-        let posts = try await self.fetchPostData(for: postIds)
-         return posts
         
+        let posts = try await self.fetchPostData(for: postIds)
+        print(" fetchLikesforUID ran :::::::::: DEBUG:::" , posts)
+        print(posts)
+        
+         return posts
+
     }
      
     static func fetchPostData(for postIds: [String]) async throws -> [Post] {
@@ -150,10 +158,9 @@ import FirebaseFirestoreSwift
 
         return posts
     }
-   
-    
-   
-
+     func isLiked(postId: String, userId: String){
+         // Port over functionality from likePost to seperate it
+     }
 
     func likePost(postID: String ) {
         guard let userID = Auth.auth().currentUser?.uid else {

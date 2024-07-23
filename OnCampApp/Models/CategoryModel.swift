@@ -13,10 +13,25 @@ struct CategoryModel: Identifiable, Hashable {
     var title: String
 }
 
+struct SocialCategoryModel: Identifiable, Hashable {
+    var id: UUID = .init()
+    var icon: String
+    var title: String
+}
+
+// Category list for Marketplace
 var categoryList: [CategoryModel] = [
-    CategoryModel(icon: "", title: "All"),
-    CategoryModel(icon: "hair", title: "Hair"),
-    CategoryModel(icon: "clothes", title: "Clothes"),
-    CategoryModel(icon: "store", title: "Store"),
-    CategoryModel(icon: "AUCS", title: "AUCS"),
+    CategoryModel(icon: "circle", title: "All"),
+    CategoryModel(icon: "scissors", title: "Hair"),
+    CategoryModel(icon: "tshirt", title: "Clothes"),
+    CategoryModel(icon: "cart", title: "Store"),
+    CategoryModel(icon: "leaf", title: "AUCS"),
+]
+
+// Category list for Social
+var socialcategoryList: [CategoryModel] = [
+    CategoryModel(icon: "circle", title: "All"),
+    CategoryModel(icon: "trophy", title: "Tournaments"),
+    CategoryModel(icon: "building.columns", title: "School"),
+    CategoryModel(icon: "party.popper", title: "Parties"),
 ]

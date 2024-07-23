@@ -278,6 +278,21 @@
                   endingLineNumber = "29"
                   offsetFromSymbolStart = "1132">
                </Location>
+               <Location
+                  uuid = "E1841E0A-9B16-45B0-91DB-97387FC30EEB - 3764f51fdb7d480c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OnCampApp.CreateMessage.body.getter : some"
+                  moduleName = "OnCampApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elijahandmike/Documents/LiveOncamp/OnCampApp/MainViews/Messages/CreateMessage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "792">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

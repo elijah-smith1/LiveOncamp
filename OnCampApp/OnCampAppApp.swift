@@ -13,6 +13,29 @@ import FirebaseMessaging
 import UserNotifications
 import Foundation
 
+
+@main
+struct OnCampAppApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var userData = UserData()
+    @StateObject var appstate = AppState()
+    @State private var path = NavigationPath() // Initialize the navigation path
+
+    var body: some Scene {
+        WindowGroup {
+            if Auth.auth().currentUser?.uid != nil {
+                tabBar(path: $path)
+                    .environmentObject(userData)
+                    .environmentObject(appstate)
+            } else {
+                Landing(path: $path) // Pass the navigation path to Landing view
+                    .environmentObject(userData)
+                    .environmentObject(appstate)
+            }
+        }
+    }
+}
+
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
@@ -25,7 +48,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options: authOptions,
             completionHandler: { _, _ in }
         )
-
+ 
         application.registerForRemoteNotifications()
 
         return true
@@ -33,7 +56,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
-        print("Firebase registration token: \(String(describing: fcmToken))")
+//        print("Firebase registration token: \(String(describing: fcmToken))") was for ensuring i was correctly getting FCM token
 
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
@@ -55,29 +78,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             if let error = error {
                 print("Error fetching FCM registration token: \(error)")
             } else if let token = token {
-                print("FCM registration token: \(token)")
-            }
-        }
-    }
-}
-
-@main
-struct OnCampAppApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var userData = UserData()
-    @StateObject var appstate = AppState()
-    @State private var path = NavigationPath() // Initialize the navigation path
-
-    var body: some Scene {
-        WindowGroup {
-            if Auth.auth().currentUser?.uid != nil {
-                tabBar(path: $path)
-                    .environmentObject(userData)
-                    .environmentObject(appstate)
-            } else {
-                Landing(path: $path) // Pass the navigation path to Landing view
-                    .environmentObject(userData)
-                    .environmentObject(appstate)
+//                print("FCM registration token: \(token)")
             }
         }
     }

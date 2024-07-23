@@ -1,0 +1,100 @@
+# Morning Star International, Inc. App Details
+
+## Project Timeline
+
+We propose an efficient timeline that accommodates our academic commitments while ensuring timely delivery:
+
+Phase 1:
+- MVP Development: 30 days
+- Production Version Development: 30 days
+- Academic Break: 15 days (last half of August for start of semester)
+- Total Phase 1 Duration: 75 days
+
+Phase 2:
+- Development: 45 days
+- Beta Testing: 15 days
+- Total Phase 2 Duration: 60 days
+
+Total Project Duration: 135 days (including the 15-day academic break)
+
+## Project Cost
+
+Total Project Cost: $23,500
+
+- Phase 1 (including Admin App): $15,000
+- Phase 2: $8,500
+
+## Technology Stack
+
+- Mobile Application: Flutter (iOS and Android)
+- Admin Application: Flutter
+- Backend and Database: Firebase
+  - Firestore for real-time database
+  - Firebase Authentication for user management
+  - Firebase Cloud Functions for serverless backend logic
+  - Firebase Cloud Storage for file storage
+- Payment Processing: Stripe
+- Additional considerations for religious organizations:
+  - Integration with church management systems (e.g., Planning Center, Church Community Builder)
+  - Video streaming capabilities for live services (e.g., Vimeo, YouTube Live API)
+
+## Security and Data Protection
+
+Firebase Security Features:
+1. Data Security:
+   - Firestore Security Rules for granular access control
+   - Data encryption at rest and in transit
+
+2. Authentication:
+   - Secure sign-in methods including email/password, phone, and social media integrations
+   - Multi-factor authentication option
+
+3. Cloud Functions:
+   - Secure execution environment
+   - Configurable access controls
+
+4. Compliance:
+   - GDPR and CCPA compliant
+
+Additional Security Measures for Religious Organizations:
+- Implement role-based access control for sensitive information
+- Regular security audits and penetration testing
+- Data retention and deletion policies in compliance with local regulations
+- Secure handling of donation information and financial data
+- Privacy controls for member information and communication
+
+Stripe Integration for Secure Payments:
+1. PCI Compliance: Stripe handles card data on their secure servers
+2. Seamless integration using Stripe's Flutter SDK
+3. Secure payment intents created via Firebase Cloud Functions
+4. Tokenization of card details and 3D Secure support
+5. Secure webhook handling for payment events
+6. Comprehensive testing environment before going live
+
+## Key Deliverables
+
+1. Flutter-based mobile application for iOS and Android, tailored for Morning Star International, Inc.
+2. Flutter-based admin application for organization management
+3. Firebase backend setup and configuration
+4. Comprehensive documentation
+5. Integration with existing church management systems (if applicable)
+6. Training materials for staff and volunteers
+
+## Project Management
+
+As a team deeply invested in this project's success, we offer:
+- Direct, transparent communication with you and your organization
+- Weekly video call updates on project progress
+- Continuous integration and deployment for rapid improvements
+- Regular demos of completed work to ensure alignment with organizational needs
+- Clear updates on project progress and our academic schedule
+
+## Terms and Conditions
+
+1. Payment schedule:  
+   - 40% upon project initiation
+   - 30% upon completion of Phase 1
+   - 30% upon final delivery of Phase 2
+2. Timeline starts from the date of the first payment
+3. Any changes to the agreed scope may affect the timeline and cost
+4. Our academic schedule has been factored into the project timeline

@@ -8,52 +8,70 @@ struct EventPreview: View {
     
     var body: some View {
         NavigationStack {
-            // Using LazyVGrid to create a grid layout
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(viewModel.events, id: \.id) { event in
-                    NavigationLink(destination: DetailedEvent(event: event)) {
-                        VStack(spacing: 8) {
-                            EventImageCarousel(imageUrls: event.imageUrls ?? [""])
-                                .frame(height: 320)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            
-                            VStack(alignment: .leading) {
-                                Text(event.title)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("LTBL"))  // Custom color
-                                
-                                Text("\(event.participants) participants")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                
-                                Text("Hosted by \(event.host)")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(viewModel.events, id: \.id) { event in
+                        NavigationLink(destination: DetailedEvent(event: event)) {
+                            GroupBox {
+                                GroupBox {
+                                    VStack {
+                                        EventImageCarousel(imageUrls: event.imageUrls ?? [""])
+                                            .frame(height: 120)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        
+                                        VStack{
+                                            Text(event.title)
+                                                .font(.headline)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                                .multilineTextAlignment(.center)
+                                            
+                                            Text(formatParticipants(event.participants))
+                                                .font(.caption)
+                                                .foregroundColor(.white)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            
+                                            Text("Hosted by \(event.host)")
+                                                .font(.caption)
+                                                .foregroundColor(.white)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .fixedSize(horizontal: false, vertical: true)  // Ensure proper wrapping
+                                            
+                                            HStack {
+                                                Text("$5-10")
+                                                    .foregroundColor(.white)
+                                            }
+                                            .padding(.top, 5.0)
+                                        }
+                                        .padding(.horizontal)
+                                    }
+                                    .padding(.vertical)
+                                }
+                                .groupBoxStyle(.blue)
+                                .frame(height: 350)  // Standardize height
                             }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
-                            
-                            Spacer()
-                            
-                            HStack {
-                                Text("$5-10")
-                                    .foregroundColor(.primary)
-                            }
+                            .groupBoxStyle(.lightBlue)
+                            .frame(height: 380)  
                         }
-                        .padding(.horizontal)
-                        .background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
+                .padding()
             }
-            .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
     }
+    
+    // Utility function to format participant numbers
+    private func formatParticipants(_ count: Int) -> String {
+        if count >= 1000 {
+            return String(format: "%.1f", Double(count) / 1000) + "k participants"
+        } else {
+            return "\(count) participants"
+        }
+    }
 }
 
-struct EventPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        EventPreview()
-    }
+#Preview{
+    EventPreview()
+    
 }

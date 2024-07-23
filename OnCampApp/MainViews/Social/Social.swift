@@ -1,48 +1,69 @@
 import SwiftUI
 
 struct Social: View {
-    let categories = ["All", "Tournament", "School", "Parties"]
-    @State private var selectedCategoryIndex = 0
+    @State private var selectedCategory: String = "All"
     @State private var showingSearchView = false
     @State private var messageNotificationCount = 2
     @State private var notificationCount = 5
+    @State private var titleOffset: CGFloat = -300 // Start title offscreen
+    @State private var titleScale: CGFloat = 0.5 // Start small for bounce-in effect
+    @State private var eventsOffset: CGFloat = -300
+    @State private var pickerOffset: CGFloat = -300
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                customSearchBar
-                ScrollView {
-                    VStack {
-                        featuredEventsTitle
-                        instagramStyleBoxes
-                        categoryPicker
-                        contentSwitcherView
-                    }
-                    .padding(.bottom, 20)
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    HStack(spacing: 0) {  // Ensures the texts are touching
+                HStack {
+                    HStack(spacing: 0) {
                         Text("Social")
-                            .foregroundColor(Color("LTBL")) // Custom color, ensure this exists in your assets
+                            .foregroundColor(Color("LTBL"))
                             .font(.title)
+                            .italic()
+                            .bold()
+                            .offset(x: titleOffset)
+                            .scaleEffect(titleScale)
+                            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.1), value: titleOffset)
                         
-                        Text("Hub")
-                            .foregroundColor(.blue) // Blue color for "Hub"
+                        Text("Hub!")
+                            .foregroundColor(.blue)
                             .font(.title)
+                            .italic()
+                            .bold()
+                            .offset(x: titleOffset)
+                            .scaleEffect(titleScale)
+                            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.1), value: titleOffset)
                     }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 20) {
+                    Spacer()
+                    HStack(spacing: 16) {
                         NavigationLink(destination: Messages()) {
                             BadgeView(iconName: "message", count: messageNotificationCount)
+                                .font(.system(size: 24))
                         }
                         NavigationLink(destination: NotificationsView()) {
                             BadgeView(iconName: "bell", count: notificationCount)
+                                .font(.system(size: 24))
                         }
                     }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                .onAppear {
+                    titleOffset = 0
+                    titleScale = 1.0
+                    eventsOffset = 0
+                    pickerOffset = 0
+                }
+
+                customSearchBar
+
+                ScrollView {
+                    VStack {
+                        featuredEventsTitle
+                        featuredEventsGrid
+                        categoryScroller
+                        contentSwitcherView
+                    }
+                    .padding(.bottom, 20)
                 }
             }
         }
@@ -60,7 +81,7 @@ struct Social: View {
             }
             .padding(8)
             .background(Color.white)
-            .cornerRadius(10)
+            .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.blue, lineWidth: 1)
@@ -79,39 +100,53 @@ struct Social: View {
             .fontWeight(.bold)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
+            .offset(y: eventsOffset)
+            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.2), value: eventsOffset)
     }
 
-    var instagramStyleBoxes: some View {
-        HStack {
-            ForEach(0..<3) { _ in
-                Rectangle()
-                    .frame(width: 120, height: 160)
-                    .overlay(Rectangle().stroke(Color.cyan, lineWidth: 2))
+    var featuredEventsGrid: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHGrid(rows: [GridItem(.fixed(160))], spacing: 10) {
+                ForEach(0..<6) { _ in // Adjust the range based on your data
+                    Rectangle()
+                        .frame(width: 120, height: 160)
+                        .overlay(Rectangle().stroke(Color.cyan, lineWidth: 2))
+                        .padding(.horizontal, 5)
+                }
             }
+            .padding(.horizontal)
+            .offset(y: eventsOffset)
+            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.3), value: eventsOffset)
         }
-        .padding(.horizontal)
     }
 
-    var categoryPicker: some View {
-        Picker("Categories", selection: $selectedCategoryIndex) {
-            ForEach(categories.indices, id: \.self) { index in
-                Text(categories[index]).tag(index)
+    var categoryScroller: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(socialcategoryList, id: \.id) { category in
+                    Button(action: {
+                        selectedCategory = category.title
+                    }) {
+                        CategoryItem(category: category, isSelected: selectedCategory == category.title)
+                    }
+                }
             }
+            .padding()
+            .offset(y: pickerOffset)
+            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.4), value: pickerOffset)
         }
-        .pickerStyle(.segmented)
-        .padding()
     }
 
     var contentSwitcherView: some View {
         Group {
-            switch selectedCategoryIndex {
-            case 0:
+            switch selectedCategory {
+            case "All":
                 AllEvents()
-            case 1:
+            case "Tournaments":
                 TournamentEvents()
-            case 2:
+            case "School":
                 SchoolEvents()
-            case 3:
+            case "Parties":
                 PartyEvents()
             default:
                 EmptyView()
@@ -119,6 +154,7 @@ struct Social: View {
         }
     }
 }
+
 struct BadgeView: View {
     var iconName: String
     var count: Int
@@ -139,8 +175,6 @@ struct BadgeView: View {
     }
 }
 
-struct Social_Previews: PreviewProvider {
-    static var previews: some View {
-        Social()
-    }
+#Preview {
+    Social()
 }

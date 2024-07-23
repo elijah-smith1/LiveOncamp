@@ -42,7 +42,8 @@ struct SignUp: View {
                         .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.1), value: titleOffset)
                     Spacer()
                     Button(action: {
-                        path.removeLast()
+                        dismiss()
+                      //  path.removeLast() // breaks everytime you attempt to navigate back to landing
                     }) {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.blue)

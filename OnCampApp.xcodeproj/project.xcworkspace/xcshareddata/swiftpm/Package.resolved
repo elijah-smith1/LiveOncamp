@@ -1,5 +1,8 @@
 {
-  "originHash" : "21e0ad1246818b9c019df4a0423c2d9f4d078d334774cda2fee80c832cdf6fb9",
+<<<<<<< Updated upstream
+  "originHash" : "1695f446bb698906691af20dd9981a945890f490a22b318d37efc107fa0820e1",
+=======
+>>>>>>> Stashed changes
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -15,17 +18,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/app-check.git",
       "state" : {
-        "revision" : "076b241a625e25eac22f8849be256dfb960fcdfe",
-        "version" : "10.19.1"
+        "revision" : "3b62f154d00019ae29a71e9738800bb6f18b236d",
+        "version" : "10.19.2"
       }
     },
     {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/firebase-ios-sdk.git",
+      "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "8bcaf973b1d84e119b7c7c119abad72ed460979f",
-        "version" : "10.27.0"
+        "revision" : "03189348b7798fe94b892a35883f1dc745814fe0",
+        "version" : "10.28.0"
       }
     },
     {
@@ -33,8 +36,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "70df02431e216bed98dd461e0c4665889245ba70",
-        "version" : "10.27.0"
+        "revision" : "fe727587518729046fc1465625b9afd80b5ab361",
+        "version" : "10.28.0"
       }
     },
     {
@@ -51,8 +54,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "26c898aed8bed13b8a63057ee26500abbbcb8d55",
-        "version" : "7.13.1"
+        "revision" : "57a1d307f42df690fdef2637f3e5b776da02aad6",
+        "version" : "7.13.3"
       }
     },
     {
@@ -69,8 +72,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/gtm-session-fetcher.git",
       "state" : {
-        "revision" : "bc8972686f8797713af26b8eb24e85e2a6b972a3",
-        "version" : "3.4.0"
+        "revision" : "0382ca27f22fb3494cf657d8dc356dc282cd1193",
+        "version" : "3.4.1"
       }
     },
     {
@@ -119,6 +122,15 @@
       }
     },
     {
+      "identity" : "stripe-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/stripe/stripe-ios.git",
+      "state" : {
+        "revision" : "e4a08652aaca9c08440d6a8055c6e721d6fa043e",
+        "version" : "23.28.1"
+      }
+    },
+    {
       "identity" : "swift-protobuf",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
@@ -128,5 +140,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

@@ -1,6 +1,67 @@
 import SwiftUI
 
+/*
+ class ProfileViewModel: ObservableObject {
+     @Published var posts: [Post] = []
+     @Published var isLoading = false
+     var userId: String
+     
+     init(userId: String) {
+         self.userId = userId
+         fetchData()
+     }
+     
+     func fetchData() {
+         isLoading = true
+         // Simulate data fetching
+         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+             // Update your posts, reposts, or likes based on the selected filter
+             self.posts = [/* fetched posts */]
+             self.isLoading = false
+         }
+     }
+ }
 
+ struct Profile: View {
+     @EnvironmentObject var userData: UserData
+     @State private var selectedFilter: ProfileTabFilter = .posts {
+         didSet {
+             viewModel.fetchData()
+         }
+     }
+     @Namespace var animation
+     @StateObject var viewModel: ProfileViewModel
+     private let user: User
+     
+     init(user: User) {
+         self.user = user
+         _viewModel = StateObject(wrappedValue: ProfileViewModel(userId: user.id ?? ""))
+     }
+     
+     var body: some View {
+         NavigationStack {
+             ScrollView(showsIndicators: false) {
+                 VStack(spacing: 20) {
+                     // Your existing UI components
+                     if viewModel.isLoading {
+                         ProgressView()
+                     } else {
+                         // Content based on selected filter
+                         switch selectedFilter {
+                         case .posts:
+                             UserPostsView(posts: viewModel.posts)
+                         case .reposts:
+                             UserRepostsView(reposts: viewModel.posts) // Adjust according to your data structure
+                         case .likes:
+                             UserLikesView(likes: viewModel.posts) // Adjust according to your data structure
+                         }
+                     }
+                 }
+             }
+         }
+     }
+ }
+ */
 
 struct Profile: View {
     @EnvironmentObject var userData: UserData
