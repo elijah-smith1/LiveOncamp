@@ -1,7 +1,7 @@
 import SwiftUI
 import Stripe
 
-struct TicketConfirmationFlow: View {
+struct TicketConfirmation: View {
     let event: Event
     let addons: Set<String>
     let totalPrice: Double

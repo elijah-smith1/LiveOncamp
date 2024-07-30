@@ -22,6 +22,7 @@ struct Event: Identifiable {
     var isSponsored: Bool
     var isFeatured: Bool
     var isPaidEvent: Bool
+    var category: String
     // Add other relevant properties here
 }
 
@@ -56,7 +57,8 @@ class EventData: ObservableObject {
             features:  data["features"] as? [String] ?? [""],
             isSponsored: data["isSponsored"] as? Bool ?? false,
             isFeatured: data["isFeatured"] as? Bool ?? false,
-            isPaidEvent: data["isPaidEvent"] as? Bool ?? false
+            isPaidEvent: data["isPaidEvent"] as? Bool ?? false,
+            category: data["category"] as? String ?? ""
            
     
             // Map other fields similarly
@@ -77,6 +79,7 @@ let mockEvent = Event(
     features: ["fun", "girls", "more fun"],
     isSponsored: true,
     isFeatured: true,
-    isPaidEvent: true
+    isPaidEvent: true,
+    category: "Tournament"
     // Initialize other properties if needed
 )

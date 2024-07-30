@@ -1,71 +1,69 @@
 import SwiftUI
 
 struct Social: View {
+    @StateObject var viewModel = eventViewModel()
     @State private var selectedCategory: String = "All"
     @State private var showingSearchView = false
     @State private var messageNotificationCount = 2
     @State private var notificationCount = 5
-    @State private var titleOffset: CGFloat = -300 // Start title offscreen
-    @State private var titleScale: CGFloat = 0.5 // Start small for bounce-in effect
+    @State private var titleOffset: CGFloat = -300
+    @State private var titleScale: CGFloat = 0.5
     @State private var eventsOffset: CGFloat = -300
     @State private var pickerOffset: CGFloat = -300
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                HStack {
-                    HStack(spacing: 0) {
-                        Text("Social")
-                            .foregroundColor(Color("LTBL"))
-                            .font(.title)
-                            .italic()
-                            .bold()
-                            .offset(x: titleOffset)
-                            .scaleEffect(titleScale)
-                            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.1), value: titleOffset)
-                        
-                        Text("Hub!")
-                            .foregroundColor(.blue)
-                            .font(.title)
-                            .italic()
-                            .bold()
-                            .offset(x: titleOffset)
-                            .scaleEffect(titleScale)
-                            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.1), value: titleOffset)
-                    }
-                    Spacer()
-                    HStack(spacing: 16) {
-                        NavigationLink(destination: Messages()) {
-                            BadgeView(iconName: "message", count: messageNotificationCount)
-                                .font(.system(size: 24))
-                        }
-                        NavigationLink(destination: NotificationsView()) {
-                            BadgeView(iconName: "bell", count: notificationCount)
-                                .font(.system(size: 24))
-                        }
-                    }
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                .onAppear {
-                    titleOffset = 0
-                    titleScale = 1.0
-                    eventsOffset = 0
-                    pickerOffset = 0
-                }
-
+                headerView
                 customSearchBar
-
-                ScrollView {
-                    VStack {
-                        featuredEventsTitle
-                        featuredEventsGrid
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        featuredEventsSection
                         categoryScroller
-                        contentSwitcherView
+                        eventSections
                     }
-                    .padding(.bottom, 20)
+                }
+                .ignoresSafeArea(edges: .bottom)
+            }
+        }
+    }
+
+    var headerView: some View {
+        HStack {
+            HStack(spacing: 0) {
+                Text("Social")
+                    .foregroundColor(Color("LTBL"))
+                    .font(.title)
+                    .italic()
+                    .bold()
+                Text("Hub!")
+                    .foregroundColor(.blue)
+                    .font(.title)
+                    .italic()
+                    .bold()
+            }
+            .offset(x: titleOffset)
+            .scaleEffect(titleScale)
+            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.1), value: titleOffset)
+            Spacer()
+            HStack(spacing: 16) {
+                NavigationLink(destination: Messages()) {
+                    BadgeView(iconName: "message", count: messageNotificationCount)
+                        .font(.system(size: 24))
+                }
+                NavigationLink(destination: NotificationsView()) {
+                    BadgeView(iconName: "bell", count: notificationCount)
+                        .font(.system(size: 24))
                 }
             }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+        .onAppear {
+            titleOffset = 0
+            titleScale = 1.0
+            eventsOffset = 0
+            pickerOffset = 0
         }
     }
 
@@ -94,30 +92,25 @@ struct Social: View {
         }
     }
 
-    var featuredEventsTitle: some View {
-        Text("Featured Events")
-            .font(.callout)
-            .fontWeight(.bold)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .offset(y: eventsOffset)
-            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.2), value: eventsOffset)
-    }
-
-    var featuredEventsGrid: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            LazyHGrid(rows: [GridItem(.fixed(160))], spacing: 10) {
-                ForEach(0..<6) { _ in // Adjust the range based on your data
-                    Rectangle()
-                        .frame(width: 120, height: 160)
-                        .overlay(Rectangle().stroke(Color.cyan, lineWidth: 2))
-                        .padding(.horizontal, 5)
+    var featuredEventsSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Featured Events")
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    ForEach(viewModel.events.prefix(3), id: \.id) { event in
+                        EventPreview()
+                            .frame(width: 300, height: 200)
+                    }
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
-            .offset(y: eventsOffset)
-            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.3), value: eventsOffset)
         }
+        .padding(.vertical)
+        .offset(y: eventsOffset)
+        .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.2), value: eventsOffset)
     }
 
     var categoryScroller: some View {
@@ -131,28 +124,59 @@ struct Social: View {
                     }
                 }
             }
-            .padding()
-            .offset(y: pickerOffset)
-            .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.4), value: pickerOffset)
+            .padding(.horizontal)
         }
+        .padding(.vertical, 8)
+        .offset(y: pickerOffset)
+        .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.3), value: pickerOffset)
     }
 
-    var contentSwitcherView: some View {
-        Group {
-            switch selectedCategory {
-            case "All":
-                AllEvents()
-            case "Tournaments":
-                TournamentEvents()
-            case "School":
-                SchoolEvents()
-            case "Parties":
-                PartyEvents()
-            default:
-                EmptyView()
+    var eventSections: some View {
+        VStack(spacing: 20) {
+            if selectedCategory == "All" || selectedCategory == "Tournaments" {
+                eventSection(title: "Tournaments", events: filteredEvents(for: "Tournament"))
+            }
+            if selectedCategory == "All" || selectedCategory == "School" {
+                eventSection(title: "School Events", events: filteredEvents(for: "School"))
+            }
+            if selectedCategory == "All" || selectedCategory == "Parties" {
+                eventSection(title: "Parties", events: filteredEvents(for: "Party"))
+            }
+        }
+        .padding(.top)
+    }
+
+    func eventSection(title: String, events: [Event]) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    ForEach(events, id: \.id) { event in
+                        EventPreview()
+                            .frame(width: 300, height: 200)
+                    }
+                }
+                .padding(.horizontal)
             }
         }
     }
+
+    func filteredEvents(for category: String) -> [Event] {
+            if selectedCategory == "All" {
+                return viewModel.events
+            } else {
+                var filteredEvents: [Event] = []
+                for event in viewModel.events {
+                    if event.category == category {
+                        filteredEvents.append(event)
+                    }
+                }
+                return filteredEvents
+            }
+        }
 }
 
 struct BadgeView: View {
