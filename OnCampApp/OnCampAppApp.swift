@@ -36,50 +36,78 @@ struct OnCampAppApp: App {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+
+    // Function to check if a user is logged in
+    func isUserLoggedIn() -> Bool {
+        return Auth.auth().currentUser != nil
+    }
+
+    // This function is called when a remote notification is received
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if isUserLoggedIn() {
+            // Process the message since the user is logged in
+            handleRemoteNotification(userInfo)
+        } else {
+            // Ignore the message since no user is logged in
+            print("No user is logged in. Ignoring message.")
+        }
+        completionHandler(.newData)
+    }
+
+    // Add your existing handleRemoteNotification function or logic here
+    func handleRemoteNotification(_ userInfo: [AnyHashable: Any]) {
+        // Your existing message handling logic
+        print("Message received: \(userInfo)")
+    }
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        // Set Firebase Messaging delegate
-        Messaging.messaging().delegate = self
-        // Set up user notifications
+
+        // Register for remote notifications
         UNUserNotificationCenter.current().delegate = self
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in }
-        )
- 
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: { _, _ in })
         application.registerForRemoteNotifications()
 
         return true
     }
 
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
-//        print("Firebase registration token: \(String(describing: fcmToken))") was for ensuring i was correctly getting FCM token
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+        let token = tokenParts.joined()
+        print("Device Token: \(token)")
 
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(
-            name: Notification.Name("FCMToken"),
-            object: nil,
-            userInfo: dataDict
-        )
+        // Send the token to Firebase
+        Auth.auth().setAPNSToken(deviceToken, type: .unknown)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for remote notifications: \(error)")
     }
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("APNS Token received")
-        Messaging.messaging().apnsToken = deviceToken
+    // MARK: UNUserNotificationCenterDelegate
 
-        Messaging.messaging().token { token, error in
-            if let error = error {
-                print("Error fetching FCM registration token: \(error)")
-            } else if let token = token {
-//                print("FCM registration token: \(token)")
-            }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        if isUserLoggedIn() {
+            // Handle foreground notification
+            completionHandler([.alert, .badge, .sound])
+        } else {
+            print("No user is logged in. Ignoring foreground notification.")
+            completionHandler([])
         }
     }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if isUserLoggedIn() {
+            // Handle notification response
+            let userInfo = response.notification.request.content.userInfo
+            handleRemoteNotification(userInfo)
+        } else {
+            print("No user is logged in. Ignoring notification response.")
+        }
+        completionHandler()
+    }
+
+    // Add other necessary AppDelegate methods here
 }

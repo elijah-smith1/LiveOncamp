@@ -21,6 +21,7 @@
 		408B6C5B2B899B56003C5473 /* chatInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B6C5A2B899B56003C5473 /* chatInfo.swift */; };
 		408B6C5D2B89A409003C5473 /* channelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B6C5C2B89A409003C5473 /* channelCell.swift */; };
 		408B6C5F2B8E1096003C5473 /* GCSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B6C5E2B8E1096003C5473 /* GCSetup.swift */; };
+		409701402C59D86700111B30 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4097013F2C59D86700111B30 /* LandingView.swift */; };
 		40B5BF042C021FD4006FF27B /* expandedPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B5BF032C021FD4006FF27B /* expandedPhotoView.swift */; };
 		40BEC6482C2706D2003042C9 /* messagecellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BEC6472C2706D2003042C9 /* messagecellVM.swift */; };
 		40FD3A4B2B830FC400A18167 /* AddProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FD3A4A2B830FC400A18167 /* AddProduct.swift */; };
@@ -186,6 +187,7 @@
 		408B6C5E2B8E1096003C5473 /* GCSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCSetup.swift; sourceTree = "<group>"; };
 		40930FA52BABC6EE006DFFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		40930FA62BAC84E8006DFFBA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		4097013F2C59D86700111B30 /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		40B5BF032C021FD4006FF27B /* expandedPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = expandedPhotoView.swift; sourceTree = "<group>"; };
 		40BEC6472C2706D2003042C9 /* messagecellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messagecellVM.swift; sourceTree = "<group>"; };
 		40FD3A4A2B830FC400A18167 /* AddProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProduct.swift; sourceTree = "<group>"; };
@@ -606,6 +608,7 @@
 		A6EB1C4D2AD4B15D00A7A89F /* Authentification */ = {
 			isa = PBXGroup;
 			children = (
+				4097013F2C59D86700111B30 /* LandingView.swift */,
 				A6EB1C582AD4C10E00A7A89F /* AuthData.swift */,
 				A6EB1C542AD4BC9200A7A89F /* CreateAccount.swift */,
 				A6EB1C502AD4B4C200A7A89F /* ForgotPassword.swift */,
@@ -832,6 +835,7 @@
 				A6EB1C552AD4BC9200A7A89F /* CreateAccount.swift in Sources */,
 				A6EB1C4C2AD4A7F500A7A89F /* Landing.swift in Sources */,
 				A6A2B9EE2B587968004BA4AA /* SideMenuOptions.swift in Sources */,
+				409701402C59D86700111B30 /* LandingView.swift in Sources */,
 				5D415D9B2AFAAD1800D22779 /* ProfileViewModel.swift in Sources */,
 				A6FB52032C1102610091DAD7 /* Username.swift in Sources */,
 				A69B73CE2AED5A55008DE77E /* Events.swift in Sources */,

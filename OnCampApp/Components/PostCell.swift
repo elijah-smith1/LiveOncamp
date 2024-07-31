@@ -28,11 +28,11 @@ struct PostCell: View {
                         HStack {
                             Username(user: user)
                             PostDate(post: post)
-                            Spacer() // Ensure ellipsis button is aligned to the right
+                            Spacer()
                             PostOptionsButton(deleteaction: $deleteaction)
                         }
                         PostContent(postText: post.postText, mediaUrl: post.mediaUrl)
-                        PostInfo(likeCount: likeCount, repostCount: repostCount, commentCount: 0) // Assuming 0 comments for now
+                        PostInfo(likeCount: likeCount, repostCount: repostCount, commentCount: 0)
                         PostActions(isLiked: $isLiked, likeCount: $likeCount, isReposted: $isReposted, repostCount: $repostCount, postID: post.id!, post: post)
                     }
                 }
@@ -40,18 +40,37 @@ struct PostCell: View {
             }
             .onAppear {
                 Task {
-                    do {
-                        isLiked = try await viewModel.fetchLikeStatus(postId: post.id!, userId: loggedInUid!)
-                        isReposted = try await viewModel.fetchRepostStatus(postId: post.id!, userId: loggedInUid!)
-                        likeCount = try await viewModel.fetchLikes(postID: post.id!)
-                        repostCount = try await viewModel.fetchreposts(postID: post.id!)
-                        self.user = try await viewModel.fetchUser(for: post.postedBy)
-                    } catch {
-                        print("Failed to fetch user: \(error)")
-                    }
+                    await initializeData()
                 }
             }
             .padding()
+        }
+    }
+    
+    private func initializeData() async {
+        do {
+            isLiked = try await viewModel.fetchLikeStatus(postId: post.id!, userId: loggedInUid!)
+            isReposted = try await viewModel.fetchRepostStatus(postId: post.id!, userId: loggedInUid!)
+            likeCount = try await viewModel.fetchLikes(postID: post.id!)
+            repostCount = try await viewModel.fetchReposts(postID: post.id!)
+            self.user = try await viewModel.fetchUser(for: post.postedBy)
+        } catch {
+            print("Failed to fetch data: \(error)")
+        }
+    }
+}
+
+struct Username: View {
+    var user: User?
+    
+    var body: some View {
+        if let user = user {
+            Text(user.username)
+                .foregroundColor(.primary)
+        } else {
+            Text("Unknown User")
+                .font(.headline)
+                .foregroundColor(.gray)
         }
     }
 }
