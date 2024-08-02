@@ -11,6 +11,7 @@ import FirebaseAuth
 struct SignIn: View {
     @ObservedObject var viewModel = AuthViewModel()
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
     @Binding var path: NavigationPath // Add NavigationPath binding
     @State private var email: String = ""
@@ -134,8 +135,9 @@ struct SignIn: View {
                 print(self.alertMessage)
                 self.showAlert = true
             } else {
-                self.loginSuccessful = true
                 print("sign in successful")
+                self.loginSuccessful = true
+                
             }
         }
     }

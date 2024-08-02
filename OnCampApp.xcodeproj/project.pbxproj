@@ -66,6 +66,7 @@
 		A64525582C4DD72B00891B6F /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = A64525572C4DD72B00891B6F /* StripePaymentsUI */; };
 		A645255A2C51E3E100891B6F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A64525592C51E3E100891B6F /* GoogleService-Info.plist */; };
 		A66B3D012AF9998A003150C9 /* Marketplace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CBE8D72AD8F65F00379839 /* Marketplace.swift */; };
+		A671FFD42C5D72330010D14E /* ActiveOAE.swift in Sources */ = {isa = PBXBuildFile; fileRef = A671FFD32C5D72330010D14E /* ActiveOAE.swift */; };
 		A6807D5A2AF08FA60088E934 /* EventImageCaroseul.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D592AF08FA60088E934 /* EventImageCaroseul.swift */; };
 		A6807D5C2AF0934F0088E934 /* DetailedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D5B2AF0934F0088E934 /* DetailedEvent.swift */; };
 		A6807D602AF0C81F0088E934 /* NewMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6807D5F2AF0C81F0088E934 /* NewMessageViewModel.swift */; };
@@ -222,6 +223,7 @@
 		A643F31B2AF9974C0063AF42 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		A64525462C4DD48200891B6F /* TicketConfimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketConfimation.swift; sourceTree = "<group>"; };
 		A64525592C51E3E100891B6F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A671FFD32C5D72330010D14E /* ActiveOAE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActiveOAE.swift; path = "../../../../Desktop/S & W/Apps/OnCamp/OnCampApp/MainViews/Social/ActiveOAE.swift"; sourceTree = "<group>"; };
 		A6807D592AF08FA60088E934 /* EventImageCaroseul.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventImageCaroseul.swift; sourceTree = "<group>"; };
 		A6807D5B2AF0934F0088E934 /* DetailedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedEvent.swift; sourceTree = "<group>"; };
 		A6807D5F2AF0C81F0088E934 /* NewMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewModel.swift; sourceTree = "<group>"; };
@@ -601,6 +603,7 @@
 				A6C0842E2C1D344A006EBDAF /* VendorSignUp.swift */,
 				A6D8F9572C31DBB5003D6BE8 /* GroupBoxComponents.swift */,
 				A64525462C4DD48200891B6F /* TicketConfimation.swift */,
+				A671FFD32C5D72330010D14E /* ActiveOAE.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 				A625142C2BB6054D0053EAB0 /* AllEvents.swift in Sources */,
 				A6CBE8CF2AD8EFCE00379839 /* PostCell.swift in Sources */,
 				408B6C5F2B8E1096003C5473 /* GCSetup.swift in Sources */,
+				A671FFD42C5D72330010D14E /* ActiveOAE.swift in Sources */,
 				A69B73CC2AEC0E00008DE77E /* ProfileHeaderCell.swift in Sources */,
 				A6A2B9EA2B587668004BA4AA /* Menu.swift in Sources */,
 				A625142E2BB605620053EAB0 /* TournamentEvents.swift in Sources */,

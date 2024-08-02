@@ -18,6 +18,8 @@ struct DetailedEvent: View {
         center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
+    @State private var isRegionSet = false
+    @State private var eventLocation: EventLocation?
     
     let addons = [
         "Skip Line": 10.00,
@@ -57,6 +59,9 @@ struct DetailedEvent: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear {
+            setRegionFromAddress(event.location)
+        }
         .sheet(isPresented: $showTicketConfirmation) {
             TicketConfirmation(event: event, addons: selectedAddons, totalPrice: totalPrice)
         }
@@ -202,9 +207,23 @@ struct DetailedEvent: View {
                 .font(.headline)
                 .foregroundColor(Color("LTBL"))
             
-            Map(coordinateRegion: $region)
-                .frame(height: 200)
-                .cornerRadius(12)
+            Map(coordinateRegion: $region, annotationItems: eventLocation != nil ? [eventLocation!] : []) { location in
+                MapAnnotation(coordinate: location.coordinate) {
+                    Image(systemName: "mappin.circle.fill")
+                        .foregroundColor(.red)
+                        .font(.title)
+                        .onTapGesture {
+                            openInAppleMaps(location: location.coordinate)
+                        }
+                }
+            }
+            .frame(height: 200)
+            .cornerRadius(12)
+            .onAppear {
+                if !isRegionSet {
+                    setRegionFromAddress(event.location)
+                }
+            }
         }
     }
     
@@ -237,7 +256,44 @@ struct DetailedEvent: View {
         .shadow(color: Color("LTBL").opacity(0.1), radius: 5, y: -5)
         .padding(.horizontal)
     }
+    
+    // Function to set the region using the geocoded address
+    private func setRegionFromAddress(_ address: String) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { placemarks, error in
+            if let error = error {
+                print("Geocoding error: \(error.localizedDescription)")
+                return
+            }
+            guard let placemark = placemarks?.first,
+                  let location = placemark.location else {
+                print("No location found")
+                return
+            }
+            let coordinate = location.coordinate
+            eventLocation = EventLocation(id: UUID(), coordinate: coordinate)
+            region = MKCoordinateRegion(
+                center: coordinate,
+                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            )
+            isRegionSet = true
+        }
+    }
+    
+    private func openInAppleMaps(location: CLLocationCoordinate2D) {
+        let placemark = MKPlacemark(coordinate: location)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = event.title
+        mapItem.openInMaps()
+    }
 }
+
+// Custom struct for event location
+struct EventLocation: Identifiable {
+    let id: UUID
+    let coordinate: CLLocationCoordinate2D
+}
+
 
 struct InfoCard: View {
     let title: String

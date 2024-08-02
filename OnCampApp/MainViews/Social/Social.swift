@@ -10,24 +10,25 @@ struct Social: View {
     @State private var titleScale: CGFloat = 0.5
     @State private var eventsOffset: CGFloat = -300
     @State private var pickerOffset: CGFloat = -300
-
+    
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                headerView
-                customSearchBar
-                ScrollView(.vertical, showsIndicators: false) {
+            ScrollView{
+                VStack(spacing: 0) {
+                    headerView
+                    customSearchBar
                     VStack(spacing: 0) {
                         featuredEventsSection
                         categoryScroller
                         eventSections
                     }
+                    
+                    .ignoresSafeArea(edges: .bottom)
                 }
-                .ignoresSafeArea(edges: .bottom)
             }
         }
     }
-
+    
     var headerView: some View {
         HStack {
             HStack(spacing: 0) {
@@ -66,7 +67,7 @@ struct Social: View {
             pickerOffset = 0
         }
     }
-
+    
     var customSearchBar: some View {
         Button(action: {
             showingSearchView = true
@@ -91,7 +92,7 @@ struct Social: View {
             Search()
         }
     }
-
+    
     var featuredEventsSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Featured Events")
@@ -101,18 +102,17 @@ struct Social: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     ForEach(viewModel.events.prefix(3), id: \.id) { event in
-                        EventPreview()
-                            .frame(width: 300, height: 200)
+                        EventPreview(event: event)
+                            .frame(width: 300, height: 300)
                     }
                 }
-                .padding(.horizontal)
             }
         }
         .padding(.vertical)
         .offset(y: eventsOffset)
         .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.2), value: eventsOffset)
     }
-
+    
     var categoryScroller: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
@@ -130,9 +130,9 @@ struct Social: View {
         .offset(y: pickerOffset)
         .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.3), value: pickerOffset)
     }
-
+    
     var eventSections: some View {
-        VStack(spacing: 20) {
+        NavigationStack{
             if selectedCategory == "All" || selectedCategory == "Tournaments" {
                 eventSection(title: "Tournaments", events: filteredEvents(for: "Tournament"))
             }
@@ -143,9 +143,9 @@ struct Social: View {
                 eventSection(title: "Parties", events: filteredEvents(for: "Party"))
             }
         }
-        .padding(.top)
+            .padding(.top)
     }
-
+    
     func eventSection(title: String, events: [Event]) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
@@ -155,34 +155,34 @@ struct Social: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     ForEach(events, id: \.id) { event in
-                        EventPreview()
-                            .frame(width: 300, height: 200)
+                        EventPreview(event: event)
+                            .frame(width: 300, height: 300)
                     }
                 }
                 .padding(.horizontal)
             }
         }
     }
-
+    
     func filteredEvents(for category: String) -> [Event] {
-            if selectedCategory == "All" {
-                return viewModel.events
-            } else {
-                var filteredEvents: [Event] = []
-                for event in viewModel.events {
-                    if event.category == category {
-                        filteredEvents.append(event)
-                    }
+        if selectedCategory == "All" {
+            return viewModel.events
+        } else {
+            var filteredEvents: [Event] = []
+            for event in viewModel.events {
+                if event.category == category {
+                    filteredEvents.append(event)
                 }
-                return filteredEvents
             }
+            return filteredEvents
         }
+    }
 }
 
 struct BadgeView: View {
     var iconName: String
     var count: Int
-
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             Image(systemName: iconName)

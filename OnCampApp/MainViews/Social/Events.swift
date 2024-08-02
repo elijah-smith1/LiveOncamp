@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct Events: View {
-   @ObservedObject var viewmodel = eventViewModel()
+    let event: Event
+    @ObservedObject var viewmodel = eventViewModel()
+    
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(spacing: 32) {
+                LazyHStack(spacing: 32) {
                     ForEach(viewmodel.events, id: \.id) { events in
                         NavigationStack{
-                            EventPreview()
+                            EventPreview(event: event)
                                 .frame(height: 400)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             Divider()
@@ -29,8 +31,7 @@ struct Events: View {
     }
 }
 
-struct Events_Previews: PreviewProvider {
-    static var previews: some View {
-        Events()
-    }
-}
+//#Preview {
+//    Events()
+//}
+

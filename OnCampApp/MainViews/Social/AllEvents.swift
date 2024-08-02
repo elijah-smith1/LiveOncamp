@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct AllEvents: View {
+    let event: Event
     @ObservedObject var viewModel = eventViewModel() // Ensure this view model properly fetches and stores your events
 
     var body: some View {
         NavigationStack {
-            EventPreview() // Assuming EventPreview handles all the grid setup and navigation internally
+            EventPreview(event: event) // Assuming EventPreview handles all the grid setup and navigation internally
         }
     }
 }
 
 
-#Preview {
-    AllEvents()
-}
+//#Preview {
+//    AllEvents()
+//}

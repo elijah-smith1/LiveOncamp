@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct TournamentEvents: View {
+    let event: Event
     @ObservedObject var viewmodel = eventViewModel()
+    
     var body: some View {
         NavigationStack {
                 LazyVStack(spacing: 32) {
                     ForEach(viewmodel.events, id: \.id) { events in
                         NavigationStack{
-                            EventPreview()
+                            EventPreview(event: event)
                                 .frame(height: 400)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             Divider()
@@ -27,6 +29,6 @@ struct TournamentEvents: View {
     }
 }
 
-#Preview {
-    TournamentEvents()
-}
+//#Preview {
+//    TournamentEvents()
+//}

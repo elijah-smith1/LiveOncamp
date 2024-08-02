@@ -10,6 +10,8 @@ import SwiftUI
 would also need to make viewmodel collection in backend and the new article presentations
 */
 struct Spotlight: View {
+    let event: Event
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -20,7 +22,7 @@ struct Spotlight: View {
                 LazyVStack(spacing: 32) {
                     ForEach(0 ... 10, id: \.self) { events in
                         NavigationStack{
-                            EventPreview()
+                            EventPreview(event: event)
                                 .frame(height: 400)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             Divider()
@@ -34,6 +36,6 @@ struct Spotlight: View {
     }
 }
 
-#Preview {
-    Spotlight()
-}
+//#Preview {
+//    Spotlight()
+//}

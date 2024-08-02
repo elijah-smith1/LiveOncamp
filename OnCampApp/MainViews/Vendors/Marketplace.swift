@@ -54,7 +54,7 @@ struct Marketplace: View {
             Spacer()
             
             Button(action: {
-                // Action for receipt
+                ActiveOAE()
             }) {
                 Image(systemName: "doc.plaintext")
                     .font(.system(size: 24))

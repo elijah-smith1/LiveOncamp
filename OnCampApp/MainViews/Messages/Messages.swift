@@ -7,22 +7,15 @@ struct Messages: View {
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            // Uncomment or remove NavigationLink as needed
-            // NavigationLink(destination: Chat(), isActive: $showChatView){ }
-
             ScrollView {
                 VStack(alignment: .leading) {
                     ForEach(inboxviewModel.chats, id: \.id) { chat in
-                        
-                        MessageCell( chats: chat) // Corrected variable name
-//                Text("Fetched a chat")
+                        MessageCell(chats: chat) // Corrected variable name
                     }
                 }
                 VStack(alignment: .leading) {
                     ForEach(inboxviewModel.channels, id: \.id) { channel in
-                        
                         ChannelCell(channel: channel) // Corrected variable name
-//                Text("Fetched a chat")
                     }
                 }
             }

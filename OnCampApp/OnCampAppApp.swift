@@ -1,10 +1,3 @@
-//
-//  OnCampAppApp.swift
-//  OnCampApp
-//
-//  Created by Michael Washington on 10/8/23.
-//
-
 import SwiftUI
 import FirebaseCore
 import Firebase
@@ -12,7 +5,6 @@ import FirebaseInAppMessaging
 import FirebaseMessaging
 import UserNotifications
 import Foundation
-
 
 @main
 struct OnCampAppApp: App {
@@ -23,15 +15,40 @@ struct OnCampAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if Auth.auth().currentUser?.uid != nil {
-                tabBar(path: $path)
-                    .environmentObject(userData)
-                    .environmentObject(appstate)
-            } else {
-                Landing(path: $path) // Pass the navigation path to Landing view
-                    .environmentObject(userData)
-                    .environmentObject(appstate)
+            NavigationStack(path: $path) {
+                if Auth.auth().currentUser?.uid != nil {
+                    tabBar(path: $path)
+                        .environmentObject(userData)
+                        .environmentObject(appstate)
+                        .onOpenURL { url in
+                            if let deepLink = DeepLink(url: url) {
+                                path.append(deepLink)
+                            }
+                        }
+                } else {
+                    Landing(path: $path) // Pass the navigation path to Landing view
+                        .environmentObject(userData)
+                        .environmentObject(appstate)
+                        .onOpenURL { url in
+                            if let deepLink = DeepLink(url: url) {
+                                path.append(deepLink)
+                            }
+                        }
+                }
             }
+        }
+    }
+}
+
+enum DeepLink: Hashable {
+    case messagesView
+
+    init?(url: URL) {
+        switch url.host {
+        case "messages":
+            self = .messagesView
+        default:
+            return nil
         }
     }
 }
@@ -59,6 +76,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func handleRemoteNotification(_ userInfo: [AnyHashable: Any]) {
         // Your existing message handling logic
         print("Message received: \(userInfo)")
+
+        if let deepLink = userInfo["custom_data"] as? [String: String], let urlString = deepLink["deep_link"], let url = URL(string: urlString) {
+            // Open the deep link
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -109,5 +131,23 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         completionHandler()
     }
 
-    // Add other necessary AppDelegate methods here
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        // Handle the URL scheme
+        if let scheme = url.scheme, scheme == "myapp" {
+            // Extract and handle the deep link
+            if let host = url.host {
+                print("Deep link host: \(host)")
+                // Navigate to the specific screen based on the host or path
+                handleDeepLink(url: url)
+            }
+        }
+        return true
+    }
+
+    func handleDeepLink(url: URL) {
+        // Implement your navigation logic here
+        print("Handling deep link: \(url)")
+        // In SwiftUI, you might pass this URL to your SwiftUI views to handle navigation
+        // For example, using a StateObject or EnvironmentObject
+    }
 }
