@@ -16,7 +16,7 @@ struct Vendor: Identifiable {
     var schools: [String]
     var name: String
     var headerImage: String
-    var category: String
+    var category: [String]
     var rating: Double
     var featured: Bool
     var pfpUrl: String// New field

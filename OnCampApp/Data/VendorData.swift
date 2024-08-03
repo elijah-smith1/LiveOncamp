@@ -1,30 +1,20 @@
-//
-//  VendorData.swift
-//  OnCampApp
-//
-//  Created by Elijah Smith on 11/14/23.
-//
-
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 
-
 @MainActor
-class VendorData: ObservableObject{
-    
+class VendorData: ObservableObject {
     @Published var vendorsByCategory: [String: [Vendor]] = [:]
-    
     
     func fetchVendorIds() async throws -> [String] {
         var vendorIds = [String]()
         let snapshot = try await Vendordb.getDocuments()
         for document in snapshot.documents { vendorIds.append(document.documentID) }
-        print(vendorIds);return vendorIds
+        print(vendorIds)
+        return vendorIds
     }
 
-    
     func getVendorData(vendorID: String) async throws -> Vendor {
         let db = Firestore.firestore()
         let vendorRef = db.collection("Vendors").document(vendorID)
@@ -34,33 +24,40 @@ class VendorData: ObservableObject{
         guard let data = document.data(), document.exists else {
             throw NSError(domain: "VendorError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])
         }
-            print("Debug::: \(data)")
+        print("Debug::: \(data)")
         return Vendor(
             id: document.documentID,
             description: data["description"] as? String ?? "",
             schools: data["schools"] as? [String] ?? [],
             name: data["name"] as? String ?? "",
             headerImage: data["headerImage"] as? String ?? "",
-            category: data["category"] as? String ?? "",
+            category: data["category"] as? [String] ?? [], // Changed to [String]
             rating: data["rating"] as? Double ?? 0.0,
             featured: data["featured"] as? Bool ?? false,
             pfpUrl: data["pfpUrl"] as? String ?? ""
-        
         )
-        
     }
     
-    func fetchAllProducts(forVendor vendorId: String) async throws -> [Product] {
+    func fetchAllProducts(forVendor vendorId: String) async throws -> [Products] {
         let db = Firestore.firestore()
         let vendorProductsRef = db.collection("Vendors").document(vendorId).collection("Products")
 
-        let querySnapshot = try await vendorProductsRef.getDocuments()
-        let products = querySnapshot.documents.compactMap { document -> Product? in
-            // Attempt to decode the document into a Product
-            try? document.data(as: Product.self)
+        do {
+            let querySnapshot = try await vendorProductsRef.getDocuments()
+            let products = querySnapshot.documents.compactMap { document -> Products? in
+                do {
+                    return try document.data(as: Products.self)
+                } catch {
+                    print("Error decoding product \(document.documentID): \(error)")
+                    return nil
+                }
+            }
+            print("Fetched products for vendor \(vendorId): \(products)")
+            return products
+        } catch {
+            print("Error fetching products for vendor \(vendorId): \(error.localizedDescription)")
+            throw NSError(domain: "ProductFetchError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch products: \(error.localizedDescription)"])
         }
-        print(products)
-        return products
     }
 
     func deleteProduct(fromVendor vendorId: String, productId: String) async throws {
@@ -71,12 +68,12 @@ class VendorData: ObservableObject{
             try await productRef.delete()
             print("Product successfully deleted")
         } catch {
-            throw error
+            print("Error deleting product: \(error.localizedDescription)")
+            throw NSError(domain: "ProductDeleteError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to delete product: \(error.localizedDescription)"])
         }
     }
 
-    
-    func addProduct(toVendor vendorId: String, product: Product) async throws {
+    func addProduct(toVendor vendorId: String, product: Products) async throws {
         let db = Firestore.firestore()
         let vendorProductsRef = db.collection("Vendors").document(vendorId).collection("Products")
 
@@ -92,11 +89,10 @@ class VendorData: ObservableObject{
             _ = try await vendorProductsRef.addDocument(data: newProductData)
             print("Product successfully added")
         } catch {
-            throw error
+            print("Error adding product: \(error.localizedDescription)")
+            throw NSError(domain: "ProductAddError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to add product: \(error.localizedDescription)"])
         }
     }
-
-    
 
     func updateVendorInfo(vendor: Vendor) {
         guard let vendorID = vendor.id else {
@@ -116,13 +112,12 @@ class VendorData: ObservableObject{
                     "schools": vendor.schools,
                     "name": vendor.name,
                     "headerImage": vendor.headerImage,
-                    "category": vendor.category,
+                    "category": vendor.category, // This is now an array
                     "rating": vendor.rating,
                     "pfpUrl": vendor.pfpUrl
-
                 ]) { err in
                     if let err = err {
-                        print("Error updating vendor: \(err)")
+                        print("Error updating vendor: \(err.localizedDescription)")
                     } else {
                         print("Vendor successfully updated")
                     }
@@ -133,13 +128,13 @@ class VendorData: ObservableObject{
                     "description": vendor.description,
                     "schools": vendor.schools,
                     "name": vendor.name,
-                    "image": vendor.headerImage,
-                    "category": vendor.category,
+                    "headerImage": vendor.headerImage,
+                    "category": vendor.category, // This is now an array
                     "rating": vendor.rating,
                     "pfpUrl": vendor.pfpUrl
                 ]) { err in
                     if let err = err {
-                        print("Error creating new vendor: \(err)")
+                        print("Error creating new vendor: \(err.localizedDescription)")
                     } else {
                         print("Vendor successfully created")
                     }
@@ -147,12 +142,4 @@ class VendorData: ObservableObject{
             }
         }
     }
-
-   
-
-    
-    
-   
-    
 }
-

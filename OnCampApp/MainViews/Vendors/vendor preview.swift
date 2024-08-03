@@ -1,17 +1,3 @@
-//
-//  vendor preview.swift
-//  OnCampApp
-//
-//  Created by Elijah Smith on 12/28/23.
-//
-
-//
-//  vendor preview.swift
-//  OnCampApp
-//
-//  Created by Elijah Smith on 12/28/23.
-//
-
 import SwiftUI
 import Kingfisher
 
@@ -20,57 +6,94 @@ struct VendorPreview: View {
 
     var body: some View {
         NavigationLink(destination: VendorDetail(vendor: vendor)) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 // Business Image
                 KFImage(URL(string: vendor.headerImage))
                     .resizable()
                     .placeholder {
-                        Image("placeholder") // Replace with your placeholder image
+                        Image(systemName: "photo")
                             .resizable()
-                            .scaledToFit()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 100)
+                            .foregroundColor(.gray)
                     }
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 300, height: 200) // Adjust the width as needed
+                    .frame(height: 150)
                     .clipped()
-                    .cornerRadius(8)
+                    .cornerRadius(12)
 
-                // Business Name and Category
-                HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    // Business Name
                     Text(vendor.name)
                         .font(.headline)
+                        .foregroundColor(.primary)
                         .lineLimit(1)
-                        .truncationMode(.tail)
-                        .frame(width: 220, alignment: .leading) // Width to show approx. 15 characters
 
-                    Spacer()
+                    // Category
+                    if !vendor.category.isEmpty {
+                        Text("Categories: \(vendor.category.joined(separator: ", "))")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                    }
 
-                    Text(vendor.category)
-                        .font(.subheadline)
+                    // Rating and School
+                    HStack {
+                        StarRating(vendor: vendor)
+                        Text(String(format: "%.1f", vendor.rating))
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Text(vendor.schools.first ?? "")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+
+                    // Short Description
+                    Text(vendor.description)
+                        .font(.caption)
                         .foregroundColor(.secondary)
-                        .lineLimit(1)
-                }
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
 
-                // Rating, Avg. Price, School in a compact line
-                HStack(spacing: 0) {
-                    StarRating(vendor: vendor) // Custom view to display star rating
-                    Text(" · ") // Dot separator
-                    Text(" Price: $5-10") // Average price
-                    Text(" · ") // Dot separator
-                    Text(" Morehouse") // School
+                    // Featured Badge
+                    if vendor.featured {
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.yellow)
+                            Text("Featured")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.yellow)
+                        }
+                        .padding(.top, 4)
+                    }
                 }
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+                .padding(12)
             }
-            .padding([.horizontal, .bottom], 10) // Reduced padding
-            .padding(.top, 5)
+            .background(Color(.systemBackground))
+            .cornerRadius(16)
+            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
 
-
-//struct VendorPreview_Previews: PreviewProvider {
-//    static var previews: some View {
-//        VendorPreview(vendor: Vendor(description: "Description", schools: ["Morehouse","Spelman","Clark Atlanta"], name: "New Hairstylist", image: "https://source.unsplash.com/random/300x300", category: "Hair", rating: 4.3, featured: false))
-//    }
-//}
+struct VendorPreview_Previews: PreviewProvider {
+    static var previews: some View {
+        VendorPreview(vendor: Vendor(
+            id: "1",
+            description: "Best coffee on campus",
+            schools: ["Morehouse", "Spelman", "Clark Atlanta"],
+            name: "Campus Cafe",
+            headerImage: "https://example.com/cafe.jpg",
+            category: ["Food & Drink"],
+            rating: 4.5,
+            featured: true,
+            pfpUrl: "https://example.com/profile.jpg"
+        ))
+        .previewLayout(.sizeThatFits)
+        .padding()
+    }
+}

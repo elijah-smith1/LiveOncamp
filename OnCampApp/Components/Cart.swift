@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Cart: View {
     @Environment(\.presentationMode) var mode
-    @State var cartProducts: [Product] = []
+    @State var cartProducts: [Products] = []
     var body: some View {
         NavigationView{
             ScrollView {

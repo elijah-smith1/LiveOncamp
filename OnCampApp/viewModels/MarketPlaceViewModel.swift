@@ -2,17 +2,15 @@ import Foundation
 
 @MainActor
 class MarketplaceViewModel: ObservableObject {
-    @Published var vendorsByCategory: [String: [Vendor]] = [:]
-    private var vendorData = VendorData() // Assuming this contains the necessary methods
+    @Published private var vendors: [Vendor] = []
+    private var vendorData = VendorData()
 
-    // Initializer
     init() {
         Task {
             await fetchVendors()
         }
     }
 
-    // Asynchronously fetch vendors and organize them by category
     private func fetchVendors() async {
         do {
             let vendorIds = try await vendorData.fetchVendorIds()
@@ -23,19 +21,25 @@ class MarketplaceViewModel: ObservableObject {
                 fetchedVendors.append(vendor)
             }
 
-            // Organizing fetched vendors by category
-            organizeVendorsByCategory(vendors: fetchedVendors)
-
+            self.vendors = fetchedVendors
         } catch {
-            // Handle any errors
             print("Error fetching vendors: \(error.localizedDescription)")
         }
     }
 
-    // Helper function to organize vendors into categories
-    private func organizeVendorsByCategory(vendors: [Vendor]) {
-        for vendor in vendors {
-            vendorsByCategory[vendor.category, default: []].append(vendor)
+    func getAllCategories() -> [String] {
+        Array(Set(vendors.flatMap { $0.category })).sorted()
+    }
+
+    func getVendors(for category: String) -> [Vendor] {
+        if category == "All" {
+            return vendors
+        } else {
+            return vendors.filter { $0.category.contains(category) }
         }
+    }
+
+    func getFeaturedVendors() -> [Vendor] {
+        vendors.filter { $0.featured }
     }
 }

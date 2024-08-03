@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CartProductCard: View {
     
-    var product: Product
+    var product: Products
     
     var body: some View {
         HStack(alignment: .center, spacing: 20) {
@@ -42,6 +42,6 @@ struct CartProductCard: View {
 
 struct CartProductCard_Previews: PreviewProvider {
     static var previews: some View {
-        CartProductCard(product: Product(name: "Sample Product", category: "Sample Category", description: "", image: "sample_image", price: 0))
+        CartProductCard(product: Products(name: "Sample Product", category: "Sample Category", description: "", image: "sample_image", price: 0))
     }
 }

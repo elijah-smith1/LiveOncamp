@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 @MainActor
 class VendorViewModel: ObservableObject {
-    @Published var products: [Product] = []
+    @Published var products: [Products] = []
     private var db = Firestore.firestore()
    
    
@@ -20,16 +20,21 @@ class VendorViewModel: ObservableObject {
     
      
     
-     func fetchAllProducts(forVendor vendorId: String) async throws -> [Product] {
-        let vendorProductsRef = db.collection("Vendors").document(vendorId).collection("Products")
-        let querySnapshot = try await vendorProductsRef.getDocuments()
-        
-        let products = try querySnapshot.documents.compactMap { document -> Product? in
-            try document.data(as: Product.self)
+    func fetchAllProducts(forVendor vendorId: String) async throws -> [Products] {
+           let vendorProductsRef = db.collection("Vendors").document(vendorId).collection("Products")
+           let querySnapshot = try await vendorProductsRef.getDocuments()
+           // When u use doc Ids you have to do this for sum reason
+           let products: [Products] = querySnapshot.documents.compactMap { document in
+               do {
+                   return try document.data(as: Products.self)
+               } catch {
+                   print("Error decoding product: \(error)")
+                   return nil
+               }
+           }
            
-        }
-         print("DebugProducts:::\(products)")
-        return products
-    }
+           print("DebugProducts:::\(products)")
+           return products
+       }
 }
 

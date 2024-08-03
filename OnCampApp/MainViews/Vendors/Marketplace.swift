@@ -36,34 +36,32 @@ struct Marketplace: View {
     }
     
     var header: some View {
-        HStack {
-            HStack(spacing: 0) {
-                Text("Vendor")
-                    .foregroundColor(Color("LTBL"))
-                    .font(.title)
-                    .italic()
-                    .bold()
-                Text("Hub!")
-                    .foregroundColor(.blue)
-                    .font(.title)
-                    .italic()
-                    .bold()
+        NavigationStack{
+            HStack {
+                HStack(spacing: 0) {
+                    Text("Vendor")
+                        .foregroundColor(Color("LTBL"))
+                        .font(.title)
+                        .italic()
+                        .bold()
+                    Text("Hub!")
+                        .foregroundColor(.blue)
+                        .font(.title)
+                        .italic()
+                        .bold()
+                }
+                Spacer()
+                Spacer()
+                        NavigationLink(destination: ActiveOAE()) {
+                            Image(systemName: "doc.plaintext")
+                                .font(.system(size: 24))
+                                .foregroundColor(.blue)
+                        }
             }
-           
-            
-            Spacer()
-            
-            Button(action: {
-                // Action for receipt
-            }) {
-                Image(systemName: "doc.plaintext")
-                    .font(.system(size: 24))
-                    .foregroundColor(.blue)
-            }
+            .offset(x: titleOffset)
+            .scaleEffect(titleScale)
+            .padding(.horizontal)
         }
-        .offset(x: titleOffset)
-        .scaleEffect(titleScale)
-        .padding(.horizontal)
     }
     
     var customSearchBar: some View {
@@ -98,7 +96,7 @@ struct Marketplace: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 15) {
-                    ForEach(viewModel.vendorsByCategory["Featured"] ?? [], id: \.id) { vendor in
+                    ForEach(viewModel.getFeaturedVendors(), id: \.id) { vendor in
                         VendorPreview(vendor: vendor)
                     }
                 }
@@ -124,19 +122,31 @@ struct Marketplace: View {
         .offset(y: categoriesOffset)
     }
     
+    
     var vendorSections: some View {
         VStack(spacing: 20) {
-            ForEach(viewModel.vendorsByCategory.keys.sorted(), id: \.self) { category in
-                if category != "Featured" {
-                    GroupBox {
-                        VendorSection(title: category, vendors: viewModel.vendorsByCategory[category] ?? [])
-                    } label: {
-                        Text(category)
-                            .font(.headline)
-                            .foregroundColor(.white)
+            if selectedCategory == "All" {
+                ForEach(viewModel.getAllCategories(), id: \.self) { category in
+                    if category != "Featured" {
+                        GroupBox {
+                            VendorSection(title: category, vendors: viewModel.getVendors(for: category))
+                        } label: {
+                            Text(category)
+                                .font(.headline)
+                                .foregroundColor(.black)
+                        }
+                        .groupBoxStyle(LightBlueGroupBoxStyle())
                     }
-                    .groupBoxStyle(BlueGroupBoxStyle())
                 }
+            } else {
+                GroupBox {
+                    VendorSection(title: selectedCategory, vendors: viewModel.getVendors(for: selectedCategory))
+                } label: {
+                    Text(selectedCategory)
+                        .font(.headline)
+                        .foregroundColor(.black)
+                }
+                .groupBoxStyle(LightBlueGroupBoxStyle())
             }
         }
         .padding(.horizontal)

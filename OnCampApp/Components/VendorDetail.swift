@@ -2,7 +2,7 @@ import SwiftUI
 import Kingfisher
 
 struct VendorDetail: View {
-    @State var products: [Product] = []
+    @State var products: [Products] = []
     let vendor: Vendor
     @StateObject var viewmodel = VendorViewModel()
     @State private var deliveryOption: DeliveryOption = .pickup
@@ -184,15 +184,3 @@ struct VendorDetail: View {
         }
     }
 }
-    extension View {
-        func safeAreaInsets() -> UIEdgeInsets {
-            let keyWindow = UIApplication.shared.connectedScenes
-                .filter { $0.activationState == .foregroundActive }
-                .compactMap { $0 as? UIWindowScene }
-                .first?.windows
-                .filter { $0.isKeyWindow }.first
-            let safeArea = keyWindow?.safeAreaInsets ?? UIEdgeInsets.zero
-            return safeArea
-        }
-    }
-

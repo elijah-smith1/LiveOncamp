@@ -12,7 +12,7 @@ struct LightBlueGroupBoxStyle: GroupBoxStyle {
         VStack(alignment: .leading) {
             configuration.label
                 .bold()
-                .foregroundColor(.white)
+                .foregroundColor(.black)
             configuration.content
         }
         .padding()
@@ -25,7 +25,7 @@ struct BlueGroupBoxStyle: GroupBoxStyle {
         VStack(alignment: .leading) {
             configuration.label
                 .bold()
-                .foregroundColor(.white)
+                .foregroundColor(.black)
             configuration.content
         }
         .padding()

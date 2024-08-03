@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProductCard: View {
-    var product: Product
+    var product: Products
     
     var body: some View {
         ZStack{
@@ -67,6 +67,6 @@ struct ProductCard: View {
     
     struct ProductCard_Previews: PreviewProvider {
         static var previews: some View {
-            ProductCard(product: Product(name: "Sample Product", category: "Sample Category", description: "", image: "sample_image", price: 0))
+            ProductCard(product: Products(name: "Sample Product", category: "Sample Category", description: "", image: "sample_image", price: 0))
         }
     }
