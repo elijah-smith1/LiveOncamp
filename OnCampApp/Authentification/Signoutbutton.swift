@@ -1,31 +1,32 @@
-//
-//  Signoutbutton.swift
-//  OnCampApp
-//
-//  Created by Michael Washington on 10/13/23.
-//
-
 import SwiftUI
 import Firebase
 
 struct Signoutbutton: View {
-  
+    @State var isSignedOut = false
+
     var body: some View {
-        Button("Signout") {
-            signOut()   
-        }
-    }
-    func signOut() {
-        do {
-            try Auth.auth().signOut()
-            print("signout succesful")
-            // Successful sign-out
-        } catch let signOutError as NSError {
-            print("Error signing out: \(signOutError)")
-            
+        NavigationStack {
+            VStack {
+                NavigationLink(destination: Landing(), isActive: $isSignedOut) {
+                    EmptyView()
+                }
+                Button("Signout") {
+                    signOut()
+                }
+            }
         }
     }
 
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            print("Signout successful")
+            // Successful sign-out
+            isSignedOut = true
+        } catch let signOutError as NSError {
+            print("Error signing out: \(signOutError)")
+        }
+    }
 }
 
 struct Signoutbutton_Previews: PreviewProvider {

@@ -6,7 +6,6 @@ import Firebase
 struct SignUp: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) private var dismiss
-    @Binding var path: NavigationPath
     @ObservedObject var viewModel = AuthViewModel()
     @State private var showingAlert = false
     @State private var alertMessage: String = ""
@@ -20,14 +19,14 @@ struct SignUp: View {
 
     var body: some View {
         if signUpSuccessful {
-            CreateAccount(uid: self.uid, path: $path)
+            CreateAccount(uid: self.uid)
         } else {
             content
         }
     }
 
     var content: some View {
-        NavigationStack(path: $path) {
+        NavigationStack() {
             VStack {
                 HStack {
                     Text("Sign")
@@ -43,7 +42,6 @@ struct SignUp: View {
                     Spacer()
                     Button(action: {
                         dismiss()
-                      //  path.removeLast() // breaks everytime you attempt to navigate back to landing
                     }) {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.blue)
@@ -159,7 +157,7 @@ struct SignUp: View {
 
                 Divider()
 
-                NavigationLink(destination: SignIn(path: $path)) {
+                NavigationLink(destination: SignIn()) {
                     HStack {
                         Text("Already have an account?")
                         Text("Sign In")
@@ -219,9 +217,9 @@ private func isEmailValid(_ email: String) -> Bool {
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SignUp(path: .constant(NavigationPath()))
+            SignUp()
                 .preferredColorScheme(.light)
-            SignUp(path: .constant(NavigationPath()))
+            SignUp()
                 .preferredColorScheme(.dark)
         }
     }

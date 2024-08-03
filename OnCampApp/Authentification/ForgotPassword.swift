@@ -9,7 +9,6 @@ import SwiftUI
 
 struct forgotPassword: View {
     @Environment(\.colorScheme) var colorScheme
-    @Binding var path: NavigationPath
     @State private var email: String = ""
     
     var body: some View {
@@ -72,7 +71,7 @@ struct forgotPassword: View {
                     Divider()
                         .foregroundColor(Color("LTBL"))
                     
-                    NavigationLink(destination: SignIn(path: $path)) {
+                    NavigationLink(destination: SignIn()) {
                         HStack{
                             Text("I'm an idiot I remember!")
                             Text("Sign In")
@@ -94,9 +93,9 @@ struct forgotPassword: View {
 struct forgotPassword_Previews: PreviewProvider {
     static var previews: some View {
         Group{
-            forgotPassword(path: .constant(NavigationPath()))
+            forgotPassword()
                 .preferredColorScheme(.light)
-            forgotPassword(path: .constant(NavigationPath()))
+            forgotPassword()
                 .preferredColorScheme(.dark)
         }
     }

@@ -4,7 +4,6 @@ import FirebaseFirestore
 import FirebaseMessaging
 
 struct tabBar: View {
-    @Binding var path: NavigationPath // Add NavigationPath binding
     @StateObject var Tabviewmodel = tabViewModel()
     @StateObject var messages = inboxViewModel()
     @State private var selectedTab = 0 // Local state for selected tab
@@ -67,7 +66,7 @@ struct tabBar: View {
 
 struct tabBar_Previews: PreviewProvider {
     static var previews: some View {
-        tabBar(path: .constant(NavigationPath()))
+        tabBar()
             .environmentObject(UserData())
     }
 }

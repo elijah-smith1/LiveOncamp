@@ -13,7 +13,6 @@ struct SignIn: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
-    @Binding var path: NavigationPath // Add NavigationPath binding
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var alertMessage: String = ""
@@ -22,7 +21,7 @@ struct SignIn: View {
 
     var body: some View {
         if loginSuccessful {
-            tabBar(path: $path)
+            tabBar()
         } else {
             content
         }
@@ -38,7 +37,7 @@ struct SignIn: View {
                     Text("In!")
                     Spacer()
                     Button(action: {
-                        dismiss() // Navigate back to the root
+                        dismiss()
                     }) {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.blue)
@@ -77,7 +76,7 @@ struct SignIn: View {
                 }
                 
                 NavigationLink {
-                    forgotPassword(path: $path)
+                    forgotPassword()
                 } label: {
                     Text("Forgot Password?")
                         .font(.footnote)
@@ -111,7 +110,7 @@ struct SignIn: View {
                     .foregroundColor(Color("LTBL"))
                 
                 NavigationLink {
-                    SignUp(path: $path)
+                    SignUp()
                 } label: {
                     HStack {
                         Text("Don't have an account?")
@@ -146,9 +145,9 @@ struct SignIn: View {
 struct SignIn_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SignIn(path: .constant(NavigationPath()))
+            SignIn()
                 .preferredColorScheme(.light)
-            SignIn(path: .constant(NavigationPath()))
+            SignIn()
                 .preferredColorScheme(.dark)
         }
     }

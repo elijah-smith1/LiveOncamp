@@ -18,7 +18,7 @@ struct DetailedPostCell: View {
     @State var isLiked: Bool
     @State var isReposted: Bool
     var body: some View {
-        let postId = post.id
+
 
         VStack(alignment: .leading, spacing: 8) {
             HStack {

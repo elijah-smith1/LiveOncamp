@@ -9,7 +9,6 @@ struct CreateAccount: View {
     @ObservedObject var userData = UserData()
     
     @Environment(\.colorScheme) var colorScheme
-    @Binding var path: NavigationPath // Add NavigationPath binding
     @State private var showingAlert = false
     @State private var alertMessage: String = ""
     @State private var profileImage: UIImage?
@@ -17,7 +16,7 @@ struct CreateAccount: View {
     @State private var isAccountCreated = false
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack() {
             VStack {
                 HStack {
                     Text("Create")
@@ -26,7 +25,7 @@ struct CreateAccount: View {
                     Text("Account!")
                     Spacer()
                     Button(action: {
-                        path.removeLast() // Navigate back to the previous view
+                        //back
                     }) {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.blue)
@@ -139,7 +138,7 @@ struct CreateAccount: View {
                 
                 // New navigation destination handling
                 .navigationDestination(isPresented: $isAccountCreated) {
-                    Interests(uid: self.uid, path: $path) // Pass the path binding
+                    Interests(uid: self.uid)
                 }
             }
             .padding()
@@ -222,5 +221,5 @@ struct CreateAccount: View {
 }
 
 #Preview {
-    CreateAccount(uid: "MN9JWn0N3IYlkDPVpjunmCZkwGz2", path: .constant(NavigationPath()))
+    CreateAccount(uid: "MN9JWn0N3IYlkDPVpjunmCZkwGz2")
 }

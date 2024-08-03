@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct Landing: View {
-    @Binding var path: NavigationPath // Add NavigationPath binding
     @State private var overlayOffset: CGFloat = 300 // Start offscreen
     @State private var titleOffset: CGFloat = -300 // Start title offscreen
     @State private var circleScale: CGFloat = 0.5 // Start small for bounce-in effect
     @State private var buttonOffset: CGFloat = -300 // Start buttons offscreen
 
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack() {
             ZStack {
                 VStack {
                     Spacer()
@@ -71,7 +70,7 @@ struct Landing: View {
                         VStack(spacing: 20) {
                             Spacer()
 
-                            NavigationLink(destination: SignUp(path: $path)) {
+                            NavigationLink(destination: SignUp()) {
                                 HStack {
                                     Image(systemName: "person.badge.plus")
                                     Text("Sign Up For OnCamp")
@@ -84,7 +83,7 @@ struct Landing: View {
                                 .animation(.easeOut(duration: 1).delay(0.4), value: buttonOffset) // Slide-in animation
                             }
 
-                            NavigationLink(destination: SignIn(path: $path)) {
+                            NavigationLink(destination: SignIn()) {
                                 HStack {
                                     Image(systemName: "applelogo")
                                     Text("Sign In to An Existing Account")
@@ -97,7 +96,7 @@ struct Landing: View {
                                 .animation(.easeOut(duration: 1).delay(0.5), value: buttonOffset) // Slide-in animation
                             }
 
-                            NavigationLink(destination: VendorSignUp(path: $path)) {
+                            NavigationLink(destination: VendorSignUp()) {
                                 HStack {
                                     Image(systemName: "storefront")
                                     Text("Register to Become a Vendor")
@@ -127,9 +126,10 @@ struct Landing: View {
                 buttonOffset = 0 // Animate buttons to original position
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
 #Preview {
-    Landing(path: .constant(NavigationPath()))
+    Landing()
 }

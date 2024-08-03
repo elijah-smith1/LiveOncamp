@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 struct Interests: View {
     var uid: String
-    @Binding var path: NavigationPath
     @StateObject var userData = UserData()
     @State private var selectedInterests: Set<String> = []
     @State private var navigate = false // This controls the navigation
@@ -23,7 +22,7 @@ struct Interests: View {
     ]
 
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack() {
             VStack {
                 HStack {
                     Text("Select")
@@ -38,7 +37,7 @@ struct Interests: View {
                         .animation(.interpolatingSpring(stiffness: 50, damping: 5).delay(0.1), value: titleOffset)
                     Spacer()
                     Button(action: {
-                        path.removeLast()
+                        //back
                     }) {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.blue)
@@ -96,7 +95,7 @@ struct Interests: View {
                 .disabled(selectedInterests.count < 5)
                 .animation(.easeInOut(duration: 0.3), value: selectedInterests.isEmpty)
                 .navigationDestination(isPresented: $navigate) {
-                    tabBar(path: $path)
+                    tabBar()
                 }
             }
             .onAppear {
@@ -126,9 +125,9 @@ struct InterestButton: View {
 struct Interests_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            Interests(uid: "ZFFYfUMeAwOs3htOW4bANa05RN02", path: .constant(NavigationPath()))
+            Interests(uid: "ZFFYfUMeAwOs3htOW4bANa05RN02")
                 .preferredColorScheme(.light)
-            Interests(uid: "ZFFYfUMeAwOs3htOW4bANa05RN02", path: .constant(NavigationPath()))
+            Interests(uid: "ZFFYfUMeAwOs3htOW4bANa05RN02")
                 .preferredColorScheme(.dark)
         }
     }

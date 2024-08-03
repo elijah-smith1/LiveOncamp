@@ -11,27 +11,26 @@ struct OnCampAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var userData = UserData()
     @StateObject var appstate = AppState()
-    @State private var path = NavigationPath() // Initialize the navigation path
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $path) {
+            NavigationStack() {
                 if Auth.auth().currentUser?.uid != nil {
-                    tabBar(path: $path)
+                    tabBar()
                         .environmentObject(userData)
                         .environmentObject(appstate)
                         .onOpenURL { url in
                             if let deepLink = DeepLink(url: url) {
-                                path.append(deepLink)
+//                                path.append(deepLink)
                             }
                         }
                 } else {
-                    Landing(path: $path) // Pass the navigation path to Landing view
+                    Landing() // Pass the navigation path to Landing view
                         .environmentObject(userData)
                         .environmentObject(appstate)
                         .onOpenURL { url in
                             if let deepLink = DeepLink(url: url) {
-                                path.append(deepLink)
+//                                path.append(deepLink)
                             }
                         }
                 }
