@@ -17,8 +17,9 @@ struct CreatePost: View {
     @FocusState private var isCreatingPost: Bool
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
+    @State private var navigateToFeed = false
+
     let user: User
-    @EnvironmentObject var appState: AppState
     
     private var characterCount: Int {
         postText.count
@@ -158,77 +159,81 @@ struct CreatePost: View {
                 }
                 .padding()
             }
-            .sheet(isPresented: $showingImagePicker) {
-                ImagePicker(image: self.$inputImage, sourceType: .photoLibrary)
-            }
-            .padding()
-        }
-    }
-    private func createPost(pfpUrl: String, school: String) {
-        let db = Firestore.firestore()
-        let storage = Storage.storage()
-        let postRef = db.collection("Posts").document()
-        let posterUid = Auth.auth().currentUser!.uid
-        let postId = postRef.documentID
-        
-        func uploadImageAndCreatePost() {
-            let usersRef = db.collection("Users").document(posterUid)
-            usersRef.getDocument { (document, error) in
-                if let document = document, document.exists, let username = document.data()?["username"] as? String {
-                    var postData: [String: Any] = [
-                        "content": postText,
-                        "postedAt": FieldValue.serverTimestamp(),
-                        "postedBy": posterUid,
-                        "security": selectedOption.rawValue,
-                        "likeCount": 0,
-                        "commentCount": 0,
-                        "repostCount": 0,
-                        "postId": postId,
-                        "username": username,
-                        "pfpUrl": pfpUrl,
-                        "school": school
-                    ]
-                    
-                    if let inputImage = inputImage, let imageData = inputImage.jpegData(compressionQuality: 0.8) {
-                        let mediaRef = storage.reference().child("postMedia/\(postId).jpg")
-                        mediaRef.putData(imageData, metadata: nil) { metadata, error in
-                            guard metadata != nil else {
-                                print("Error uploading image: \(error?.localizedDescription ?? "")")
-                                return
-                            }
-                            mediaRef.downloadURL { url, error in
-                                guard let downloadURL = url else {
-                                    print("Error getting download URL: \(error?.localizedDescription ?? "")")
-                                    return
-                                }
-                                postData["mediaUrl"] = downloadURL.absoluteString
-                                
-                                postRef.setData(postData) { error in
-                                    if let error = error {
-                                        print("Error setting post data: \(error.localizedDescription)")
-                                    } else {
-                                        print("Post data saved successfully")
-                                        appState.selectedTab = 0
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        postRef.setData(postData) { error in
-                            if let error = error {
-                                print("Error setting post data: \(error.localizedDescription)")
-                            } else {
-                                print("Post data saved successfully")
-                                appState.selectedTab = 0
-                            }
-                        }
-                    }
-                } else {
-                    print("Error fetching user data: \(error?.localizedDescription ?? "User document does not exist")")
-                }
-            }
-        }
-        
-        uploadImageAndCreatePost()
-    }
-}
+              .sheet(isPresented: $showingImagePicker) {
+                              ImagePicker(image: self.$inputImage, sourceType: .photoLibrary)
+                          }
+                          .padding()
+                          .navigationDestination(isPresented: $navigateToFeed) {
+                              tabBar() // Assuming you have a Feed view
+                          }
+                      }
+                  }
+                  
+                  private func createPost(pfpUrl: String, school: String) {
+                      let db = Firestore.firestore()
+                      let storage = Storage.storage()
+                      let postRef = db.collection("Posts").document()
+                      let posterUid = Auth.auth().currentUser!.uid
+                      let postId = postRef.documentID
+                      
+                      func uploadImageAndCreatePost() {
+                          let usersRef = db.collection("Users").document(posterUid)
+                          usersRef.getDocument { (document, error) in
+                              if let document = document, document.exists, let username = document.data()?["username"] as? String {
+                                  var postData: [String: Any] = [
+                                      "content": postText,
+                                      "postedAt": FieldValue.serverTimestamp(),
+                                      "postedBy": posterUid,
+                                      "security": selectedOption.rawValue,
+                                      "likeCount": 0,
+                                      "commentCount": 0,
+                                      "repostCount": 0,
+                                      "postId": postId,
+                                      "username": username,
+                                      "pfpUrl": pfpUrl,
+                                      "school": school
+                                  ]
+                                  
+                                  if let inputImage = inputImage, let imageData = inputImage.jpegData(compressionQuality: 0.8) {
+                                      let mediaRef = storage.reference().child("postMedia/\(postId).jpg")
+                                      mediaRef.putData(imageData, metadata: nil) { metadata, error in
+                                          guard metadata != nil else {
+                                              print("Error uploading image: \(error?.localizedDescription ?? "")")
+                                              return
+                                          }
+                                          mediaRef.downloadURL { url, error in
+                                              guard let downloadURL = url else {
+                                                  print("Error getting download URL: \(error?.localizedDescription ?? "")")
+                                                  return
+                                              }
+                                              postData["mediaUrl"] = downloadURL.absoluteString
+                                              
+                                              postRef.setData(postData) { error in
+                                                  if let error = error {
+                                                      print("Error setting post data: \(error.localizedDescription)")
+                                                  } else {
+                                                      print("Post data saved successfully")
+                                                      navigateToFeed = true
+                                                  }
+                                              }
+                                          }
+                                      }
+                                  } else {
+                                      postRef.setData(postData) { error in
+                                          if let error = error {
+                                              print("Error setting post data: \(error.localizedDescription)")
+                                          } else {
+                                              print("Post data saved successfully")
+                                              navigateToFeed = true
+                                          }
+                                      }
+                                  }
+                              } else {
+                                  print("Error fetching user data: \(error?.localizedDescription ?? "User document does not exist")")
+                              }
+                          }
+                      }
+                      
+                      uploadImageAndCreatePost()
+                  }
+              }
